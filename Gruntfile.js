@@ -7,7 +7,7 @@ module.exports = function (grunt) {
 		browserify: {
 			app: {
 				dest: "www/app.js",
-				src: "javascripts/entry.js",
+				src: "assets/javascripts/entry.js",
 				options: {
 					basedir: "javascripts/",
 					browserifyOptions : { debug: true, }
