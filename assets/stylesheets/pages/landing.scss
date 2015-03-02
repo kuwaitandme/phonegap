@@ -1,0 +1,53 @@
+body#landing {
+	background: #EEE;
+	background: url('images/patterns/collage.png');
+
+	h1, h3 { text-align: center; padding: 1px;}
+
+	.shadow {
+		text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+			0px 8px 13px rgba(0,0,0,0.1),
+			0px 18px 23px rgba(0,0,0,0.1);
+	}
+	#landing-main {
+		text-align: center;
+		margin: 0 auto;
+		background: #FFF;
+		padding: 30px;
+
+		-webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.5);
+		-moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.5);
+		box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.5);
+	}
+	.title {
+		@extend .font-title;
+		padding: 0 20px;
+		text-align: center;
+		font-size: 15px;
+	}
+
+	.auth-form {
+		margin: 40px;
+		overflow: hidden;
+
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+
+		> section { margin-bottom: 10px; }
+		.submit {
+			border: 0;
+			border-bottom: 2px solid #27ae60;
+			width: 100%;
+			padding: 10px;
+
+			// border: 0;
+			background: #2ecc71;
+			color: #FFF;
+			font-weight: 700;
+			@include single-transition(background);
+
+			&:hover { background: #27ae60; }
+		}
+	}
+}

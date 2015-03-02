@@ -1,0 +1,12 @@
+# Phonegap files
+/platforms/
+.cordova
+
+# Sublime files
+*.sublime-project
+*.sublime-workspace
+
+# node files
+/.sass-cache
+/node_modules
+/npm-debug.log
