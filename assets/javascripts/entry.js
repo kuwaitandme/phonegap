@@ -10,7 +10,7 @@ window.app = {
 		this.messages = new this.views.components.messages({ el: "#messages" });
 
 		/* Get and initialize the main view */
-		var view = window.page;
+		var view = $("body").attr('id');
 		var CurrentView = this.views.pages[view];
 		if(CurrentView) this.mainbody = new CurrentView({ el: "main" });
 	},
@@ -34,4 +34,6 @@ window.app = {
 /* Kick start the App. Start back-tracing the app's execution over here, if you
  * are trying to understand my code.
  */
-$(document).ready(function() { app.start(); });
+// document.addEventListener("deviceready", function() {
+	app.start()
+// }, false);

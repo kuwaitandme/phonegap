@@ -1,20 +1,8 @@
 module.exports = Backbone.View.extend({
-	initialize: function() {
-		/* Parse the URL and give out the appropriate message based on it. */
-		var msg = app.messages;
-		var getParam = app.helpers.url.getParam;
-		if(getParam('error')) msg.error(this.messages[getParam('error')]);
-		if(getParam('success')) msg.success(this.messages[getParam('success')]);
-		if(getParam('warn')) msg.warn(this.messages[getParam('warn')]);
-
-		/* Check for any server side flash messages */
-		var flashErrors = window.data.flashError;
-		if(flashErrors)
-			for(var i=0; i<flashErrors.length; i++)
-				msg.error(this.messages[flashErrors[i]]);
-
+	bodyId: "auth-login",
+	events: {
+		"click .submit" : "submit",
 	},
-
 	messages: {
 		activate_fail: 'Something went wrong while activating your account',
 		activate_success: 'Your account is successfully activated',
@@ -33,5 +21,41 @@ module.exports = Backbone.View.extend({
 		signup_invalid: 'Some of the fields are invalid',
 		signup_success: 'Your account has been created, Check your inbox (and junk email) for an activation email',
 		signup_taken: 'That account name has already been taken!'
+	},
+
+	initialize: function() {
+		/* Parse the URL and give out the appropriate message based on it. */
+		var msg = app.messages;
+		var getParam = app.helpers.url.getParam;
+
+		this.$error = $('#error');
+
+		if(getParam('error')) msg.error(this.messages[getParam('error')]);
+		if(getParam('success')) msg.success(this.messages[getParam('success')]);
+		if(getParam('warn')) msg.warn(this.messages[getParam('warn')]);
+	},
+
+	submit: function(event) {
+		var that = this;
+		var $el = $(event.currentTarget);
+
+		var $required = $el.parent().parent().find('[required]');
+		$required.each(function(i) {
+			$r = $required.eq(i);
+
+			if(!$r.val() || $r.val().length == 0) {
+				event.preventDefault();
+				return that.showError('Please fill in all the fields');
+			}
+
+		});
+	},
+
+	showError: function(error) {
+		this.$error.html('<li>' + error + '</li>');
+	},
+
+	hideError: function() {
+		this.$error.html('');
 	}
 });

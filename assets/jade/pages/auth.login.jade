@@ -1,0 +1,26 @@
+extends ../base.jade
+
+block vars
+	- var bodyid = 'auth-login'
+
+block content
+	div.auth-title Login
+	form(action='account.html')
+		section
+			div
+				input(type="email", name="username", placeholder="email", required)#auth-username
+			div
+				input(type="password", name="password", placeholder="password", required)#auth-password
+			div
+				input(type="submit", value="Login").submit
+
+	form(action='account.html')
+		section
+			input(type='submit', value='Login as this device').submit
+
+	ul#error
+
+	div.extra-links
+		| Forgot your password? Click&nbsp;
+		a(href="auth.forgot.html") here
+		| &nbsp;, to reset it.

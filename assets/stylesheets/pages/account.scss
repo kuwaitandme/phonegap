@@ -1,5 +1,6 @@
 body#account {
 	background: #e8e8e8;
+	background: url(images/patterns/dark_embroidery.png);
 
 	#account-container {
 		@extend .row;
@@ -8,13 +9,21 @@ body#account {
 			@extend .columns;
 			@extend .medium-6;
 			@extend .large-4;
-			padding: 20px;
+			overflow: hidden;
+			padding: 0;
+
+
 
 			a { text-decoration: none; }
 			.content {
 				@include single-transition(background);
 				background: #FFF;
-				padding: 20px;
+				margin: 20px;
+				padding: 10px;
+
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
 
 				-webkit-box-shadow: 4px 4px 0 0 rgba(0,0,0,.1);
 				box-shadow: 4px 4px 0 0 rgba(0,0,0,.1);

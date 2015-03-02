@@ -12,10 +12,15 @@ body#auth-reset {
 		}
 
 		form {
-			margin: 0 auto;
+			margin: 10px auto;
 			width: 300px;
+			overflow: hidden;
 
-			> section { margin-bottom: 10px; }
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+
+			// > section { margin-bottom: 10px; }
 			input {
 				border: 1px solid #DDD;
 				border-bottom: 0;
@@ -32,6 +37,26 @@ body#auth-reset {
 
 					&:hover { background: #27ae60; }
 				}
+			}
+		}
+
+		ul#error{
+			padding: 0;
+
+			li {
+				@extend .font-title;
+				background: #DE2D1E;
+				color: #FFF;
+				color: rgba(255, 255, 255, 0.75);
+				margin: 0 auto;
+				overflow: hidden;
+				padding: 10px;
+				text-align: center;
+				width: 300px;
+
+				-webkit-border-radius: 3px;
+				-moz-border-radius: 3px;
+				border-radius: 3px;
 			}
 		}
 
