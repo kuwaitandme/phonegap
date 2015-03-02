@@ -1,6 +1,7 @@
 # Phonegap files
 /platforms/
-.cordova
+/plugins
+/.cordova
 
 # Sublime files
 *.sublime-project
