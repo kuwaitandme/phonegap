@@ -10,3 +10,9 @@
 /.sass-cache
 /node_modules
 /npm-debug.log
+
+# Build files
+www/*.html
+www/*.js
+www/*.css
+www/*.css.map
