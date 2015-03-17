@@ -16,6 +16,9 @@ html(lang="en")
 		include ./include/header.jade
 		main
 			ul#messages
-			#main-container
-				block content
+			#previous-page
+			#current-page
+				#main-container(style="display:none")
+					block content
+			#next-page
 		include ./include/footer.jade
