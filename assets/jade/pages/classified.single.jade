@@ -1,0 +1,25 @@
+extends ../base.jade
+
+block vars
+	- var bodyid = 'classified-single'
+
+block content
+	div.auth-title Sign Up!
+	form
+		section
+			div
+				input(type="text", name="fullname", placeholder="your name", required)
+			div
+				input(type="email", name="username", placeholder="email", required)
+			div
+				input(type="password", name="password", placeholder="password", required)
+			div
+				input(type="password", name="repassword", placeholder="re-enter password", required)
+			div
+				input(type="submit", value="Sign-up").submit
+
+	form
+		section
+			input(type='submit', value='Signup as this device').submit
+
+	ul#error
