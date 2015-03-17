@@ -12,5 +12,10 @@ module.exports = Backbone.View.extend({
 		// 					'Device UUID: '     + device.uuid     + '<br />' +
 		// 					'Device Version: '  + device.version  + '<br />';
 		// document.write(innerHTML);
-	}
+		this.render();
+	},
+
+	render: function() {
+		$("#main-container").fadeIn();
+	},
 });

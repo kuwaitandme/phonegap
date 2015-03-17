@@ -1,5 +1,5 @@
 module.exports = {
-	modal:            require("./modal"),
+	// modal:            require("./modal"),
 	// redactor:         require("./redactor"),
 	smoothScroll:     require("./smoothScroll"),
 	spinner:          require("./spinner"),

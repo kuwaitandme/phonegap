@@ -1,7 +1,11 @@
 module.exports = Backbone.View.extend({
+	model: new app.models.classified,
+
 	events: {
 		"click .dz-preview .delete div" : "removeFile",
 		"click .submit" : "submit",
+		"click #image-upload .camera" : "getImageFromCamera",
+		"click #image-upload .gallery" : "getImageFromGallery",
 		"click .nav-next" : "validatePage",
 		"change #cat-selector" : "catSelected",
 		"change #price-selector" : "priceSelected",
@@ -27,9 +31,9 @@ module.exports = Backbone.View.extend({
 		/* Initialize parts of the form */
 		controller.render();
 		controller.initCategories();
-		controller.initDropzone();
+// /		controller.initDropzone();
 		controller.initLocations();
-		controller.$description.redactor();
+		// controller.$description.redactor();
 		controller.spinner = new app.views.components.spinner();
 
 		/* Enable smooth scroll */
@@ -45,6 +49,7 @@ module.exports = Backbone.View.extend({
 	 */
 	render: function() {
 		$(".page").css("min-height", $(window).height());
+		$("#main-container").fadeIn();
 	},
 
 
@@ -338,26 +343,41 @@ module.exports = Backbone.View.extend({
 	/**
 	 * Initializes the drop-zone.
 	 */
-	initDropzone: function() {
-		Dropzone.autoDiscover = false;
+	getImageFromCamera: function() {
+		// return console.log("from camera");
 
-		/* Create the dropzone */
-		var $el = controller.$el.find("#image-upload").eq(0).dropzone({ url: "/" });
-		controller.dropzone = $el[0].dropzone;
-		controller.dropzone.previewsContainer = controller.$filePreview[0];
+		navigator.camera.getPicture(onSuccess, onFail, {
+			quality: 50,
+		    destinationType: Camera.DestinationType.FILE_URI,
+		    sourceType : Camera.PictureSourceType.CAMERA
+		});
 
-		/* Setup each of the custom options for the drop-zone */
-		var options = controller.dropzone.options
-		options.autoProcessQueue = false;
-		options.paramName = "files";
-		options.uploadMultiple = true;
-		options.previewTemplate = "\
-			<li class=\"dz-preview\">\
-				<img data-dz-thumbnail />\
-				<div class=\"font-awesome delete\">\
-					<div>&#xf00d;</div>\
-				</div>\
-			</li>";
+		function onSuccess(imageData) {
+			// var image = document.getElementById('myImage');
+			alert(imageData);
+			// image.src = "data:image/jpeg;base64," + imageData;
+		}
+
+		function onFail(message) {
+			// alert('Failed because: ' + message);
+		}
+	},
+
+	getImageFromGallery: function (argument) {
+		navigator.camera.getPicture(onSuccess, onFail, {
+			quality: 50,
+		    destinationType: Camera.DestinationType.FILE_URI,
+		    sourceType : Camera.PictureSourceType.PHOTOLIBRARY
+		});
+
+		function onSuccess(imageData) {
+			var image = document.getElementById('myImage');
+			image.src = "data:image/jpeg;base64," + imageData;
+		}
+
+		function onFail(message) {
+			// alert('Failed because: ' + message);
+		}
 	},
 
 
@@ -366,20 +386,23 @@ module.exports = Backbone.View.extend({
 	 * it.
 	 */
 	getFormData: function() {
-		var $form = controller.$el.find("form");
+		var $form = controller.$el.find("#image-form");
 
 		/* Get the files and perform a nice little hack on the AJAX upload */
-		var files = controller.dropzone.getQueuedFiles();
+		// var files = controller.dropzone.getQueuedFiles();
 		if(files.length == 0) $form.append('<input name="files[]" type="file" class="hide" />');
 
 		/* Create the form data object */
 		var formData = new FormData($form[0]);
+
+		this.model.attributes.files = [];
 
 		/* Start grabbing the files from the drop-zone */
 		for (var i = 0; i < files.length; i++) {
 			var file = files[i];
 
 			/* Add the file to the request. */
+			this.model.attributes.files.push(file);
 			formData.append('files[]', file, file.name);
 		}
 

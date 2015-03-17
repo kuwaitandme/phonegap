@@ -1,38 +1,63 @@
 module.exports = controller = Backbone.View.extend({
+	ajaxEnable: true,
+	ajaxLock: false,
 	gridMinimumSize: 250,
+	pageIndex: 0,
 
+	collection: new app.models.classifieds,
+
+	/* Initialize the view */
 	initialize: function() {
+		console.log("[view:classifieds-search] initializing")
 		var that = this;
-		this.listTemplate = _.template($("#list-template").html());
-		this.pageIndex = 1;
-		this.ajaxLock = false;
-		this.ajaxDisable = false;
 
-		// Do something with the GET parameters here..
+		/* Get the template */
+		this.listTemplate = _.template(this.$el.find("#list-template").html());
+
+		/* Attach a listener to our collection model */
+		this.listenTo(this.collection, "ajax:done", this.addClassifieds);
+
+		/* Do something with the GET parameters here.. */
 		// var url = document.URL;
 		// this.get = app.helpers.url.getGETstring(url);
-		this.$classifiedList = $("ul#classified-search");
+
+		/* Setup of local dom variables */
+		this.$classifiedList = this.$el.find("ul#classified-search");
+
+		/* Render the page */
+		this.render();
+
+		/* Fire the AJAX event for the first time to load the first set of
+		 * classifieds */
+		this.fireAjaxEvent();
+
+		/* Set to load new classifieds when we have scrolled to the end of the
+		 * page. */
+		$(window).scroll(function() {
+			if(that.ajaxEnable) that.fireAjaxEvent();
+		});
+	},
+
+
+	/* Render the elements in the view into the DOM */
+	render: function () {
+		var that = this;
+
+		// $("#main-container").fadeIn();
 
 		this.setupMasonry();
-		this.render();
 		this.spinner = new app.views.components.spinner();
 
-		this.fireAjaxEvent();
-		$(window).scroll(function() {
-			that.fireAjaxEvent();
-		});
-		$(window).resize(function() {
-			that.resizeClassifieds();
-		});
-	},
-
-
-	render: function () {
-		this.addClassifieds(window.data.classifieds);
 		this.resizeClassifieds();
+		$(window).resize(function() { that.resizeClassifieds(); });
 	},
 
 
+	/**
+	 * A nice little function that resizes all the classifieds into neat columns
+	 * while maintaining a proper ratio and minimum size. See source for the
+	 * algorithm used.
+	 */
 	resizeClassifieds: function () {
 		/* Calculate the width of a single 1x1 sqaure. Subtract 5px from the
 		 * window's width to compensate for the scroll bar */
@@ -48,117 +73,123 @@ module.exports = controller = Backbone.View.extend({
 
 	/**
 	 * [fireAjaxEvent description]
-	 *
-	 * @return {[type]} [description]
 	 */
 	fireAjaxEvent: function() {
-		if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.9) {
-			this.ajaxLoadClassifieds();
-		}
+		if(!this.ajaxEnable || this.ajaxLock) return;
+
+		if($(window).scrollTop() >= ($(document).height() - $(window).height())
+			* 0.9) this.ajaxLoadClassifieds();
 	},
 
 
 	/**
-	 * [ajaxLoadClassifieds description]
-	 *
-	 * @return {[type]} [description]
+	 * This function performs the AJAX call to load more classified into the
+	 * DOM while at the same time manipulating the spinner and the UI to let
+	 * the user know that more classifieds are loading.
 	 */
 	ajaxLoadClassifieds: function() {
-		if(this.ajaxLock || this.ajaxDisable) return;
-		var that = this;
-
 		this.ajaxLock = true;
+
+		/* Show the spinner while loading */
 		this.spinner.show();
+
+		/* Obtain the parameters to be sent to the back-end */
 		this.pageIndex += 1;
-
 		var url = app.helpers.url.insertParam("page", this.pageIndex);
+		var parameters = app.helpers.url.getGETstring(url);
 
-		$.ajax({
-			url: url,
-			type: 'POST',
-			data: { _csrf: window._csrf },
-			dataType: 'json',
-			success: function (data) {
-				/* Add the classifieds and remove the lock after a delay of
-				 * 500ms. This is because we want to avoid the AJAX request being
-				 * fired again as masonry is still aligning the elements */
-				if(data.classifieds && data.classifieds.length > 0) {
-					that.addClassifieds(data.classifieds);
-				} else {
-					that.showClassifiedsEnd();
-				}
-
-				setTimeout(function() {
-					that.spinner.hide();
-					that.ajaxLock = false;
-
-					/* Fire the AJAX event again! */
-					that.fireAjaxEvent();
-				}, 500);
-			}
-		});
+		/* Fetch the classifieds from the back-end */
+		this.collection.fetch(parameters);
 	},
 
 
-	/**
-	 * [showClassifiedsEnd description]
-	 * @return {[type]} [description]
-	 */
-	showClassifiedsEnd: function() {
-		this.ajaxDisable = true;
-	},
-
-
-	/**
-	 * Sets up the Masonry objects
-	 */
-	setupMasonry: function () {
-		this.$classifiedList.masonry({
-			// columnWidth: 290,
-			// gutter: 0,
-			isFitWidth: true,
-			isAnimated: true,
-			itemSelector: '.classified',
-		});
-	},
-
-
-	/**
-	 * [addClassifieds description]
+	/*
+	 * This function gets called whenever a new model has been added into our
+	 * collection. This function is responsible for adding the classified
+	 * into the DOM while properly taking care of aligning it too.
 	 *
-	 * @param {[type]} classifieds [description]
+	 * @param  [Backbone.Model]  classifieds   An array containing the new
+	 *                                         classifieds if any.
 	 */
 	addClassifieds: function(classifieds) {
 		var that = this;
-		var elems;
 
+		/* All done. Hide the spinner and disable the lock */
+		this.spinner.hide();
+		this.ajaxLock = false;
 
-		var fragement = document.createDocumentFragment();
+		/* Signal the ajax controller to stop polling the server */
+		if(classifieds.length == 0) this.ajaxEnable = false;
 
-		/* For each classified, apply the template and append it into the
-		 * container */
-		_.each(classifieds, function(post) {
-			post.price = app.helpers.price.format(post.price);
-			post.created = app.helpers.date.prettify(post.created);
-
-			if(!post.perks) post.perks = {};
-			if(!post.title) post.title = '';
-
-			var html = that.listTemplate(post);
-
-			// var $el = $('<div class="classified w2">asd</div>');//$(html);
+		/* Add each classified into the DOM */
+		_.each(classifieds, function(classified) {
+			var html = that.listTemplate(classified.toJSON());
 			var elem = $(html);
-			 elems = elems ? elems.add( elem ) : elem;
+
+			/* Append element into DOM and reload Masonry */
+			that.$classifiedList.append(elem);
+			that.$classifiedList.masonry("appended", elem);
 		});
 
-		that.$classifiedList.append(elems);
-		that.$classifiedList.masonry("appended", elems);
-		that.$classifiedList.masonry();
+		/* Reload Masonry once for all the elements */
+		this.$classifiedList.masonry();
 
-		/* Reload, every time an image has been loaded */
-		var reloadMasonry = function() {
-			that.$classifiedList.masonry();
-		};
+		/* Reload Masonry again for every-time a new image has been loaded */
+		var reloadMasonry = function() { that.$classifiedList.masonry(); };
 		imagesLoaded(this.$classifiedList, reloadMasonry);
+
+		/* Fire the AJAX event again! In case we haven't filled up the rest
+		 * of the body yet.
+		 */
+		this.fireAjaxEvent();
+	},
+
+
+	/**
+	 * This function simple sets up the Masonry object.
+	 */
+	setupMasonry: function () {
+		this.$classifiedList.masonry({
+			isAnimated: true,
+			itemSelector: '.classified',
+		});
 	}
 });
+
+
+// var myRouter = Backbone.Router.extend({
+
+//     greeting: null,
+//     container: null,
+//     view1: null,
+//     view2: null,
+//     view3: null,
+
+//     initialize: function() {
+//         this.greeting = new GreetModel({ Message: "Hello world" });
+//         this.container = new ContainerView({ el: $("#rAppContainer"), model: this.greeting });
+//     },
+
+//     routes: {
+//         "": "index",
+//         "single/:id": "single",
+//     },
+
+//     index: function () {
+//         if (this.view1 == null) {
+//             this.view1 = new View1({ model: this.greeting });
+//         }
+
+//         this.container.myChildView = this.view1;
+//         this.container.render();
+//     },
+
+//     single: function () {
+//         if (this.view2 == null) {
+//             this.view2 = new View2({ model: this.greeting });
+//         }
+
+//         this.container.myChildView = this.view2;
+//         this.container.render();
+//     }
+// });

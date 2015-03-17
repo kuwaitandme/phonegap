@@ -23,9 +23,13 @@ window.app = {
 		/* Start attaching the module components here, so that other components
 		 * can refer to these modules by doing a 'app.modulename', since 'app'
 		 * is a global variable */
-		this.helpers = require("./helpers/exports");
+		this.config = require("./config");
+		this.helpers = require("./helpers");
 		this.libs = require("./libs");
-		this.views = require("./views/exports");
+		this.models = require("./models");
+		this.views = require("./views");
+
+		require("./globals");
 
 		this.setup();
 	}

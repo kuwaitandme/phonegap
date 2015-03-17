@@ -33,6 +33,11 @@ module.exports = Backbone.View.extend({
 		if(getParam('error')) msg.error(this.messages[getParam('error')]);
 		if(getParam('success')) msg.success(this.messages[getParam('success')]);
 		if(getParam('warn')) msg.warn(this.messages[getParam('warn')]);
+		this.render();
+	},
+
+	render: function() {
+		$("#main-container").fadeIn();
 	},
 
 	submit: function(event) {
