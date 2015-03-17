@@ -2,7 +2,7 @@ body#classified-post #main-container {
 	background: #FFF;
 	padding-bottom: 50px;
 
-	select, input {
+	select, input, textarea {
 		border: none;
 		border-bottom: 1px solid #AAA;
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -114,12 +114,20 @@ body#classified-post #main-container {
 		&:focus { border-color: #3498db; }
 	}
 	#image-upload {
-		background: #f9f9f9;
-		border: 2px dotted #DDD;
-		color: rgba(0, 0, 0, 0.5);
-		min-height: 200px;
+		// background: #f9f9f9;
+		color: #000;
+		min-height: 100px;
 		padding-top: 75px;
 		text-align: center;
+		@include clearfix();
+
+		.camera, .gallery {
+			// border: 2px dotted #DDD;
+			width: 50%;
+			font-size: 50px;
+			@extend .font-awesome;
+			float: left;
+		}
 
 		&:hover { border-color: #3498db; }
 	}
