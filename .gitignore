@@ -11,6 +11,9 @@
 /node_modules
 /npm-debug.log
 
+# bower files
+/bower_components
+
 # Build files
 www/*.html
 www/*.js
