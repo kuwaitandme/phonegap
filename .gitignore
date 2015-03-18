@@ -8,7 +8,6 @@
 *.sublime-workspace
 
 # node files
-/.sass-cache
 /node_modules
 /npm-debug.log
 
@@ -16,4 +15,3 @@
 www/*.html
 www/*.js
 www/*.css
-www/*.css.map
