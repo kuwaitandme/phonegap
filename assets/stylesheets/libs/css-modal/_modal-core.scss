@@ -1,7 +1,7 @@
 // Prevent overflow on HTML element
 html {
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch; // Native scroll momentum
+	// overflow-y: scroll;
+	// -webkit-overflow-scrolling: touch; // Native scroll momentum
 }
 
 // To prevent jumping <body> should not have any margin on top or bottom

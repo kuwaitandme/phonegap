@@ -22,7 +22,8 @@
     "gulp-uglifycss": "^1.0.4",
     "gulp-uglifyjs": "^0.6.1",
     "gulp-util": "^3.0.4",
-    "jade": "*"
+    "jade": "*",
+    "main-bower-files": "^2.6.2"
   },
   "browser": {
     "app-config": "./assets/javascripts/config.coffee",

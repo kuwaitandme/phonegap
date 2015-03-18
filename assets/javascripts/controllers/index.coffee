@@ -1,6 +1,6 @@
-localStorage   = require './localStorage'
+# localStorage   = require './localStorage'
 router         = require './router'
-viewManager    = require './viewManager'
+# viewManager    = require './viewManager'
 
 # Initializes each of the controllers one by one.
 module.exports =
@@ -25,9 +25,9 @@ module.exports =
 			backboneSync method, model, options
 		Backbone.sync = newSync
 
-		@localStorage   = new localStorage app, config
-		@router         = new router app, config
-		@viewManager    = new viewManager app, config
+		# @localStorage   = new localStorage app, config
+		@router         = new router
+		# @viewManager    = new viewManager app, config
 
 
 	start: ->
