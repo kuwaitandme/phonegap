@@ -1,18 +1,12 @@
-extends ../base.jade
-
-block vars
-	- var bodyid = 'classified-search'
-
-block content
-	//- Raw HTML for bots to crawl
-	section
-		ul#classified-search.classified-list There are no classifieds here yet
+//- Raw HTML for bots to crawl
+section
+	ul#classified-search.classified-list There are no classifieds here yet
 
 
-	//- A spinner that gets displayed during AJAX loads
-	#ajax-spinner
-		.spinner
+//- A spinner that gets displayed during AJAX loads
+#ajax-spinner
+	.spinner
 
-	//- JS Template for each classified in the list
-	script(id="list-template", type="text/template")
-		include ../components/script-templates/search.jade
+//- JS Template for each classified in the list
+script(id="list-template", type="text/template")
+	include ../components/script-templates/search.jade

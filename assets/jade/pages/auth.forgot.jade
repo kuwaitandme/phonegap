@@ -1,14 +1,8 @@
-extends ../base.jade
-
-block vars
-	- var bodyid = 'auth-signup'
-
-block content
-	div.auth-title Forgot your password?
-	form
-		section
-			div
-				input(type="email", name="email", placeholder="email", required)
-			div
-				input(type="submit", value="Send reset email").submit
-	ul#error
+div.auth-title Forgot your password?
+form
+	section
+		div
+			input(type="email", name="email", placeholder="email", required)
+		div
+			input(type="submit", value="Send reset email").submit
+ul#error
