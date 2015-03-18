@@ -3,10 +3,14 @@ config = require './config'
 
 module.exports = (tasks) ->
 	for taskname in tasks
-		# Get each task
-		task = require "./tasks/#{taskname}"
+
+		# Get the task
+		taskRegister = require "./tasks/#{taskname}"
+
+		# Get the config for the task
+		taskConfig = config[taskname] or {}
 
 		# Register each generated task with the taskname
-		task gulp, (config[taskname] or {})
+		taskRegister gulp, taskConfig
 
 	gulp

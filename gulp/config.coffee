@@ -1,6 +1,3 @@
-dest = './build'
-src  = './src'
-
 module.exports =
 	coffee:
 		dest:              'www'
@@ -8,7 +5,7 @@ module.exports =
 		targetFilename:    'app.js'
 
 	sass:
-		dest:              'www'
+		dest:              './www'
 		src:               'assets/stylesheets/style.scss'
 		targetFilename:    'style.css'
 
@@ -21,3 +18,7 @@ module.exports =
 		jsPattern:         'assets/javascripts/**/*.coffee'
 		cssPattern:        'assets/stylesheets/**/*.scss'
 		jadePattern:       'assets/jade/**/*.jade'
+
+	bower:
+		dest:              'www'
+		targetFilename:    'libraries.js'

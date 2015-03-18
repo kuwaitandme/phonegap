@@ -4,11 +4,9 @@ concat    = require 'gulp-concat'
 template  = require 'gulp-template-compile'
 
 module.exports = (gulp, config) ->
-	task = ->
+	gulp.task 'jade', ->
 		gulp.src config.src
 		.pipe jade pretty: true
 		.pipe template namespace: 'template'
 		.pipe concat config.targetFilename
 		.pipe gulp.dest config.dest
-
-	gulp.task 'jade', -> task()
