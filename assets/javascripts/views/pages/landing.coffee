@@ -1,13 +1,14 @@
-view = require '../mainView'
-module.exports = view.extend
+module.exports = (require '../mainView').extend
 	name: '[view:landing]'
-	title: -> "Publish free classifieds"
+	template: template['landing']
 
 	events: "submit" : "formSubmit"
 
 	start: (@options) ->
 		console.debug @name, 'starting', @options
 		if @options.$el then	@$el = @options.$el
+
+		@$el.html @template()
 
 		# Setup DOM variables
 		@$keywords = @$ "[name='keywords']"

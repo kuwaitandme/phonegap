@@ -1,6 +1,6 @@
-# localStorage   = require './localStorage'
+localStorage   = require './localStorage'
 router         = require './router'
-# viewManager    = require './viewManager'
+viewManager    = require './viewManager'
 
 # Initializes each of the controllers one by one.
 module.exports =
@@ -8,6 +8,7 @@ module.exports =
 
 	initialize: (app, config) ->
 		console.log @name, 'initializing'
+		self = @
 
 		# Rewrite backbone sync with our custom sync function. For now add our
 		# little hack to bypass the CSRF token. NOTE that we must find another
@@ -25,10 +26,14 @@ module.exports =
 			backboneSync method, model, options
 		Backbone.sync = newSync
 
-		# @localStorage   = new localStorage app, config
-		@router         = new router
-		# @viewManager    = new viewManager app, config
+		@localStorage   = new localStorage app, config
+		@viewManager    = new viewManager app, config
+		@router         = new router app, config
+		# window.a = @router
 
+		@router.on 'change', (event) -> self.viewManager.routeHandle event
+		Backbone.history.start()
+		# @router.navigate('#')
 
 	start: ->
 		console.log @name, 'starting'

@@ -1,12 +1,42 @@
 module.exports = Backbone.Router.extend
 	routes:
-		"help":                 "help"
-		"search/:query":        "search"
-		"search/:query/p:page": "search"
+		"/auth/logout":        "authLogout",
+		"classified/post":     "classifiedPost",
+		"classified/:id":      "classifiedSingle",
+		"classified":          "classifiedBrowse"
+		"*default":            "landing"
 
-	help: -> console.log("help")
+	landing: ->
+		@trigger 'change', { view: 'landing', state: @getHistoryState() }
+	authLogout: ->
+		@trigger 'change', { view: 'auth-logout', state: @getHistoryState() }
+	classifiedPost: ->
+		@trigger 'change', { view: 'classified-post', state: @getHistoryState() }
+	classifiedSingle: ->
+		@trigger 'change', { view: 'classified-single', state: @getHistoryState() }
+	classifiedBrowse: ->
+		@trigger 'change', { view: 'classified-browse', state: @getHistoryState() }
 
-	search: -> console.log("help")
+
+	initialize: ->
+		@historyIndex = window.history.length
+		@on 'change', @setHistoryState
+
+		self = @
+		($ window).on 'popstate', (event) -> self.popstateHandle event
+
+
+	popstateHandle: ->
+		state = window.history.state
+		if state? and state.index? then @historyIndex = state.index
+
+	setHistoryState: ->
+		state = window.history.state
+		if not state?
+			@historyIndex += 1
+			window.history.replaceState index: @historyIndex
+
+	getHistoryState: -> window.history.state or {}
 
 # module.exports = class controller
 # 	consoleSlug: '[controller:router]'
@@ -16,9 +46,6 @@ module.exports = Backbone.Router.extend
 
 # 		# Start HTML5 history
 # 		@initializeHTML5history()
-
-# 		# Start backbone history (Essential for Backbone routers).
-# 		Backbone.history.start()
 
 
 # 	# Initializes the HTML5 history API
@@ -43,7 +70,7 @@ module.exports = Backbone.Router.extend
 # 		currentState =
 # 			arguments: url: document.URL
 # 			index: @historyIndex
-# 			view: window.viewid
+# 			view: 'landing'
 # 		history.replaceState currentState, '', document.URL
 
 
@@ -85,7 +112,6 @@ module.exports = Backbone.Router.extend
 # 	# Commands the app to load the given view, with the given URL.
 # 	goto: (url, view, args) ->
 # 		if @fallback then return window.location = url
-# 		app.progress 60
 
 # 		# Set the url in the arguments list
 # 		args = args or {}
@@ -95,7 +121,7 @@ module.exports = Backbone.Router.extend
 # 		@pushHistory url, view, args
 
 # 		# send the app to the view controller
-# 		app.setView view, args, @currentState
+# 		app@trigger 'change', view: 'auth-logout'
 
 
 # 	# Pushes the given url to the HTML5 history api.
@@ -135,7 +161,7 @@ module.exports = Backbone.Router.extend
 # 		console.debug @consoleSlug, 'popstate state:', currentState
 
 # 		currentState.arguments = currentState.arguments or url: currentState.url
-# 		app.setView currentState.view, currentState.arguments, currentState
+# 		app@trigger 'change', view: 'auth-logout'
 
 
 # 	# Reattaches all the view links to use the given event handler. The handler

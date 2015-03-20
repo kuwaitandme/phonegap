@@ -30,9 +30,9 @@ module.exports = class viewManager
 		@progressBar = new @components.progressBar
 
 		# Get and initialize the main view
-		view = window.viewid
-		historyState = app.controllers.router.getHistoryState()
-		@setView view, url: document.URL, historyState
+		# view = "landing"
+		# historyState = app.controllers.router.getHistoryState()
+		# @setView view, url: document.URL, historyState
 
 
 	# Set's the currentView with all the proper animations and DOM
@@ -41,18 +41,12 @@ module.exports = class viewManager
 		console.debug @name,
 			"setting view to '#{viewIdentifier}' with history:",  historyState
 
-		# Change the mouse icon to the loader
-		@displayMouseLoader true
-
 		# Clear any messages
-		@messages.clear()		# Get the view
+		# @messages.clear()		# Get the view
 
 		# Check if there was a view before, and if there was then switch the pages
-		if @currentView then @switchPages(viewIdentifier, args, historyState)
-		else @initPage(viewIdentifier, args, historyState)
-
-		# Attempt to cache the HTML
-		app.cacheView @currentView, @currentViewName
+		if @currentView then @switchPages viewIdentifier, args, historyState
+		else @initPage viewIdentifier, args, historyState
 
 		# Check for any redirection
 		if @currentView.checkRedirect()
@@ -63,33 +57,38 @@ module.exports = class viewManager
 		@currentView.trigger 'continue'
 
 		# Reattach the event handlers for the router
-		app.reattachRouter()
+		# app.reattachRouter()
 
 		# Signal google Analytics
 		@googleAnalyticsSend()
 
 		# Signal the header to update itself
-		@header.update()
+		# @header.update()
 
-		# All done, set the mouse icon to normal
-		@displayMouseLoader false
-		@progressBar.progress 100
+
+	routeHandle: (event={}) ->
+		state = event.state or {}
+		state.index = state.index or history.state.index
+
+		console.log @name, 'switching to view', event.view
+		console.debug @name, 'next state', state
+		@setView event.view, url: document.URL, state
 
 
 	initPage: (targetViewIdentifier, args, historyState) ->
-		console.log @name, 'initializing first view'
+		console.log @name, 'initializing first view', targetViewIdentifier
 		@currentViewName = targetViewIdentifier
 
 		targetView = @getView targetViewIdentifier
-		url = historyState.arguments.url
+		url = document.URL#historyState.arguments.url
 		index = historyState.index
 
 		$el = $ '.pt-page'
 		$el.attr 'data-index', index
 		$el.attr 'data-url', url
 
-		# Else load set the currentView directly without any transition
-		# animation
+
+		# Load set the currentView directly without any transition animation
 		@currentView = new targetView
 			args: args
 			el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
@@ -104,7 +103,7 @@ module.exports = class viewManager
 	findTargetView: (historyState) ->
 		console.log @name, "trying to find view in buffer"
 		index = historyState.index
-		url = historyState.arguments.url
+		url = document.URL#historyState.arguments.url
 
 		for view in @viewBuffer
 			if (view.$el.data 'url') is url and (view.$el.data 'index') is index
@@ -118,15 +117,17 @@ module.exports = class viewManager
 		index = historyState.index
 		url = historyState.arguments.url
 
-		$targetPage = $("<div data-url='#{url}' data-index='#{index}'></div>")
-			.addClass('pt-page')
-			.addClass(targetViewIdentifier)
+		$targetPage = $ "<div data-url='#{url}' data-index='#{index}'></div>"
+			.addClass 'pt-page'
+			.addClass targetViewIdentifier
 
-		# Get and set the HTML for the target page
-		html = @fetchHTML targetViewIdentifier, args.url
-		$targetPage.html html
+		# Delete any view that is not needed
+		($ '.pt-page').each ->
+			$page = $ this
+			pageIndex = ($page.data 'index') or 0
+			if Number(pageIndex) < (index - 2) then $page.remove()
 
-		# Add the HTML into the DOM
+		# Add the new page into the DOM
 		@$ptMain.append $targetPage
 
 		view = @getView targetViewIdentifier
@@ -213,14 +214,6 @@ module.exports = class viewManager
 		# collector will pick it up
 		@previousView = @currentView
 
-		# Delete any view that is not needed
-		# ($ '.pt-page').each ->
-		# 	$page = $ this
-		# 	index = ($page.data 'index') or 0
-		# 	condition = historyIndex < index or index < historyIndex - 1
-
-		# 	if condition then $page.remove()
-
 		@$ptMain.append $el
 
 
@@ -265,34 +258,6 @@ module.exports = class viewManager
 		@$ptMain.append $el
 		viewExists
 
-
-	# Fetches the HTML for the given view and returns it. This function first
-	# checks the local-storage if the view's HTML has been cached or not.
-	# If the view has been cached, then it loads the HTML from it and returns.
-	# If the view wasn't cached, then the function loads the HTML via a AJAX
-	# request.
-	fetchHTML: (view, url) ->
-		console.log @name, 'trying to find HTML in cache for view', view
-		html = app.getCachedViewHTML view
-
-		if html
-			console.log @name, 'HTML found from cache!'
-			return html
-
-		console.debug @name, 'no HTML in cache, fetching HTML via AJAX', url
-		$.ajax
-			type: 'GET'
-			url: url
-			async: false
-			success: (response) ->
-				html = (($ response).find '.html5-cache').parent().html()
-			error: (response) ->
-				console.error @name, 'error sending GET request', response
-		html
-
-
-	# Sets the mouse pointer to the loading icon.
-	displayMouseLoader: (shown=true) -> ($ "body").toggleClass "wait", shown
 
 
 	# Finds the view with the given name and returns it's object.
