@@ -1,14 +1,11 @@
 #landing-main
-	img(src='images/kme-logo.png')
+	img(src='images/kme-logo-tagline.png')
 
 	div
 		.auth-form
 			div
-				a(href="auth.login.html")
+				a(href="#/auth/login", data-view='auth-login')
 					button.submit Login
 			div
-				a(href="auth.signup.html")
+				a(href="#/auth/signup", data-view='auth-signup')
 					button.submit Signup
-
-	#deviceProperties
-	#landing-tagline.title Browse and publish classifieds in Kuwait for free!
