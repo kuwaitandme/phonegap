@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.kuwaitandme.mobile" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-	<name>Kuwait &amp; Me</name>
+<widget id="com.enamakel.kuwaitandme" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+	<name>Kuwait and Me</name>
 	<description>
 		Browse and post classifieds for free. Kuwait's #1 classifieds app.
 	</description>
 	<author email="support@kuwaitandme.com" href="http://kuwaitandme.com">
-		Kuwait &amp; Me Team
+		Kuwait and Me Team
 	</author>
 	<content src="index.html" />
 	<preference name="permissions" value="none" />
