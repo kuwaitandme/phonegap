@@ -11,7 +11,7 @@ module.exports =
 
 	jade:
 		dest:              'www'
-		src:               'assets/jade/pages/*.jade'
+		src:               'assets/jade/pages/**/*.jade'
 		targetFilename:    'template.js'
 
 	watch:
