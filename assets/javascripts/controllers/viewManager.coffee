@@ -1,5 +1,5 @@
 module.exports = class viewManager
-	name: '[controller:viewManager]'
+	name: '[viewManager]'
 
 	components:  (require 'app-views').components
 	pages:       (require 'app-views').pages
@@ -16,81 +16,74 @@ module.exports = class viewManager
 		@$currentPage    = $ '#current-page'
 		@$nextPage       = $ '#next-page'
 		@$previousPage   = $ '#prev-page'
-		@$ptMain         = $ '#pt-main'
+		@$ptMain         = $ 'main'
 
-		# Set local variables
-		# @components = components
-		@previousView = @nextView = null
-
-
-	start: ->
 		# Render different components
 		@header = new (@components.header)(el: 'header')
 		@messages = new (@components.messages)(el: '#messages')
 		@progressBar = new @components.progressBar
 
-		# Get and initialize the main view
-		# view = "landing"
-		# historyState = app.controllers.router.getHistoryState()
-		# @setView view, url: document.URL, historyState
+
+	start: ->
+		self = @
+
+		# Attach different listeners
+		@header.currentUser = @models.currentUser
+		@models.currentUser.on 'sync', -> self.header.update()
+		@router.on 'change', (args) -> self.routeHandle args
+
+
+	routeHandle: (args={}) ->
+		viewIdentifier = args.view
+		historyState = args.state
+
+		console.log @name, "setting view to:", viewIdentifier
+		console.debug @name, "using history:", historyState
+
+		@setView viewIdentifier, historyState
+
+		# ($ document).foundation 'clearing', 'reflow'
+
+		# Signal the header to update itself
+		@header.update()
 
 
 	# Set's the currentView with all the proper animations and DOM
 	# manipulations.
-	setView: (viewIdentifier, args, historyState={}) ->
-		console.debug @name,
-			"setting view to '#{viewIdentifier}' with history:",  historyState
-
-		# Clear any messages
-		# @messages.clear()		# Get the view
-
+	setView: (viewIdentifier, historyState={}) ->
 		# Check if there was a view before, and if there was then switch the pages
-		if @currentView then @switchPages viewIdentifier, args, historyState
-		else @initPage viewIdentifier, args, historyState
+		if @currentView? then @switchPages viewIdentifier, historyState
+		else @initPage viewIdentifier, historyState
+
+		# Attach the basic models to the view
+		@currentView.currentUser = @models.currentUser
+		@currentView.categories = @models.categories
+		@currentView.locations = @models.locations
 
 		# Check for any redirection
 		if @currentView.checkRedirect()
-			@progressBar.progress 100
-			return @currentView.trigger 'redirect'
+			return @router.redirect @currentView.redirectUrl()
 
 		# Now signal the view to manipulate the DOM.
 		@currentView.trigger 'continue'
 
-		# Reattach the event handlers for the router
-		# app.reattachRouter()
-
-		# Signal google Analytics
-		@googleAnalyticsSend()
-
-		# Signal the header to update itself
-		# @header.update()
 
 
-	routeHandle: (event={}) ->
-		state = event.state or {}
-		state.index = state.index or history.state.index
-
-		console.log @name, 'switching to view', event.view
-		console.debug @name, 'next state', state
-		@setView event.view, url: document.URL, state
-
-
-	initPage: (targetViewIdentifier, args, historyState) ->
-		console.log @name, 'initializing first view', targetViewIdentifier
+	initPage: (targetViewIdentifier, historyState) ->
+		console.log @name, 'initializing first view'
 		@currentViewName = targetViewIdentifier
 
 		targetView = @getView targetViewIdentifier
-		url = document.URL#historyState.arguments.url
+		url = document.URL
 		index = historyState.index
 
 		$el = $ '.pt-page'
 		$el.attr 'data-index', index
 		$el.attr 'data-url', url
 
-
-		# Load set the currentView directly without any transition animation
+		# Load set the currentView directly without any transitioning
 		@currentView = new targetView
-			args: args
+			args: historyState
 			el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
 
 		# Save the view in our buffer
@@ -103,44 +96,41 @@ module.exports = class viewManager
 	findTargetView: (historyState) ->
 		console.log @name, "trying to find view in buffer"
 		index = historyState.index
-		url = document.URL#historyState.arguments.url
+		url = document.URL
 
 		for view in @viewBuffer
-			if (view.$el.data 'url') is url and (view.$el.data 'index') is index
+			if view? and view.$el? and
+			(view.$el.data 'url') is url and
+			(view.$el.data 'index') is index
 				console.log @name, "view found in buffer. reusing view"
 				return view
 
 
-	createTargetView: (targetViewIdentifier, args, historyState) ->
+	createTargetView: (targetViewIdentifier, historyState) ->
 		console.debug @name, "creating new view", targetViewIdentifier
 
 		index = historyState.index
-		url = historyState.arguments.url
+		url = document.URL#historyState.arguments.url
 
 		$targetPage = $ "<div data-url='#{url}' data-index='#{index}'></div>"
 			.addClass 'pt-page'
 			.addClass targetViewIdentifier
 
-		# Delete any view that is not needed
-		($ '.pt-page').each ->
-			$page = $ this
-			pageIndex = ($page.data 'index') or 0
-			if Number(pageIndex) < (index - 2) then $page.remove()
-
-		# Add the new page into the DOM
+		# Add the HTML into the DOM
 		@$ptMain.append $targetPage
 
 		view = @getView targetViewIdentifier
 		targetView = new view
-			args: args
+			args: historyState
 			el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
 
 		# Save the view in our buffer and return
+		@destroyUnwantedViews index
 		@viewBuffer.push targetView
-		return targetView
+		targetView
 
 
-	switchPages: (targetViewIdentifier, args, historyState) ->
+	switchPages: (targetViewIdentifier, historyState) ->
 		# Clean up the view before switching to the next one. Detach
 		# all event handlers and signal the view to run any 'closing'
 		# animations.
@@ -159,110 +149,27 @@ module.exports = class viewManager
 			console.debug @name, "view not found", targetViewIdentifier
 
 			# Create a new view
-			targetView = @createTargetView targetViewIdentifier, args, historyState
+			targetView = @createTargetView targetViewIdentifier, historyState
 
 			# start target view
 			targetView.trigger 'start'
 
 		@currentView = targetView
 
-		# # Pause the current view
-		# @currentView.trigger 'pause', ->
-		# 	# _.bind self, @
-		# 	self.currentView.$el.hide()
-		# console.log @name, 'creating buffer page to hold new view'
-
-		# # Create the target page (next or previous), based on the 'reverse'
-		# # option. Here we make use of our two helper functions to properly
-		# # create the page while deleting any old ones and reusing recent
-		# # ones.
-		# $targetPage = undefined
-		# viewExists = false
-		# if not reverse then @createNextPage targetView, historyIndex
-		# # else viewExists = @createPreviousPage historyIndex
-
-		# # Find the target page. Which is the last child
-		# $targetPage = @$ptMain.find '.pt-page:last-child'
-
-		# if not viewExists
-		# 	# Get and set the HTML for the target page
-		# 	html = @fetchHTML targetView, args.url
-		# 	$targetPage.html html
-		# 	$targetPage.addClass targetView
-
-		# 	# Initialize the view for this page
-		# 	@currentView = new targetView
-		# 		args: args
-		# 		el: $targetPage
-
-		# else @currentView = @targetView
-
-		# # Check for any redirection
-		# if @currentView.checkRedirect()
-		# 	return @currentView.trigger 'redirect'
-
-
-	# Create a page which will to used by the page animation to animate to.
-	createNextPage: (targetView, historyIndex) ->
-		$el = $('<div></div>')
-			.addClass('pt-page')
-			.data('index', historyIndex)
-
-		# if @previousView then @previousView.trigger 'close'
-
-		# Save the current view as the previous view and hopefully the garbage
-		# collector will pick it up
-		@previousView = @currentView
-
-		@$ptMain.append $el
-
-
-	# Creates a page so that the page animation can work properly. This
-	# function is abit special in that it checks if there was a view saved
-	# when the app moved to the next page; If there was a view, then the
-	# function prepares it to be loaded in the animation. Otherwise it creates
-	# a blank view.
-	#
-	# The view to be instantiated is set at the this.targetView variable.
-	createPreviousPage: (historyIndex) ->
-		viewExists = false
-
-		$el = $('<div></div>')
-			.addClass('pt-page')
-			.data('index', historyIndex)
-
-		# Save the current view as the next page
-		@nextView = @currentView
-		@nextView.scrollPosition = @currentView.$el.scrollTop()
-
-		# If there was a view already set before this, then use that instead of
-		# creating a new one
-		if @previousView
-			console.debug @name, "found previous view cached", @previousView
-
-			$el = @previousView.$el.data 'index', historyIndex
-			@targetView = @previousView
-			viewExists = true
-
-			# Set this to null since we will only be storing one 'previousView'
-			@previousView = null
-
-		# Delete any view that is out of range
-		($ '.pt-page').each ->
-			$page = $ this
-			index = ($page.data 'index') or 0
-			condition = not (historyIndex >= index < historyIndex + 1)
-
-			if condition then $page.remove()
-
-		@$ptMain.append $el
-		viewExists
-
-
 
 	# Finds the view with the given name and returns it's object.
 	getView: (viewIdentifier) -> @pages[viewIdentifier]
 
 
-	# Function to safely call the Google analytics script
-	googleAnalyticsSend: -> if ga? then ga 'send', 'pageview'
+	destroyUnwantedViews: (historyIndex) ->
+		index = 0
+		for view in @viewBuffer
+			if not view? or not view.$el? then continue
+			viewIndex = Number view.$el.data 'index'
+
+			# Destroy views that are in forward of history and those that are
+			# to far behind in history.
+			if viewIndex is historyIndex or (historyIndex - viewIndex) > 5
+				@viewBuffer[index] = null
+				view.trigger 'finish'
+			index += 1

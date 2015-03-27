@@ -1,11 +1,15 @@
 #landing-main
 	img(src='images/kme-logo-tagline.png')
 
-	div
-		.auth-form
-			div
-				a(href="#/auth/login", data-view='auth-login')
-					button.submit Login
-			div
-				a(href="#/auth/signup", data-view='auth-signup')
-					button.submit Signup
+	.auth-form
+		div
+			a(href="#/auth/login", data-view='auth-login')
+				button.submit Login
+		div
+			a(href="#/auth/signup", data-view='auth-signup')
+				button.submit Signup
+
+	.auth-form
+		div
+			a(href="#/auth/signup", data-view='auth-signup')
+				button.submit Use as this device

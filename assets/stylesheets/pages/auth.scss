@@ -1,6 +1,6 @@
 body#auth-guest, body#auth-forgot, body#auth-login, body#auth-signup,
 body#auth-reset {
-	#main-container {
+	main {
 		border: none;
 		background: none;
 
@@ -73,7 +73,7 @@ body#auth-reset {
 	}
 }
 
-body#auth-guest #main-container {
+body#auth-guest main {
 	padding: 20px;
 
 	font-size: 14px;

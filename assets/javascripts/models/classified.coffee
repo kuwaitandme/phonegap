@@ -15,8 +15,8 @@ module.exports = Backbone.Model.extend
 
 	url: ->
 		id = @id
-		if id then return "/api/classified/#{id}"
-		else '/api/classified'
+		if id then return app.config.host + "/api/classified/#{id}"
+		else app.config.host + '/api/classified'
 
 	defaults:
 		_id: null

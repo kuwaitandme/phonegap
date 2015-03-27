@@ -7,8 +7,8 @@ module.exports = Backbone.Model.extend
 
 	url: ->
 		id = @get 'id'
-		if id then return "/api/user/#{id}"
-		else '/api/user'
+		if id then return app.config.host + "/api/user/#{id}"
+		else app.config.host + '/api/user'
 
 
 	defaults:
@@ -85,7 +85,7 @@ module.exports = Backbone.Model.extend
 
 	# Logs the user out and signals listeners if any.
 	logout: ->
-		$.get '/auth/logout'
+		$.get app.config.host + '/auth/logout'
 		@clear()
 
 		# Signal any listeners that the user has logged out

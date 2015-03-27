@@ -19,7 +19,7 @@ module.exports = Backbone.View.extend
 		@$body         = $ 'body'
 		@$sliderNav    = @$ '#slider-nav'
 
-		@listenTo app.models.currentUser, 'sync', @update
+		# @listenTo app.models.currentUser, 'sync', @update
 		@render()
 
 

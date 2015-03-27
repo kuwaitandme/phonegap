@@ -1,14 +1,13 @@
 module.exports = (require '../mainView').extend
 	name: '[view:landing]'
+	bodyid: 'landing'
 	template: template['landing']
 
 	events: "submit" : "formSubmit"
 
 	start: (@options) ->
 		console.debug @name, 'starting', @options
-		if @options.$el then	@$el = @options.$el
-
-		@$el.html @template()
+		if @options.$el then @$el = @options.$el
 
 		# Setup DOM variables
 		@$keywords = @$ "[name='keywords']"

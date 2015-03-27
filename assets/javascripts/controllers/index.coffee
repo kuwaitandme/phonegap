@@ -5,6 +5,7 @@ viewManager    = require './viewManager'
 # Initializes each of the controllers one by one.
 module.exports =
 	name: '[controller]'
+	template: template['auth/login']
 
 	initialize: (app, config) ->
 		console.log @name, 'initializing'
@@ -27,14 +28,16 @@ module.exports =
 		Backbone.sync = newSync
 
 		@localStorage   = new localStorage app, config
+		@router         = new router
 		@viewManager    = new viewManager app, config
-		@router         = new router app, config
-		# window.a = @router
 
-		@router.on 'change', (event) -> self.viewManager.routeHandle event
-		Backbone.history.start()
-		# @router.navigate('#')
+		@viewManager.localStorage = @localStorage
+		@viewManager.router = @router
+
 
 	start: ->
 		console.log @name, 'starting'
+		@viewManager.models = @models
+
 		@viewManager.start()
+		@router.start()

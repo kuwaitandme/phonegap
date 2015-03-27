@@ -1,5 +1,5 @@
 div.auth-title Login
-form
+form#form-login
 	section
 		div
 			input(type="email", name="username", placeholder="email", required)#auth-username
@@ -8,7 +8,7 @@ form
 		div
 			input(type="submit", value="Login").submit
 
-form
+form#form-asdevice-login
 	section
 		input(type='submit', value='Login as this device').submit
 
@@ -16,5 +16,5 @@ ul#error
 
 div.extra-links
 	| Forgot your password? Click&nbsp;
-	a(href="auth.forgot.html") here
+	a(href="#/auth/forgot") here
 	| &nbsp;, to reset it.

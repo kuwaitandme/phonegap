@@ -15,4 +15,4 @@ module.exports = (require '../../mainView').extend
 	# Perform the redirection to the login page
 	redirect: ->
 		console.log @name, 'redirecting to login page'
-		app.goto '/auth/login?success=logout', 'auth-login'
+		app.goto ''

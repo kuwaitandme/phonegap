@@ -3,14 +3,19 @@
 # here get used by the ViewManager controller and enables the controller to
 # neatly cleanup and restart views.
 module.exports = Backbone.View.extend
+	bodyid: ""
+	template: -> ""
 	initialize: (@options) ->
 		self = @
 
 		# These are events that get called by the ViewManager controller. You
 		# don't have to explicitly trigger them but just ensure that all your
 		# code lies in the functions defined the next section.
-		@on 'start', -> self.start self.options
+		@on 'start', ->
+			self.start self.options
+			self.$el.html self.template()
 		@on 'continue', ->
+			($ 'body').attr 'id', self.bodyid
 			self.$el.show()
 			self.undelegateEvents()
 			self.delegateEvents()

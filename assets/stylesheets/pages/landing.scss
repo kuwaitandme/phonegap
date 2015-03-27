@@ -1,61 +1,55 @@
 body#landing {
-	background: #EEE;
+	@extend .hide-header;
+	// background: #EEE;
 	background: url('images/patterns/collage.png');
+	// height: 2000px;
 
 	h1, h3 { text-align: center; padding: 1px;}
-
 	.shadow {
 		text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
 			0px 8px 13px rgba(0,0,0,0.1),
 			0px 18px 23px rgba(0,0,0,0.1);
 	}
 	#landing-main {
-		text-align: center;
-		margin: 0 auto;
+		// display: none;
 		background: #FFF;
-		padding: 30px;
+		padding: 1px;
+		margin: 0 auto;
+		padding-top: 30px;
+		text-align: center;
 
 		-webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.5);
 		-moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.5);
 		box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.5);
-	}
-	.title {
-		@extend .font-title;
-		padding: 0 20px;
-		text-align: center;
-		font-size: 15px;
-	}
 
-	.auth-form {
-		margin: 40px 0;
-		display: inline-block;
-		overflow: hidden;
-		max-width: 300px;
-		width: 100%;
-
-		-webkit-border-radius: 5px;
-		-moz-border-radius: 5px;
-		border-radius: 5px;
-
-		a { text-decoration: none; }
-		> div {
-			width: auto;
-		}
-		// > section { margin-bottom: 10px; }
-		.submit {
-			@include single-transition(background);
-			background: #2ecc71;
-			color: #FFF;
-			// display: block;
-			font-weight: 700;
-
-			padding: 10px;
+		.auth-form {
+			display: block;
+			margin: 40px auto;
+			max-width: 300px;
+			overflow: hidden;
 			width: 100%;
 
-			border: 0;
-			border-bottom: 2px solid #27ae60;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
 
-			&:hover { background: #27ae60; }
+			a { text-decoration: none; }
+			> div { width: auto; }
+
+			.submit {
+				@include single-transition(background);
+				background: #2ecc71;
+				color: #FFF;
+				font-weight: 700;
+
+				padding: 10px;
+				width: 100%;
+
+				border: 0;
+				border-bottom: 2px solid #27ae60;
+
+				&:hover { background: #27ae60; }
+			}
 		}
 	}
 }

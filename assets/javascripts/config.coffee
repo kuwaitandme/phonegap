@@ -4,6 +4,6 @@ module.exports =
 	jsVersion: window.jsVersion
 
 	# Ensure this is https .. for blah blah
-	host: ""
+	host: "http://kme.com"
 	localStorage:
 		enabled: true

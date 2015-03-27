@@ -1,98 +1,66 @@
+$headerHeight: 51px;
+$headerSidebarWidth: 200px;
+
+main { padding-top: $headerHeight }
+.hide-header {
+	main { padding-top: 0 }
+	header { display: none; }
+}
 header {
-	// height: 100%;
-	left: 0;
-	position: absolute;
+	@include single-transition();
+	background: #FFF;
+	border-bottom: 1px solid #DDD;
+	height: $headerHeight;
+	position: fixed;
 	top: 0;
 	width: 100%;
-	z-index: 2;
 
-	nav#main-nav {
+	#header-sidebar {
+		@include single-transition(left);
 		background: #FFF;
-		height: 75px;
-		padding: 10px 0;
-		width: 100%;
-		border-bottom: 2px solid #EEE;
-
-		ul {
-			@include clearfix();
-			margin: 0;
-			padding: 0;
-			width: 100%;
-		}
-		li {
-			color: #000;
-			float: right;
-			margin: 0 15px;
-			padding: 8px;
-
-			&.grabber{
-				@include clearfix();
-				cursor: pointer;
-
-				.title {
-					float: left;
-					margin-top: 9px;
-					padding: 0 15px;
-				}
-				.icon{
-					@extend .font-awesome;
-					float: right;
-					font-size: 20px;
-					margin-top: 5px;
-				}
-			}
-			&#nav-logo {
-				background: url(../images/kme-small.png);
-				float: left;
-				height: 45px;
-				margin-top: 10px;
-				margin-left: 30px;
-				width: 131px;
-			}
-		}
-	}
-
-	ul#slider-nav {
-		background: #111;
-		border-left: 1px solid rgba(0, 0, 0, 0.1);
-		color: #FFF;
-		height: 100%;
-		margin: 0;
-		padding: 0;
+		border-right: 1px solid #DDD;
+		left: -1 * $headerSidebarWidth;
+		min-height: 100%;
 		position: fixed;
-		right: -0;
-		transform: translate(200px, 0px);
-		text-align: right;
 		top: 0;
-		width: 200px;
-		z-index: 1;
+		width: $headerSidebarWidth;
 
-		a {
-			color: inherit;
-			text-decoration: none;
-		}
-		li {
-			@include single-transition();
-			background: #000;
-			border-bottom: 1px solid #333;
-			padding: 13px 23px;
-			padding-left: 40px;
 
-			&.grabber {
-				@extend .font-awesome;
-				cursor: pointer;
-				padding: 23px 23px 20px;
-				font-size: 20px;
-			}
-			&.gap { background: #111; }
-			&:hover {
-				background: #FFF;
-				color: #000;
+		.link {
+			padding: 15px;
+			a {
+				@include single-transition(border-bottom);
+				text-decoration: none;
+				padding-bottom: 3px;
+				border-bottom: 1px solid #DDD;
+
+				&:hover, &.active { border-bottom: 2px solid #FF6600; }
 			}
 		}
 	}
+	#nav-grabber {
+		@include single-transition(margin-left);
+		cursor: pointer;
+		margin-left: -5px;
+		padding: 10px 0;
+		position: relative;
+
+		.icon {
+			@extend .font-awesome;
+			font-size: 20px;
+		}
+		.title {
+			@extend .font-title;
+			font-size: 13px;
+			left: 30px;
+			position: absolute;
+			top: 15px;
+		}
+	}
+	&.nav-up { top: -1 * $headerHeight - 5px;  }
 }
 
-@media print {
-	header { display: none; }
+body.show-header-sidebar {
+	#header-sidebar { left: 0; }
+	header #nav-grabber { margin-left: $headerSidebarWidth + 10px; }
 }
