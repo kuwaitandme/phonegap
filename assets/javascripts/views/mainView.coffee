@@ -12,8 +12,8 @@ module.exports = Backbone.View.extend
 		# don't have to explicitly trigger them but just ensure that all your
 		# code lies in the functions defined the next section.
 		@on 'start', ->
-			self.start self.options
 			self.$el.html self.template()
+			self.start self.options
 		@on 'continue', ->
 			($ 'body').attr 'id', self.bodyid
 			self.$el.show()

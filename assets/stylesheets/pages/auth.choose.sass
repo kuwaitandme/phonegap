@@ -3,34 +3,30 @@ body#auth-choose
 	background: url(images/bg/auth-choose.jpg) center center
 
 	#close-button
-		width: 30px
 		height: 30px
+		left: 10px
 		position: fixed
 		top: 10px
-		left: 10px
+		width: 30px
 	#privacy-terms, #email-options
 		margin: 20px auto
-
 	#privacy-terms
 		font-size: 12px
 		opacity: 0.7
 		a
 			border-bottom: 1px solid #FFF
-
 	#email-options, #auth-options .button
 		max-width: 280px
-
 	#email-options
 		.columns
 			padding: 0
-
 		.option
 			+single-transition()
-			cursor: pointer
 			border: 2px solid #FFF
+			cursor: pointer
+			font-size: 12px
 			padding: 12px 20px
 			text-transform: uppercase
-			font-size: 12px
 
 			-webkit-border-radius: 2px
 			-moz-border-radius: 2px
@@ -39,24 +35,20 @@ body#auth-choose
 			&:hover
 				background: #FFF
 				color: #000
-
 	#auth-options
 		color: #FFF
-		padding-top: 100px
+		padding-top: 50px
 		text-align: center
 
 		a
 			text-decoration: none
 		.button
-			// height: 45px
-			// width: 50%
-			// border-bottom: 3px solid
 			color: #FFF
+			cursor: pointer
 			margin: 20px auto
 			overflow: hidden
 			padding: 12px 20px
 			position: relative
-			cursor: pointer
 			text-transform: uppercase
 
 			-webkit-border-radius: 2px
@@ -92,29 +84,26 @@ body#auth-choose
 			.text
 				font-size: 12px
 				padding-left: 40px
-				// @extend .font-title
 
 	.auth-modal
 		.close-trigger
+			background: rgba(0,0,0,0.5)
+			height: 100%
+			left: 0
 			position: fixed
 			top: 0
-			left: 0
 			width: 100%
-			height: 100%
-			background: rgba(0,0,0,0.5)
 			z-index: 0
-
 		form
-			z-index: 1
-			position: fixed
-			top: 20%
-			left: 50%
-			margin-left: -125px
-			// height: 200px
-			width: 250px
 			background: #FFF
 			color: #000
+			left: 50%
+			margin-left: -125px
+			position: fixed
 			text-align: left
+			top: 20%
+			width: 250px
+			z-index: 1
 
 			-webkit-border-radius: 2px
 			-moz-border-radius: 2px
@@ -122,10 +111,10 @@ body#auth-choose
 			.text
 				padding: 0 25px
 			.submit
-				text-transform: uppercase
-				color: #3498db
 				background: #EEE
+				color: #3498db
 				padding: 15px
+				text-transform: uppercase
 				width: 100%
 			p
 				margin: 25px 0
@@ -133,9 +122,9 @@ body#auth-choose
 				@extend .font-thin
 				font-size: 18px
 			input
-				padding: 0
-				outline: none
 				border-bottom: #DDD 1px solid
+				outline: none
+				padding: 0
 
 				&:active, &:hover
 					border-bottom-color: #3498db

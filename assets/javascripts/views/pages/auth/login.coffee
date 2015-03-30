@@ -143,27 +143,27 @@ module.exports = view.extend
 		# Validate the user fields
 		if not @validate() then return
 
-		app.trigger 'redirect', '/account/'
+		# app.trigger 'redirect', '/account/'
 
-		# # Attempt to login the user
-		# that.model.login @$username.val(), @$password.val(), (error, response) ->
-		# 	# Hide the ajax loader
-		# 	that.hideLoading()
+		# Attempt to login the user
+		that.model.login @$username.val(), @$password.val(), (error, response) ->
+			# Hide the ajax loader
+			that.hideLoading()
 
-		# 	if error then switch error.status
-		# 		when 404
-		# 			that.addMessage 'Your login is wrong'
-		# 		when 400
-		# 			that.addMessage 'There are invalid fields or the captcha has failed'
-		# 		when 406
-		# 			that.addMessage 'incorrect captcha'
-		# 		when 401
-		# 			that.addMessage "Your account is not activated, check your inbox (and junk mail) for the activation email", 'warning'
-		# 		when 403
-		# 			that.addMessage 'Your account has been banned'
-		# 			that.addMessage 'Admin message: '
-		# 	else
-		# 		console.debug that.name, 'received user', response
+			if error then switch error.status
+				when 404
+					that.addMessage 'Your login is wrong'
+				when 400
+					that.addMessage 'There are invalid fields or the captcha has failed'
+				when 406
+					that.addMessage 'incorrect captcha'
+				when 401
+					that.addMessage "Your account is not activated, check your inbox (and junk mail) for the activation email", 'warning'
+				when 403
+					that.addMessage 'Your account has been banned'
+					that.addMessage 'Admin message: '
+			else
+				console.debug that.name, 'received user', response
 
-		# 		# Redirect to the account page on success
-		# 		app.trigger 'redirect', '/account/'
+				# Redirect to the account page on success
+				app.trigger 'redirect', '/account/'

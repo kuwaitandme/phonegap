@@ -1,15 +1,14 @@
 #landing-main
-	img(src='images/kme-logo-tagline.png')
+	img(src='images/kme-logo.png')
 
+	.tagline Browse and publish classifieds in Kuwait for Free!
 	.auth-form
-		div
-			a(href="#/auth/login", data-view='auth-login')
-				button.submit Login
-		div
-			a(href="#/auth/signup", data-view='auth-signup')
-				button.submit Signup
+		a(href="#/auth/choose", data-view='auth-login')
+			button.submit Get started
+		//- p
+			a(href="#/auth/choose", data-view='auth-login')
+				button.submit Post classified for free
 
-	.auth-form
-		div
-			a(href="#/auth/signup", data-view='auth-signup')
-				button.submit Use as this device
+		//- p
+			a(href="#/auth/choose", data-view='auth-login')
+				button.submit Manage your classifieds

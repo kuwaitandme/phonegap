@@ -8,7 +8,7 @@ module.exports = Backbone.Router.extend
 		"auth/login(/)"          : "authLogin"
 		"auth/logout(/)"         : "authLogout"
 		"auth/signup(/)"         : "authSignup"
-		"auth/signup(/)"         : "authSignup"
+		"auth/choose(/)"         : "authChoose"
 		"classified/search(/)"   : "classified"
 		"classified/post(/)"     : "classifiedPost"
 		"classified/:id(/)"      : "classifiedSingle"
@@ -25,6 +25,7 @@ module.exports = Backbone.Router.extend
 	authLogin:                -> @handleRoute 'auth-login'
 	authLogout:               -> @handleRoute 'auth-logout'
 	authSignup:               -> @handleRoute 'auth-signup'
+	authChoose:               -> @handleRoute 'auth-choose'
 	classified:               -> @handleRoute 'classified-search'
 	classifiedEdit:   (param) -> @handleRoute 'classified-edit', param
 	classifiedPost:           -> @handleRoute 'classified-post'
@@ -99,7 +100,7 @@ module.exports = Backbone.Router.extend
 
 		# If the state index is not defined, then this is a pushstate. So
 		# increment our index by 1.
-		if state? and not state.index? then @historyIndex += 1
+		if not state? or not state.index? then @historyIndex += 1
 		window.history.replaceState index: @historyIndex
 
 
