@@ -1,0 +1,143 @@
+body#auth-choose
+	@extend .hide-header
+	background: url(images/bg/auth-choose.jpg) center center
+
+	#close-button
+		width: 30px
+		height: 30px
+		position: fixed
+		top: 10px
+		left: 10px
+	#privacy-terms, #email-options
+		margin: 20px auto
+
+	#privacy-terms
+		font-size: 12px
+		opacity: 0.7
+		a
+			border-bottom: 1px solid #FFF
+
+	#email-options, #auth-options .button
+		max-width: 280px
+
+	#email-options
+		.columns
+			padding: 0
+
+		.option
+			+single-transition()
+			cursor: pointer
+			border: 2px solid #FFF
+			padding: 12px 20px
+			text-transform: uppercase
+			font-size: 12px
+
+			-webkit-border-radius: 2px
+			-moz-border-radius: 2px
+			border-radius: 2px
+
+			&:hover
+				background: #FFF
+				color: #000
+
+	#auth-options
+		color: #FFF
+		padding-top: 100px
+		text-align: center
+
+		a
+			text-decoration: none
+		.button
+			// height: 45px
+			// width: 50%
+			// border-bottom: 3px solid
+			color: #FFF
+			margin: 20px auto
+			overflow: hidden
+			padding: 12px 20px
+			position: relative
+			cursor: pointer
+			text-transform: uppercase
+
+			-webkit-border-radius: 2px
+			-moz-border-radius: 2px
+			border-radius: 2px
+
+			&.email
+				background: #1ABC9C
+			&.facebook
+				background: #567CC5
+			&.google-plus
+				background: #DF4A32
+			&.linkedin
+				background: #51A7C2
+			&.phone
+				background: #1ABC9C
+			&.twitter
+				background: #00C2F3
+			&.yahoo
+				background: #803383
+
+			.icon
+				@extend .font-awesome
+				background: rgba(0,0,0,0.05)
+				font-size: 18px
+				left: 0
+				padding: 10px 0
+				position: absolute
+				text-align: center
+				top: 0
+				width: 50px
+
+			.text
+				font-size: 12px
+				padding-left: 40px
+				// @extend .font-title
+
+	.auth-modal
+		.close-trigger
+			position: fixed
+			top: 0
+			left: 0
+			width: 100%
+			height: 100%
+			background: rgba(0,0,0,0.5)
+			z-index: 0
+
+		form
+			z-index: 1
+			position: fixed
+			top: 20%
+			left: 50%
+			margin-left: -125px
+			// height: 200px
+			width: 250px
+			background: #FFF
+			color: #000
+			text-align: left
+
+			-webkit-border-radius: 2px
+			-moz-border-radius: 2px
+			border-radius: 2px
+			.text
+				padding: 0 25px
+			.submit
+				text-transform: uppercase
+				color: #3498db
+				background: #EEE
+				padding: 15px
+				width: 100%
+			p
+				margin: 25px 0
+			.title
+				@extend .font-thin
+				font-size: 18px
+			input
+				padding: 0
+				outline: none
+				border-bottom: #DDD 1px solid
+
+				&:active, &:hover
+					border-bottom-color: #3498db
+				&.error
+					border-bottom-color: #e74c3c

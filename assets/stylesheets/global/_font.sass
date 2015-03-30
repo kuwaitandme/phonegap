@@ -1,0 +1,57 @@
+@font-face
+	font-family: FontAwesome
+	src: url("fonts/fontawesome/fontawesome-webfont.eot")
+	src: url("fonts/fontawesome/fontawesome-webfont.eot") format("embedded-opentype"), url("fonts/fontawesome/fontawesome-webfont.woff2") format("woff2"), url("fonts/fontawesome/fontawesome-webfont.woff") format("woff"), url("fonts/fontawesome/fontawesome-webfont.ttf") format("truetype"), url("fonts/fontawesome/fontawesome-webfont.svg") format("svg")
+	font-weight: normal
+	font-style: normal
+
+
+@font-face
+	font-family: 'Roboto'
+	src: url("fonts/robotoslab/RobotoSlab-Regular.ttf") format("truetype")
+	font-weight: normal
+	font-style: normal
+
+
+@font-face
+	font-family: 'Open Sans Light'
+	src: url('fonts/opensans/light/OpenSans-Light-webfont.eot')
+	src: url('fonts/opensans/light/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),url('fonts/opensans/light/OpenSans-Light-webfont.woff') format('woff'),url('fonts/opensans/light/OpenSans-Light-webfont.ttf') format('truetype'),url('fonts/opensans/light/OpenSans-Light-webfont.svg#open_sanslight') format('svg')
+	font-weight: normal
+	font-style: normal
+
+
+@font-face
+	font-family: 'Open Sans'
+	src: url("fonts/opensans/regular/OpenSans-Regular-webfont.eot")
+	src: url("fonts/opensans/regular/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/opensans/regular/OpenSans-Regular-webfont.woff") format("woff"), url("fonts/opensans/regular/OpenSans-Regular-webfont.ttf") format("truetype"), url("fonts/opensans/regular/OpenSans-Regular-webfont.svg#open_sansregular") format("svg")
+	font-weight: normal
+	font-style: normal
+
+
+// Define CSS font-specific classes
+.font-roboto
+	font-family: 'Roboto', serif
+
+.font-open
+	font-family: 'Open Sans', sans-serif
+
+.font-open-light
+	font-family: 'Open Sans Light', sans-serif
+
+.font-awesome
+	font-family: FontAwesome
+
+// Define CSS text-specific classes
+.font-text
+	@extend .font-open
+
+.font-title
+	@extend .font-roboto
+
+.font-thin
+	@extend .font-open-light
+
+// Default page Font
+body
+	@extend .font-text

@@ -6,7 +6,7 @@ module.exports =
 
 	sass:
 		dest:              './www'
-		src:               'assets/stylesheets/style.scss'
+		src:               'assets/stylesheets/style.sass'
 		targetFilename:    'style.css'
 
 	jade:
@@ -16,7 +16,7 @@ module.exports =
 
 	watch:
 		jsPattern:         'assets/javascripts/**/*.coffee'
-		cssPattern:        'assets/stylesheets/**/*.scss'
+		cssPattern:        'assets/stylesheets/**/*.sass'
 		jadePattern:       'assets/jade/**/*.jade'
 
 	bower:
