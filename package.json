@@ -32,5 +32,8 @@
     "app-libs": "./assets/javascripts/libs/index.coffee",
     "app-models": "./assets/javascripts/models/index.coffee",
     "app-views": "./assets/javascripts/views/index.coffee"
+  },
+  "dependencies": {
+    "gulp-ignore": "^1.2.1"
   }
 }

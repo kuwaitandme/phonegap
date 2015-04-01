@@ -16,7 +16,7 @@ module.exports =
 
 	watch:
 		jsPattern:         'assets/javascripts/**/*.coffee'
-		cssPattern:        'assets/stylesheets/**/*.sass'
+		cssPattern:        'assets/stylesheets/**/*.{scss,sass}'
 		jadePattern:       'assets/jade/**/*.jade'
 
 	bower:
