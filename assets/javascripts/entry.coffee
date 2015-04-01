@@ -31,6 +31,7 @@ if not window.app?
 
 			@models.start()
 			@controllers.start()
+			$(document).foundation()
 
 		setupListeners: ->
 			self = @

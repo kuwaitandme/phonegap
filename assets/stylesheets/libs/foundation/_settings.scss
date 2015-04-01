@@ -902,18 +902,18 @@ $large-range: (781px, 1920px);
 
 // We use these to control the left/right nav styles
 // $orbit-nav-bg: transparent;
-// $orbit-nav-bg-hover: rgba(0,0,0,0.3);
-// $orbit-nav-arrow-color: $white;
-// $orbit-nav-arrow-color-hover: $white;
+$orbit-nav-bg-hover: transparent;
+$orbit-nav-arrow-color: #e74c3c;
+$orbit-nav-arrow-color-hover: #e74c3c;
 
 // We use these to control the timer styles
 // $orbit-timer-bg: rgba(255,255,255,0.3);
 // $orbit-timer-show-progress-bar: true;
 
 // We use these to control the bullet nav styles
-// $orbit-bullet-nav-color: $iron;
-// $orbit-bullet-nav-color-active: $aluminum;
-// $orbit-bullet-radius: rem-calc(9);
+$orbit-bullet-nav-color: #ddd;
+$orbit-bullet-nav-color-active: #000;
+$orbit-bullet-radius: rem-calc(5);
 
 // We use these to controls the style of slide numbers
 // $orbit-slide-number-bg: rgba(0,0,0,0);
@@ -925,8 +925,8 @@ $large-range: (781px, 1920px);
 // $preloader-class: "preloader";
 
 // Hide controls on small
-// $orbit-nav-hide-for-small: true;
-// $orbit-bullet-hide-for-small: true;
+$orbit-nav-hide-for-small: false;
+$orbit-bullet-hide-for-small: false;
 // $orbit-timer-hide-for-small: true;
 
 // 20. Pagination

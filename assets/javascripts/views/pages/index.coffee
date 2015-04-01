@@ -15,4 +15,5 @@ module.exports =
 	'guest-single':       require './classified/single'
 	'landing':            require './landing'
 	'privacy':            require './privacy'
+	'walkthrough':        require './walkthrough'
 	'terms':              require './terms'
