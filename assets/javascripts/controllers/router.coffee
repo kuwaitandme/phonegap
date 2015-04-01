@@ -17,6 +17,7 @@ module.exports = Backbone.Router.extend
 		"guest/post(/)"          : "guestPost"
 		"guest/:id(/)"           : "guestSingle"
 		"guest/:id/edit(/)"      : "guestEdit"
+		"walkthrough(/)"         : "walkthrough"
 		"*default"               : "landing"
 		# "*default":            "404"
 
@@ -34,6 +35,7 @@ module.exports = Backbone.Router.extend
 	guestEdit:        (param) -> @handleRoute 'guest-edit', param
 	guestPost:                -> @handleRoute 'guest-post'
 	guestSingle:      (param) -> @handleRoute 'guest-single', param
+	walkthrough:              -> @handleRoute 'walkthrough'
 	landing:                  -> @handleRoute 'landing'
 
 
