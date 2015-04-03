@@ -1,13 +1,21 @@
-body#auth-choose
-	@extend .hide-header
+#auth
+	+single-transition(bottom)
+	position: fixed
+	bottom: -100%
+	left: 0
+	width: 100%
+	height: 100%
 	background: url(images/bg/auth-choose.jpg) center center
+	z-index: 3
 
 	#close-button
 		height: 30px
 		left: 10px
-		position: fixed
+		position: absolute
 		top: 10px
 		width: 30px
+		cursor: pointer
+
 	#privacy-terms, #email-options
 		margin: 20px auto
 	#privacy-terms
@@ -130,3 +138,6 @@ body#auth-choose
 					border-bottom-color: #3498db
 				&.error
 					border-bottom-color: #e74c3c
+
+body.show-auth #auth
+	bottom: 0
