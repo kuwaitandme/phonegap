@@ -1,10 +1,10 @@
 _0x8057 = require("./redactor.strings");
 
 // for(var i=0; i<_0x8057.length; i++) {
-// 	var s = _0x8057[i].toString();
-// 	// if(s.indexOf("css") > -1) {
-// 		console.log(s);
-// 	// }
+//   var s = _0x8057[i].toString();
+//   // if(s.indexOf("css") > -1) {
+//     console.log(s);
+//   // }
 // }
 
 (function($) {

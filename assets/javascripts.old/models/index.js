@@ -1,4 +1,4 @@
 module.exports = {
-	classified: require("./classified"),
-	classifieds: require("./classifieds")
+  classified: require("./classified"),
+  classifieds: require("./classifieds")
 }

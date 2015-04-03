@@ -2,94 +2,93 @@ helpers = require 'app-helpers'
 ajax = helpers.ajax
 
 module.exports = Backbone.Model.extend
-	idAttribute: "_id"
-	name: "[model:user]"
+  idAttribute: "_id"
+  name: "[model:user]"
 
-	url: ->
-		id = @get 'id'
-		if id then "#{app.config.host}/api/user/#{id}"
-		else "#{app.config.host}/api/user"
-
-
-	defaults:
-		adminReason: ''
-		email: ''
-		isModerator: false
-		language: 0
-		lastLogin: [ ]
-		status: 0
-		username: ''
-		credits: 0
-		name: ''
-		description: ''
-		personal: { }
+  defaults:
+    adminReason: ''
+    email: ''
+    isModerator: false
+    language: 0
+    lastLogin: [ ]
+    status: 0
+    username: ''
+    credits: 0
+    name: ''
+    description: ''
+    personal: { }
 
 
-	initialize: ->
-		console.log @name, 'initializing'
+  initialize: ->
+    console.log @name, 'initializing'
 
-		self = @
-		@on 'sync', -> console.log self.name, 'syncing'
+    @url = =>
+      id = @get 'id'
+      if id then "#{window.App.Resources.Config.hostname}/api/user/#{id}"
+      else "#{window.App.Resources.Config.hostname}/api/user"
 
-
-	login: (username, password, callback) ->
-		console.debug @name, 'logging in user'
-		self = @
-
-		$.ajax
-			type: 'POST'
-			url: "#{app.config.host}/api/auth/email/#{username}"
-			beforeSend: ajax.setHeaders
-			data:
-				username: username
-				password: password
-
-			# This function gets called when the user successfully logs in
-			success: (response) ->
-				console.debug self.name, 'user logged in', response
-
-				# Save the data from the server
-				self.set response
-
-				# Signal any listeners that the user has logged in
-				self.trigger 'sync', response
-
-				# Call the callback
-				callback null, response
-
-			# This function sends the error message to the callback
-			error: (error) ->
-				console.error self.name, 'error logging in', error
-				callback error
+    self = @
+    @on 'sync', -> console.log self.name, 'syncing'
 
 
-	signup: (parameters, callback) ->
-		console.debug @name, 'signing up new user'
-		self = @
+  login: (username, password, callback) ->
+    console.debug @name, 'logging in user'
+    self = @
 
-		$.ajax
-			type: 'POST'
-			url: "#{app.config.host}/api/auth/email/"
-			beforeSend: ajax.setHeaders
-			data: parameters
+    $.ajax
+      type: 'POST'
+      url: "#{window.App.Resources.Config.hostname}/api/auth/email/#{username}"
+      beforeSend: ajax.setHeaders
+      data:
+        username: username
+        password: password
 
-			# This function gets called when the user is created successfully
-			success: (response) -> callback null, response
+      # This function gets called when the user successfully logs in
+      success: (response) ->
+        console.debug self.name, 'user logged in', response
 
-			# This function sends the error message to the callback
-			error: (error) ->
-				console.error self.name, 'error creating user', error
-				callback error
+        # Save the data from the server
+        self.set response
+
+        # Signal any listeners that the user has logged in
+        self.trigger 'sync', response
+
+        # Call the callback
+        callback null, response
+
+      # This function sends the error message to the callback
+      error: (error) ->
+        console.error self.name, 'error logging in', error
+        callback error
 
 
-	# Logs the user out and signals listeners if any.
-	logout: ->
-		$.get "#{app.config.host}/api/auth/logout/"
-		@clear()
+  signup: (parameters, callback) ->
+    console.debug @name, 'signing up new user'
+    self = @
 
-		# Signal any listeners that the user has logged out
-		@trigger 'sync'
+    $.ajax
+      type: 'POST'
+      url: "#{window.App.Resources.Config.hostname}/api/auth/email/"
+      beforeSend: ajax.setHeaders
+      data: parameters
+
+      # This function gets called when the user is created successfully
+      success: (response) -> callback null, response
+
+      # This function sends the error message to the callback
+      error: (error) ->
+        console.error self.name, 'error creating user', error
+        callback error
 
 
-	# Returns true iff the user is anonymous
-	isAnonymous: -> not @has "_id"
+  # Logs the user out and signals listeners if any.
+  logout: ->
+    $.get "#{window.App.Resources.Config.hostname}/api/auth/logout/"
+    @clear()
+
+    # Signal any listeners that the user has logged out
+    @trigger 'sync'
+
+
+  # Returns true iff the user is anonymous
+  isAnonymous: -> not @has "_id"

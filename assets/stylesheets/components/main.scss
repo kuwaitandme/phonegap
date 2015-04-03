@@ -1,9 +1,9 @@
 main {
-	#main-container {
-		position: relative;
-	}
+  #main-container {
+    position: relative;
+  }
 }
 
 @media print {
-	main { padding-top: 0 !important; }
+  main { padding-top: 0 !important; }
 }

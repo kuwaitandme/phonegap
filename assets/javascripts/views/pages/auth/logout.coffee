@@ -1,18 +1,18 @@
 module.exports = (require '../../mainView').extend
-	name: "[view:auth-logout]"
+  name: "[view:auth-logout]"
 
-	start: (@options) ->
-		console.debug @name, 'initializing', @options
+  start: (@options) ->
+    console.debug @name, 'initializing', @options
 
-		# Signal the model that we want the current user to logout
-		app.models.currentUser.logout()
-
-
-	# Let the app know that we want to redirect to the login page
-	checkRedirect: -> true
+    # Signal the model that we want the current user to logout
+    app.models.currentUser.logout()
 
 
-	# Perform the redirection to the login page
-	redirect: ->
-		console.log @name, 'redirecting to login page'
-		app.goto ''
+  # Let the app know that we want to redirect to the login page
+  checkRedirect: -> true
+
+
+  # Perform the redirection to the login page
+  redirect: ->
+    console.log @name, 'redirecting to login page'
+    app.trigger 'redirect', ''

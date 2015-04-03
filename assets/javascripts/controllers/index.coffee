@@ -1,43 +1,49 @@
-localStorage   = require './localStorage'
-router         = require './router'
-viewManager    = require './viewManager'
-
-# Initializes each of the controllers one by one.
 module.exports =
-	name: '[controller]'
-	template: template['auth/login']
+  cache:           require './cache'
+  router:          require './router'
+  viewManager:     require './viewManager'
 
-	initialize: (app, config) ->
-		console.log @name, 'initializing'
-		self = @
+# localStorage   = require './
+# localStorage'
+# router         = require './router'
+# viewManager    = require './viewManager'
 
-		# Rewrite backbone sync with our custom sync function. For now add our
-		# little hack to bypass the CSRF token. NOTE that we must find another
-		# way to have CSRF added into every AJAX call without having to making
-		# more than one request.
-		backboneSync = Backbone.sync
-		newSync = (method, model, options) ->
-			options.beforeSend = (xhr) ->
-				# Set the captcha header
-				captcha = ($ '[name="g-recaptcha-response"]').val()
-				if captcha then xhr.setRequestHeader 'x-gcaptcha', captcha
+# # Initializes each of the controllers one by one.
+# module.exports =
+#   name: '[controller]'
+#   template: template['auth/login']
 
-				# Set the CSRF skipper
-				xhr.setRequestHeader 'x-csrf-skipper'
-			backboneSync method, model, options
-		Backbone.sync = newSync
+#   initialize: (app, config) ->
+#     console.log @name, 'initializing'
+#     self = @
 
-		@localStorage   = new localStorage app, config
-		@router         = new router
-		@viewManager    = new viewManager app, config
+#     # Rewrite backbone sync with our custom sync function. For now add our
+#     # little hack to bypass the CSRF token. NOTE that we must find another
+#     # way to have CSRF added into every AJAX call without having to making
+#     # more than one request.
+#     backboneSync = Backbone.sync
+#     newSync = (method, model, options) ->
+#       options.beforeSend = (xhr) ->
+#         # Set the captcha header
+#         captcha = ($ '[name="g-recaptcha-response"]').val()
+#         if captcha then xhr.setRequestHeader 'x-gcaptcha', captcha
 
-		@viewManager.localStorage = @localStorage
-		@viewManager.router = @router
+#         # Set the CSRF skipper
+#         xhr.setRequestHeader 'x-csrf-skipper'
+#       backboneSync method, model, options
+#     Backbone.sync = newSync
+
+#     @localStorage   = new localStorage app, config
+#     @router         = new router
+#     @viewManager    = new viewManager app, config
+
+#     @viewManager.localStorage = @localStorage
+#     @viewManager.router = @router
 
 
-	start: ->
-		console.log @name, 'starting'
-		@viewManager.models = @models
+#   start: ->
+#     console.log @name, 'starting'
+#     @viewManager.models = @models
 
-		@viewManager.start()
-		@router.start()
+#     @viewManager.start()
+#     @router.start()

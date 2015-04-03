@@ -1,42 +1,104 @@
-if not window.app?
-	# App entry point for the 'Kuwait & Me' project. This has been such an amazing
-	# journey, although sad that I had to do it myself. This app that I have coded
-	# below relies heavily on Backbone.js, jQuery and Underscore. Hope it interests
-	# you to read through it..
-	#
-	# This file bootstraps the front-end app. Main JS execution begins here.
-	class App
-		constructor: ->
-			console.log "[app] initializing"
+###
+**Frontend Javascript App**
+---------------------------
+This file bootstraps the front-end app. Javascript execution begins from here.
+The App is heavily dependent on BackBone, Underscore and jQuery.
 
-			@config       = require "app-config"
-			@controllers  = require "app-controllers"
-			@helpers      = require "app-helpers"
-			@libs         = require "app-libs"
-			@models       = require "app-models"
-			@views        = require "app-views"
+The App is designed with an MVC framework in mind although with Backbone, your
+views become your controller. The App also contains *modules*, which are
+components that do different things like routing/caching.
 
-			_.extend @, Backbone.Events
+Read the comments at the end of the page if you are trying to trace how the
+application works
+###
 
-			# Initialize the components
-			@controllers.initialize this, @config
-			@models.initialize      this, @config
-			@controllers.models = @models
+###
+## *window.App*
+This variable is particularly important because it contains all the bits and
+pieces of our App. Even the application's running instance!
 
-			# Setup listeners
-			@setupListeners()
+This variable is made global so that different components of the App have a
+uniformed way of accessing different components/resources.
+###
+window.App =
+  Router: (require "app-controllers").router
+  Cache: (require "app-controllers").cache
+  ViewManager: (require "app-controllers").viewManager
 
-		start: ->
-			console.log "[app] starting"
+  Resources:
+    Library: require "app-libs"
+    Config: require "app-config"
+    Models: require "app-models"
+    Views: require "app-views"
+  instance: null
 
-			@models.start()
-			@controllers.start()
-			$(document).foundation()
 
-		setupListeners: ->
-			self = @
-			@on 'redirect', (url) -> self.controllers.router.redirect url
-			@on 'reload', -> self.controllers.router.reattachRouter()
+class Main
+  constructor: (App) ->
+    @initializeResources()
+    @initializeViews()
+    @initializeListeners()
+    @initializeBackBone()
 
-window.app = new App
-window.app.start()
+  initializeViews: ->
+    @viewManager = new App.ViewManager @resources
+
+  initializeListeners: ->
+    _.extend @, Backbone.Events
+
+
+  ###
+  ## *initializeBackBone():*
+
+  This function initialize Backbone by starting the router and modifying it's
+  sync function.
+  ###
+  initializeBackBone: ->
+    # Rewrite backbone sync with our custom sync function. For now add our
+    # little hack to bypass the CSRF token. NOTE that we must find another
+    # way to have CSRF added into every AJAX call without having to making
+    # more than one request.
+    backboneSync = Backbone.sync
+    newSync = (method, model, options) ->
+      options.beforeSend = (xhr) ->
+        # Set the captcha header
+        captcha = ($ '[name="g-recaptcha-response"]').val()
+        if captcha then xhr.setRequestHeader 'x-gcaptcha', captcha
+
+        # Set the CSRF skipper
+        xhr.setRequestHeader 'x-csrf-skipper'
+      backboneSync method, model, options
+    Backbone.sync = newSync
+
+    # Start Backbone history to trigger the different routes and to load
+    # the first route.
+    Backbone.history.start()
+
+
+  initializeResources: ->
+    @resources = App.Resources
+
+    @resources.cache = new App.Cache
+    @resources.categories = new App.Resources.Models.categories
+    @resources.currentUser = new App.Resources.Models.user
+    @resources.locations = new App.Resources.Models.locations
+    @resources.router = new App.Router
+
+    @resources.categories.resources = @resources
+    @resources.locations.resources = @resources
+    @resources.currentUser.resources = @resources
+
+    @resources.categories.fetch()
+    @resources.locations.fetch()
+    @resources.currentUser.fetch()
+
+###
+**Main Javascript Execution starts here**
+
+###
+($ window).ready ->
+  console.log '[foundation] initializing'
+  $this = ($ document)
+  $this.foundation()
+
+  window.App.instance = new Main window.App

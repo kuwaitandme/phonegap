@@ -1,7 +1,7 @@
 module.exports = Backbone.View.extend({
-	// template: Templates["footer"],
+  // template: Templates["footer"],
 
-	render: function() {
-		this.$el.html(this.template());
-	}
+  render: function() {
+    this.$el.html(this.template());
+  }
 });

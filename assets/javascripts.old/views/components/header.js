@@ -1,58 +1,58 @@
 module.exports = Backbone.View.extend({
-	sliderAnimateWidth: 200,
+  sliderAnimateWidth: 200,
 
-	initialize: function() {
-		this.shown = false;
-		this.$main = $("main");
-		this.$window = $(window);
-		this.$sliderNav = $("#slider-nav");
-	},
-
-
-	events: {
-		"click #grabber-hide" : "hide",
-		"click #grabber-display" : "show"
-	},
+  initialize: function() {
+    this.shown = false;
+    this.$main = $("main");
+    this.$window = $(window);
+    this.$sliderNav = $("#slider-nav");
+  },
 
 
-	/**
-	 * Hide the Slider
-	 */
-	hide: function() {
-		this.shown = false;
-		this.$sliderNav.transition({ x: 1 * this.sliderAnimateWidth });
-
-		this.expandMain();
-	},
+  events: {
+    "click #grabber-hide" : "hide",
+    "click #grabber-display" : "show"
+  },
 
 
-	/**
-	 * Show the Slider
-	 */
-	show: function() {
-		this.shown = true;
-		this.$sliderNav.transition({ x: 0 });
+  /**
+   * Hide the Slider
+   */
+  hide: function() {
+    this.shown = false;
+    this.$sliderNav.transition({ x: 1 * this.sliderAnimateWidth });
 
-		this.shirnkMain();
-	},
-
-
-	/**
-	 * Expands the main body
-	 */
-	expandMain: function() {
-		var width = this.$window.width();
-		var that = this;
-		this.$main.transition({ x: 0 });
-	},
+    this.expandMain();
+  },
 
 
-	/**
-	 * Shrinks the mainbody
-	 */
-	shirnkMain: function() {
-		var width = this.$window.width();
-		this.$main.transition({ x: -1 * this.sliderAnimateWidth });
-		// this.$main.stop().animate({ marginLeft: });
-	}
+  /**
+   * Show the Slider
+   */
+  show: function() {
+    this.shown = true;
+    this.$sliderNav.transition({ x: 0 });
+
+    this.shirnkMain();
+  },
+
+
+  /**
+   * Expands the main body
+   */
+  expandMain: function() {
+    var width = this.$window.width();
+    var that = this;
+    this.$main.transition({ x: 0 });
+  },
+
+
+  /**
+   * Shrinks the mainbody
+   */
+  shirnkMain: function() {
+    var width = this.$window.width();
+    this.$main.transition({ x: -1 * this.sliderAnimateWidth });
+    // this.$main.stop().animate({ marginLeft: });
+  }
 });

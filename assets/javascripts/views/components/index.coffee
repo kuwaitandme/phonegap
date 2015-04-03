@@ -1,5 +1,6 @@
 module.exports =
-	filterBox:   require "./filterBox"
-	header:      require "./header"
-	messages:    require "./messages"
-	progressBar: require "./progressBar"
+  filterBox:   require "./filterBox"
+  header:      require "./header"
+  messages:    require "./messages"
+  progressBar: require "./progressBar"
+  auth: require "./auth"

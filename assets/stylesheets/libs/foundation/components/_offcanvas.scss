@@ -432,9 +432,9 @@ $menu-slide: "transform 500ms ease" !default;
     border-top: $off-canvas-back-border-top;
     border-bottom: $off-canvas-back-border-bottom;
     &:hover {
-    	background: $off-canvas-back-hover-bg;
-    	border-top: $off-canvas-back-hover-border-top;
-    	border-bottom: $off-canvas-back-hover-border-bottom;
+      background: $off-canvas-back-hover-bg;
+      border-top: $off-canvas-back-hover-border-top;
+      border-bottom: $off-canvas-back-hover-border-bottom;
     }
     margin: $off-canvas-label-margin;
     @if $position == right {

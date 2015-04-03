@@ -1,79 +1,79 @@
 module.exports = Backbone.View.extend
-	name: '[view:classified-post:images]'
-	events: 'click .dz-preview .delete div': 'removeFile'
+  name: '[view:classified-post:images]'
+  events: 'click .dz-preview .delete div': 'removeFile'
 
-	initialize: (options) ->
-		if options.model then @model = options.model
-		if options.$el   then   @$el = options.$el
+  initialize: (options) ->
+    if options.model then @model = options.model
+    if options.$el   then   @$el = options.$el
 
-		@$filePreview = @$ '#image-upload-preview'
+    @$filePreview = @$ '#image-upload-preview'
 
-		@on "close", @close
+    @on "close", @close
 
-		# Initialize the dropzone
-		@initDropzone()
+    # Initialize the dropzone
+    @initDropzone()
 
-		@setDOM()
-
-
-	render: ->
+    @setDOM()
 
 
-	validate: ->
-		@setModel()
-		true
+  render: ->
 
 
-	# Handler function to remove the file from the Uploads queue
-	removeFile: (event) ->
-		# Find the index of the file
-		$el = $(event.currentTarget)
-		index = $el.parent().parent().index()
-
-		# Remove it from the DOM
-		((@$filePreview.find 'li').eq index).remove()
-
-		# Remove it from the file Queue
-		@dropzone.files[index].status = 'delete'
+  validate: ->
+    @setModel()
+    true
 
 
-	# Initializes the drop-zone
-	initDropzone: ->
-		Dropzone.autoDiscover = false
+  # Handler function to remove the file from the Uploads queue
+  removeFile: (event) ->
+    # Find the index of the file
+    $el = $(event.currentTarget)
+    index = $el.parent().parent().index()
 
-		# Create the dropzone
-		$el = ((@$ '#image-upload').eq 0).dropzone url: '/'
-		@dropzone = $el[0].dropzone
-		@dropzone.previewsContainer = @$filePreview[0]
+    # Remove it from the DOM
+    ((@$filePreview.find 'li').eq index).remove()
 
-		# Setup each of the custom options for the drop-zone
-		options = @dropzone.options
-		options.autoProcessQueue = false
-		options.paramName = 'files'
-		options.uploadMultiple = true
-		options.previewTemplate = '
-			<li class="dz-preview">\
-				<img data-dz-thumbnail />\
-				<div class="font-awesome delete">\
-					<div>&#xf00d;</div>\
-				</div>
-			</li>'
+    # Remove it from the file Queue
+    @dropzone.files[index].status = 'delete'
 
 
-	setModel: ->
-		# Start grabbing the files from the drop-zone
-		files = @dropzone.getQueuedFiles()
+  # Initializes the drop-zone
+  initDropzone: ->
+    Dropzone.autoDiscover = false
 
-		# Append each file into the model
-		@model.attributes.files = []
-		for file in files
-			@model.attributes.files.push file
+    # Create the dropzone
+    $el = ((@$ '#image-upload').eq 0).dropzone url: '/'
+    @dropzone = $el[0].dropzone
+    @dropzone.previewsContainer = @$filePreview[0]
+
+    # Setup each of the custom options for the drop-zone
+    options = @dropzone.options
+    options.autoProcessQueue = false
+    options.paramName = 'files'
+    options.uploadMultiple = true
+    options.previewTemplate = '
+      <li class="dz-preview">\
+        <img data-dz-thumbnail />\
+        <div class="font-awesome delete">\
+          <div>&#xf00d;</div>\
+        </div>
+      </li>'
 
 
-	setDOM: ->
+  setModel: ->
+    # Start grabbing the files from the drop-zone
+    files = @dropzone.getQueuedFiles()
+
+    # Append each file into the model
+    @model.attributes.files = []
+    for file in files
+      @model.attributes.files.push file
 
 
-	close: ->
-		@remove()
-		@unbind()
-		@stopListening()
+  setDOM: ->
+
+
+  close: ->
+    @remove()
+    @unbind()
+    @stopListening()

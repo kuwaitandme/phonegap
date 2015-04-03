@@ -4,27 +4,27 @@
 @import "../modal-config";
 
 [data-cssmodal-stretch] {
-	.modal-inner {
-		top: 10%;
-		min-height: 80%;
-	}
+  .modal-inner {
+    top: 10%;
+    min-height: 80%;
+  }
 
-	.modal-content {
-		max-height: none !important;
-	}
+  .modal-content {
+    max-height: none !important;
+  }
 
-	.modal-close:after {
-		top: 10%;
-		margin-top: -25px;
-	}
+  .modal-close:after {
+    top: 10%;
+    margin-top: -25px;
+  }
 
-	@media screen and (max-width: $modal-small-breakpoint) {
-		.modal-inner {
-			top: 0;
-		}
+  @media screen and (max-width: $modal-small-breakpoint) {
+    .modal-inner {
+      top: 0;
+    }
 
-		.modal-close:after {
-			margin-top: 0;
-		}
-	}
+    .modal-close:after {
+      margin-top: 0;
+    }
+  }
 }
