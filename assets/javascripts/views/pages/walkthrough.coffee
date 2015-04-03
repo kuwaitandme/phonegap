@@ -7,7 +7,7 @@ module.exports = (require '../mainView').extend
 	start: ->
 		$window = $ window
 		$img = @$ 'img'
-		$img.height $window.height() - 150
+		$img.height $window.height() - 200
 
 	continue: ->
 		($ document).foundation 'orbit', 'reflow'

@@ -1,4 +1,4 @@
-view = require '../classified/search'
+view = require '../home/search'
 
 module.exports = view.extend
 	name: '[view:account-manage]'

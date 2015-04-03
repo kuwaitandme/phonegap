@@ -5,21 +5,19 @@ module.exports = Backbone.Router.extend
 	routes:
 		"account(/)"             : "account"
 		"account/manage(/)"      : "accountManage"
+		"auth/choose(/)"         : "authChoose"
 		"auth/login(/)"          : "authLogin"
 		"auth/logout(/)"         : "authLogout"
 		"auth/signup(/)"         : "authSignup"
-		"auth/choose(/)"         : "authChoose"
-		"classified/search(/)"   : "classified"
-		"classified/post(/)"     : "classifiedPost"
-		"classified/:id(/)"      : "classifiedSingle"
-		"classified/:id/edit(/)" : "classifiedEdit"
+		"home/:id(/)"            : "classifiedSingle"
+		"home/:id/edit(/)"       : "classifiedEdit"
+		"home/post(/)"           : "classifiedPost"
+		"home/search(/)"         : "classified"
 		"credits(/)"             : "credits"
 		"guest/post(/)"          : "guestPost"
-		"guest/:id(/)"           : "guestSingle"
-		"guest/:id/edit(/)"      : "guestEdit"
+		"home(/)"                : "home"
 		"walkthrough(/)"         : "walkthrough"
 		"*default"               : "landing"
-		# "*default":            "404"
 
 	account:                  -> @handleRoute 'account-index'
 	accountManage:            -> @handleRoute 'account-manage'
@@ -32,10 +30,8 @@ module.exports = Backbone.Router.extend
 	classifiedPost:           -> @handleRoute 'classified-post'
 	classifiedSingle: (param) -> @handleRoute 'classified-single', param
 	credits:                  -> @handleRoute 'credits'
-	guestEdit:        (param) -> @handleRoute 'guest-edit', param
-	guestPost:                -> @handleRoute 'guest-post'
-	guestSingle:      (param) -> @handleRoute 'guest-single', param
 	walkthrough:              -> @handleRoute 'walkthrough'
+	home:                     -> @handleRoute 'home'
 	landing:                  -> @handleRoute 'landing'
 
 

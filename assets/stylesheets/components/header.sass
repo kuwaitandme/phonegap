@@ -1,0 +1,58 @@
+$headerHeight: 51px
+$subheaderHeight: 200px
+
+main
+	padding-top: $headerHeight
+
+.hide-header
+	main
+		padding-top: 0
+	header
+		display: none
+
+header
+	color: #FFF
+	#mainheader
+		+single-transition
+		background: #3498db
+		height: $headerHeight
+		position: fixed
+		top: 0
+		width: 100%
+		z-index: 1
+
+		-webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.37)
+		-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.37)
+		box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.37)
+
+
+	#subheader
+		+single-transition(bottom)
+		@extend .font-title
+		background: rgba(0,0,0,0.85)
+		border-right: 1px solid #DDD
+		bottom: -100%
+		min-height: 100%
+		position: fixed
+		width: 100%
+		padding-top: $headerHeight
+		.link
+			padding: 15px
+			a
+				text-decoration: none
+				padding-bottom: 3px
+	#nav-grabber
+		@extend .font-awesome
+		color: rgba(0, 0, 0, 0.35)
+		cursor: pointer
+		font-size: 20px
+		padding: 10px 0
+		position: absolute
+		right: 10px
+
+	&.nav-up
+		top: -$headerHeight
+
+body.show-header-sidebar
+	#subheader
+		bottom: 0
