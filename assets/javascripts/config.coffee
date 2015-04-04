@@ -7,6 +7,6 @@ module.exports =
   	applicationVersion: 4
 
   # Ensure this is https .. for blah blah
-  hostname: "http://testing.kuwaitandme.com"
+  hostname: "http://development.kuwaitandme.com"
   localStorage:
     enabled: true

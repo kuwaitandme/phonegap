@@ -14,13 +14,67 @@ module.exports = Backbone.View.extend
 
     @setDOM()
 
+    # window.imagePicker.getPictures (results) ->
+    #     for result in results.length
+    #       console.log "Image URI: #{result}"
+    #   , (error) -> console.log "Error: #{error}"
 
-  render: ->
+    onPhotoURISuccess = (result) =>
+      blob = @dataURLtoBlob "data:image/jpeg;base64,#{result}"
+      blobs = [blob]
+      @model.set 'blobs', blobs
 
+    getPhoto = (source) ->
+      navigator.camera.getPicture onPhotoURISuccess, onPhotoURISuccess,
+        quality: 50
+        sourceType: source
+    getPhoto Camera.PictureSourceType.PHOTOLIBRARY
 
   validate: ->
     @setModel()
     true
+
+  dataURItoBlob: (dataURI) ->
+    # convert base64/URLEncoded data component to raw binary data held in a string
+    if (dataURI.split ',')[0].indexOf('base64') >= 0
+        byteString = atob dataURI.split(',')[1]
+    else
+        byteString = unescape dataURI.split(',')[1]
+
+    window.b = byteString
+    # separate out the mime component
+    mimeString = (dataURI.split ',')[0].split(':')[1].split(';')[0]
+
+    # write the bytes of the string to a typed array
+    ia = new Uint8Array byteString.length
+    for i in [0...byteString.length]
+        ia[i] = byteString.charCodeAt i
+
+    # create the final blob which can be used in file uploads
+    new Blob [ia], type: mimeString
+
+  dataURLtoBlob: (dataURL) ->
+    BASE64_MARKER = ';base64,'
+
+    if dataURL.indexOf(BASE64_MARKER) == -1
+
+      parts = dataURL.split ','
+      contentType = parts[0].split(':')[1]
+      window.b = parts
+      raw = decodeURIComponent parts[1]
+      return new Blob [raw], type: contentType
+
+    parts = dataURL.split BASE64_MARKER
+    contentType = parts[0].split(':')[1]
+    raw = window.atob parts[1]
+    rawLength = raw.length
+
+    uInt8Array = new Uint8Array rawLength
+    i=0
+    while i < rawLength
+      uInt8Array[i] = raw.charCodeAt i
+      ++i
+    new Blob [uInt8Array], type: contentType
 
 
   # Handler function to remove the file from the Uploads queue

@@ -206,7 +206,7 @@
       //- | <br><br> !{__('page.cform.disclaimer')}
 
     .row#ajax-spinner
-      img(src="/images/loader.gif")
+      img(src="images/loader.gif")
 
     .row.post-nav
       .small-6.columns
@@ -218,18 +218,17 @@
   //- The finish page
   section.page.small-11.medium-9.small-centered.columns#page-finish
     .row.title Submitted
-    .row
-      h2 Awesome! Your classified is now up and running!
     .row.hint
-      | You can view it <a href="#" id="finishLink", data-view> here </a>
-      br
-      br
-      //- if robots.guest
-      //-   | Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
-      //-   br
-      //-   br
-      | Bring attention to your classified by sharing on
-    .row.social.hint
+      p
+        b Awesome! Your classified is now up and running!
+      p
+        | Since you posted as a guest, we will have to review your classified before publishing it.
+        | To avoid this delay, simply create an account with the site in your laptop/desktop and then repost your classified.
+      p
+        | You can view your classified <a href="#" id="finishLink", data-view> here </a>
+
+      //- | Bring attention to your classified by sharing on
+    //- .row.social.hint
       a(href="#").facebook
         div &#xf09a;
       a(href="#").twitter

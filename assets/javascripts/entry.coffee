@@ -94,11 +94,16 @@ class Main
 
 ###
 **Main Javascript Execution starts here**
-
 ###
-($ window).ready ->
-  console.log '[foundation] initializing'
-  $this = ($ document)
-  $this.foundation()
+onDeviceReady = ->
+  # Hide splash screen
+  if window.Cordova and navigator.splashscreen
+    navigator.splashscreen.hide()
 
+  # Startup Foundation
+  console.log '[foundation] initializing'
+  ($ document).foundation()
+
+  # Startup the App
   window.App.instance = new Main window.App
+document.addEventListener "deviceready", onDeviceReady, false

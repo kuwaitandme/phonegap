@@ -54,9 +54,9 @@ module.exports = Backbone.View.extend
   # Generates the social links to share the classified (twitter/facebook/gplus)
   # and sets them into the DOM.
   generateSocialLinks: ->
-    authURL = "#{window.location.origin}/guest/#{@model.get '_id'}?authHash=#{@model.get 'authHash'}"
-    URL = "#{window.location.origin}/classified/#{@model.get '_id'}"
-    localURL = "/classified/#{@model.get '_id'}"
+    authURL = "#{window.location.origin}#/guest/#{@model.get '_id'}?authHash=#{@model.get 'authHash'}"
+    URL = "#{window.location.origin}#/classified/#{@model.get '_id'}"
+    localURL = "#{@resources.Config.hostname}/classified/#{@model.get '_id'}"
 
     tweet    = "Check out my classified at #{URL}"
     facebook = "https://www.facebook.com/sharer/sharer.php?u=#{URL}"

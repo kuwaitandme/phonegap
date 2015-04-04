@@ -136,11 +136,13 @@ module.exports = Backbone.Model.extend
     data = @toJSON()
 
     files = data.files
-    delete data.files
+    blobs = data.blobs
+    console.log blobs
+    delete data.blobs
 
     # Populate the formdata with the JSON and the filemeta
     formdata.append 'data', JSON.stringify data
-    for file in files then formdata.append 'files[]', file
+    for file in blobs then formdata.append 'files[]', file, 'blobs.jpeg'
 
     formdata
 
