@@ -1,5 +1,7 @@
 body#classified-post
-  background: url(images/bg/geometry2.png) center center
+  background: url(images/bg/10_image.jpg) center center
+  font-size: 0.9rem
+  color: #666
 
   #ajax-spinner
     position: relative
@@ -10,28 +12,62 @@ body#classified-post
   .prefix
     z-index: 0
   #price-row
-    margin: 0 0 1rem 0
+    margin: 1rem 0
   small.error
     display: none
   .show-error small.error
     display: block
   .seperator
+    background: #ddd
     margin: 0
   .page
     opacity: 0
     display: none
-    margin: 1rem auto
-    padding: 20px 10px
+    margin: 2rem auto
     background: #FFF
     min-height: 100%
-    border: 1px solid #ddd
+    overflow: hidden
+    padding: 0
+
+    -webkit-box-shadow: 0px 0px 36px -7px rgba(0,0,0,0.51);
+    -moz-box-shadow: 0px 0px 36px -7px rgba(0,0,0,0.51);
+    box-shadow: 0px 0px 36px -7px rgba(0,0,0,0.51);
 
     -webkit-border-radius: 3px
     -moz-border-radius: 3px
     border-radius: 3px
 
     > .row
-      margin: 0 0 1rem 0
+      margin: 1rem 0
+      padding: 0 1rem
+      //
+    .title
+      @extend .font-title
+      background: #4F57AA
+      color: #fff
+      padding: 1rem
+      margin-top: 0
+      font-size: 1rem
+
+    .post-nav
+      color: #777
+      font-size: 12px
+      margin: 0
+      padding: 0
+
+      .columns
+        text-transform: uppercase
+        text-align: center
+        border-top: 1px solid #ddd
+        border-right: 1px solid #27ae60
+        background: #2ecc71
+      a
+        display: block
+        padding: 1rem
+        text-decoration: none
+        color: #fff
+        // &:active, &:hover
+          // color: #000
   select, input, textarea
     @extend .font-text
     outline: none
@@ -45,7 +81,7 @@ body#classified-post
     margin-bottom: 0
     width: auto
   .hint
-    padding: 15px 0 30px
+    // padding: 15px 0 30px
     a
       font-weight: bold
       text-decoration: none
@@ -74,14 +110,6 @@ body#classified-post
     position: relative
     height: 400px
     width: 100%
-  .post-nav
-    color: #777
-    font-size: 12px
-    text-transform: uppercase
-    a
-      text-decoration: none
-      &:active, &:hover
-        color: #000
   #image-upload
     background: #f9f9f9
     border: 2px dotted #DDD

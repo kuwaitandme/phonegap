@@ -15,8 +15,7 @@
         | and must be filled.
       | <% }  %>
     | <% } else { %>
-    .row
-      h2 You are about to post a classified!
+    .row.title You are about to post a classified!
     .row.hint
       | Use the 'next' and 'previous' buttons below to navigate
       | between the forms. Fields marked with a '*' are compulsary
@@ -37,26 +36,26 @@
       | <% } %>
     | <% } %>
     .row.post-nav
-      a(href="#page-info", data-page-nav) Next
+      .small-12.columns
+        a(href="#page-info", data-page-nav) Next
 
   //- Form section for basic info
   section.page.small-11.medium-9.small-centered.columns#page-info
-    .row
-      h2 Give the content for your classified
+    .row.title Give the content for your classified
     .row.hint
       | Here you give the title and the content for your classified. Describe your classified
       | giving as much detail as you can!
       br
       | You can mention other details like the price, location, contact info in the next page.
     //- .tab-title #{__('page.cform.title.info')}
-    .row
+    .row.collapse
       .medium-3.columns
         label(for="right-label") Title *
         //-9span.prefix Title
       .medium-9.columns.error
         input#title(type="text", name="title", placeholder="The title for your classified goes here", tooltipp="Choose a title for your classified. The best titles are clear, meaningful and short", required)
         small.error Please give a title
-    .row
+    .row.collapse
       .medium-3.columns
         label(for="right-label") Description *
         //-9span.prefix Title
@@ -66,9 +65,10 @@
 
     //- ul.error-message
     .row.post-nav
-      a(href="#page-begin", data-page-nav) Previous
-      | &nbsp; &middot; &nbsp;
-      a(href="#page-details", data-page-nav) Next
+      .small-6.columns
+        a(href="#page-begin", data-page-nav) Previous
+      .small-6.columns
+        a(href="#page-details", data-page-nav) Next
 
 
   section.page.small-11.medium-9.small-centered.columns#page-details
@@ -154,9 +154,10 @@
 
     ul.error-message
     .row.post-nav
-      a(href="#page-info", data-page-nav) Previous
-      | &nbsp; &middot; &nbsp;
-      a(href="#page-images", data-page-nav) Next
+      .small-6.columns
+        a(href="#page-info", data-page-nav) Previous
+      .small-6.columns
+        a(href="#page-images", data-page-nav) Next
 
 
   //- Form section for photos and videos
@@ -186,9 +187,10 @@
     .row.hint Selected images get displayed above. If you want to remove an image, simply click on it.
 
     .row.post-nav
-      a(href="#page-details", data-page-nav) Previous
-      | &nbsp; &middot; &nbsp;
-      a(href="#page-submit", data-page-nav)#page-4-next Next
+      .small-6.columns
+        a(href="#page-details", data-page-nav) Previous
+      .small-6.columns
+        a(href="#page-submit", data-page-nav)#page-4-next Next
 
 
   section.page.small-11.medium-9.small-centered.columns#page-maps
@@ -216,8 +218,6 @@
     .row.hint Your classified is now ready to be uploaded as soon as you click on the button below.
       //- | <br><br> !{__('page.cform.disclaimer')}
 
-    .row.gcaptcha
-
     .row#ajax-spinner
       img(src="/images/loader.gif")
 
@@ -225,7 +225,8 @@
       input.submit(type="submit", value="Submit")
 
     .row.post-nav
-      a(href="#page-details", data-page-nav)#page-4-prev Previous
+      .small-6.columns
+        a(href="#page-details", data-page-nav)#page-4-prev Previous
 
 
   //- The finish page
