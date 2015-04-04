@@ -12,6 +12,11 @@
   font-weight: normal
   font-style: normal
 
+@font-face
+  font-family: 'Noticia'
+  src: url("fonts/noticia/NoticiaText-Regular.ttf") format("truetype")
+  font-weight: normal
+  font-style: normal
 
 @font-face
   font-family: 'Open Sans Light'
@@ -42,12 +47,15 @@
 .font-awesome
   font-family: FontAwesome
 
+.font-noticia
+  font-family: 'Noticia', serif
+
 // Define CSS text-specific classes
 .font-text
   @extend .font-open
 
 .font-title
-  @extend .font-roboto
+  @extend .font-noticia
 
 .font-thin
   @extend .font-open-light
