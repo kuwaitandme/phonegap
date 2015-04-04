@@ -9,13 +9,13 @@ module.exports = Backbone.Router.extend
     "auth/login(/)"          : "authLogin"
     "auth/logout(/)"         : "authLogout"
     "auth/signup(/)"         : "authSignup"
-    "home/:id(/)"            : "classifiedSingle"
-    "home/:id/edit(/)"       : "classifiedEdit"
-    "home/post(/)"           : "classifiedPost"
-    "home/search(/)"         : "classified"
+    "classified/:id(/)"      : "classifiedSingle"
+    "classified/:id/edit(/)" : "classifiedEdit"
+    "classified/post(/)"     : "classifiedPost"
+    "classified/search(/)"   : "classified"
     "credits(/)"             : "credits"
     "guest/post(/)"          : "guestPost"
-    "home(/)"                : "classified"
+    "home(/)"                : "home"
     "walkthrough(/)"         : "walkthrough"
     "*default"               : "landing"
 
@@ -28,10 +28,11 @@ module.exports = Backbone.Router.extend
   classified:               -> @handleRoute 'classified-search'
   classifiedEdit:   (param) -> @handleRoute 'classified-edit', param
   classifiedPost:           -> @handleRoute 'classified-post'
+  guestPost:                -> @handleRoute 'guest-post'
   classifiedSingle: (param) -> @handleRoute 'classified-single', param
   credits:                  -> @handleRoute 'credits'
   walkthrough:              -> @handleRoute 'walkthrough'
-  home:                     -> @handleRoute 'home'
+  home:                     -> @handleRoute 'classified-search'
   landing:                  -> @handleRoute 'landing'
 
 
@@ -79,7 +80,7 @@ module.exports = Backbone.Router.extend
     if @fallback then return
     state = @getHistoryState()
 
-    console.log @name, 'handling popstate event'
+    console.trace @name, 'handling popstate event'
 
     # If state was defined, then this was a popstate (backward), so reset
     # our index to the index of the popped state.

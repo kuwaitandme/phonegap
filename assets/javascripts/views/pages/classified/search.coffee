@@ -1,4 +1,6 @@
-view = (require '../../mainView');
+imageLoader = (require 'app-helpers').imageLoader
+
+view = require '../../mainView'
 module.exports = view.extend
   ajaxEnable: true
   ajaxLock: false
@@ -10,7 +12,7 @@ module.exports = view.extend
 
   bodyid: 'home'
   name: '[view:classifieds-search]'
-  template: template['home/search']
+  template: template['classified/search']
 
   start: (options) ->
     console.debug @name, 'initializing', options
@@ -56,7 +58,7 @@ module.exports = view.extend
 
     # @collection.isAccount = @isAccount
     # @$classifiedList.masonry()
-    @masonry = new Masonry @$classifiedList[0]
+    @setupMasonry()
 
     if @enableFilterBox then @filterbox.render()
     @$spinner.hide()
@@ -86,7 +88,6 @@ module.exports = view.extend
     @query.page = 0
 
     if @enableFilterBox
-      console.log @name, @enableFilterBox
       # Get the current state from the history API
       currentState = routerController.getHistoryState()
 
@@ -126,7 +127,7 @@ module.exports = view.extend
     if !@ajaxEnable or @ajaxLock then return
 
     console.log @name, 'firing ajax event'
-    if @$classifiedList.height() == 0 or $(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.9
+    if @$classifiedList.height() == 0 or $(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.6
       @ajaxLoadClassifieds()
 
 
@@ -156,7 +157,8 @@ module.exports = view.extend
     # All done. Hide the spinner and disable the lock
     @$spinner.fadeOut();
     @ajaxLock = false
-    console.debug @name, 'adding classifieds', classifieds
+    console.log @name, 'adding classifieds'
+    console.debug @name, classifieds
 
     # Reload Masonry once for all the elements
     @masonry.layout()
@@ -169,20 +171,48 @@ module.exports = view.extend
 
     # Add each classified into the DOM
     for classified in classifieds
-      html = @listTemplate classified.toJSON()
+      json = classified.toJSON()
+
+      if json.images
+        json.image = "#{@resources.Config.hostname}/uploads/thumb/#{json.images[0]}"
+
+      html = @listTemplate json
       elem = $ html
+
+      if json.images then elem.addClass 'image-loading'
+
+      createSuccessHandler = (elem) => =>
+        elem.removeClass 'image-loading'
+        @masonry.layout()
+
+      createFailureHandler = (elem) => =>
+        elem.removeClass 'image-loading'
+        .addClass 'image-failed'
+        @masonry.layout()
+
 
       # Append element into DOM and reload Masonry
       @$classifiedList.append elem
       @masonry.appended elem
       # @$classifiedList.masonry 'appended', elem
 
+      if json.images
+        # Use our special function to load the images. This function ensures
+        # that the images are loaded smoothly, the containers are setup
+        # properly and add the right CSS classes are set for the any effects
+        imageLoader json.image,
+          # This function is called when a image successfully loads. It makes
+          # sure that the *image-loading* class is removed from the parent li
+          # and the masonry layout is reset
+          success: createSuccessHandler elem
+          # This function is called when a image successfully loads. It makes
+          # sure that the *image-loading* class is removed from the parent li
+          # and the *image-failed* class is set. The masonry layout is reset
+          failure: createFailureHandler elem
+          target: @$ "#imagecontainer-#{json._id}"
+
     # Reattach the event handlers for the router
     @resources.router.reattachRouter()
-
-    # Reload Masonry again for every-time a new image has been loaded
-    reloadMasonry = => @masonry.layout()
-    imagesLoaded @$classifiedList, reloadMasonry
 
     # In case we haven't filled up the page, fire the ajax loader again.
     @fireAjaxEvent()

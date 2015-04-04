@@ -11,11 +11,17 @@ subViews =
 module.exports = (require '../../../mainView').extend
   name: '[view:classified-post]'
   title: -> "Post a classified"
+  template: template['classified/post']
 
   events: 'click a[data-page-nav]' : 'clickHandler'
 
   start: (@options) ->
     console.debug @name, 'initializing', @options
+
+    # Check if we are posting as a guest or not
+    # href = window.location.href
+    # urlParts = href.split '/'
+    # if urlParts[3] == 'guest' then @isGuest = true
 
     # Initialize local variables
     @views = {}
@@ -25,9 +31,7 @@ module.exports = (require '../../../mainView').extend
 
 
   continue: ->
-    # Create the model
-    model = app.models.classified
-    @model = new model
+    @getModel()
 
     # Setup listeners and event handlers
     @listenTo @model, 'ajax:done', @onAjaxSuccess
@@ -37,7 +41,14 @@ module.exports = (require '../../../mainView').extend
     @navigate "#page-begin"
 
 
+  checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()
+  redirectUrl: -> '/auth/login?error=need_login'
+
+
   pause: -> (@$ '#g-recaptcha-response').remove()
+
+
+  getModel: -> if not @model? then @model = new @resources.Models.classified
 
 
   # On successful AJAX request to the server navigate to the finish page.
@@ -62,11 +73,11 @@ module.exports = (require '../../../mainView').extend
   # Function to navigate to the view pointed by the href tag
   navigate: (href) ->
     console.log @name, 'navigating to', href
-    that = @
 
     options =
       el: @$ href
       model: @model
+      resources: @resources
 
     # If the view wasn't initialized already, initialize it
     if not @views[href]
@@ -94,11 +105,11 @@ module.exports = (require '../../../mainView').extend
       # Animate, render and switch the DOM elements
       $el = @currentView.$el
       console.debug @name, 'animating previous view', view
-      $el.transition { opacity: 0 }, ->
+      $el.transition { opacity: 0 }, =>
         $el.hide()
-        that.currentView = view
-        that.currentView.render()
-        that.currentView.$el.show().transition opacity: 1
+        @currentView = view
+        @currentView.render()
+        @currentView.$el.show().transition opacity: 1
     else
       # This is the first view, so set the view variable
       @currentView = view

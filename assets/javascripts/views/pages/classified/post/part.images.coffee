@@ -3,14 +3,15 @@ module.exports = Backbone.View.extend
   events: 'click .dz-preview .delete div': 'removeFile'
 
   initialize: (options) ->
-    if options.model then @model = options.model
-    if options.$el   then   @$el = options.$el
+    if options.model     then     @model = options.model
+    if options.$el       then       @$el = options.$el
+    if options.resources then @resources = options.resources
 
     @$filePreview = @$ '#image-upload-preview'
+    @filesToDelete = []
 
     @on "close", @close
 
-    # Initialize the dropzone
     @initDropzone()
 
     @setDOM()
@@ -28,13 +29,22 @@ module.exports = Backbone.View.extend
   removeFile: (event) ->
     # Find the index of the file
     $el = $(event.currentTarget)
-    index = $el.parent().parent().index()
+    $li = $el.parent().parent()
+    src = ($li.find 'img').attr 'alt'
+    index = $li.index()
 
-    # Remove it from the DOM
-    ((@$filePreview.find 'li').eq index).remove()
+    if $li.data 'uploaded'
+      # Set this in our queue of files that have to removed from the
+      # server
+      @filesToDelete.push src
+    else
+      # Remove it from the file Queue
+      for file in @dropzone.files
+        if file.name is src then file.status = 'delete'
 
-    # Remove it from the file Queue
-    @dropzone.files[index].status = 'delete'
+
+    # Remove the thumbnail from the DOM
+    $li.remove()
 
 
   # Initializes the drop-zone
@@ -60,6 +70,14 @@ module.exports = Backbone.View.extend
       </li>'
 
 
+  addImage: (img) ->
+    html = "<li class='dz-preview dz-image-preview' data-uploaded='true'>
+      <img data-dz-thumbnail='' alt='#{img}' src='/uploads/thumb/#{img}'>
+      <div class='font-awesome delete'><div>&#xf00d;</div></div>
+    </li>"
+    @$filePreview.append html
+
+
   setModel: ->
     # Start grabbing the files from the drop-zone
     files = @dropzone.getQueuedFiles()
@@ -69,8 +87,12 @@ module.exports = Backbone.View.extend
     for file in files
       @model.attributes.files.push file
 
+    @model.set 'filesToDelete', @filesToDelete
+
 
   setDOM: ->
+    images = @model.get 'images'
+    for image in images then @addImage image
 
 
   close: ->

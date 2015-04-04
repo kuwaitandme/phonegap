@@ -3,6 +3,7 @@ view   = require '../../mainView'
 
 module.exports = view.extend
   name: "[view:classified-single]"
+  template: template['classified/single']
   messages:
     archived:  'This classified has been deleted'
     banned:    'This classified has been banned by a moderator'
@@ -18,67 +19,65 @@ module.exports = view.extend
   start: (@options = {}) ->
     console.debug @name, 'initializing', @options
 
-    @slideshowTemplate = _.template (@$ '#slideshow-template').html()
-    @singleTemplate    = _.template (@$ '#single-template').html()
+    @slideshowTemplate = template['components/slideshow']
+    @singleTemplate    = template['components/single']
 
     @$gmap      = @$ '#map-canvas'
     @$messages  = @$ "#single-messages"
     if @options.model
       @model = @options.model
-
       @populateDOM()
+
     else
       href = document.URL
-      id = href.substr(href.lastIndexOf('/') + 1)
-      @model = new app.models.classified
+      id = (href.substr (href.lastIndexOf '/') + 1)
+      @model = new @resources.Models.classified
       @listenTo @model, 'sync', @modelChange
 
-      savedClassified = window.data.classified
-
-      if savedClassified and savedClassified._id is id
-        @model.set window.data.classified
-        @populateDOM()
-      else
-        self = @
-        @model.id = id
-        @listenToOnce @model, 'sync', @populateDOM
-        @model.fetch()
+      @model.id = id
+      @listenToOnce @model, 'sync', @populateDOM
+      @model.fetch()
 
 
   continue: ->
     console.log @name, 'continue'
     @$el.fadeIn()
+    ($ document).foundation 'clearing', 'reflow'
 
 
   populateDOM: ->
-    self = @
-
     # Add the main template
-    ($ '.c-content').html @singleTemplate @model.toJSON()
+    modelJSON = @model.toJSON()
+    modelJSON.category = @resources.categories.findWhere({ _id: modelJSON.category })
+    ($ '.c-content').html @singleTemplate modelJSON
 
     # Add the image templates
     images = @model.get 'images'
     (@$ '.c-gallery').hide()
     if images and images.length > 0
-      (@$ '.c-gallery').show().html @slideshowTemplate images: images
+      (@$ '.c-gallery').show().html @slideshowTemplate
+        images: images
+        hostname: @resources.Config.hostname
 
-    (@$ '.page').css 'min-height', ($ window).height()
+    # (@$ '.page').css 'min-height', ($ window).height()
 
+    @$gmap = @$ '#map-canvas'
+    @$gmap.hide()
     # Render google maps
-    init = -> self.initializeGoogleMaps()
-    if not window.gmapInitialized
-      window.gmapInitializeListeners.push init
-    else init()
+    # init = => @initializeGoogleMaps()
+    # if not window.gmapInitialized
+    #   window.gmapInitializeListeners.push init
+    # else init()
 
     @renderAdminbar()
 
 
   modelChange: ->
     @$messages.html ""
-    window.location.hash = ""
+    # window.location.hash = ""
 
     # Display a message based on the classified's status.
-    adminReason = @model.get 'adminReason'
+    moderatorReason = @model.get 'moderatorReason'
     status = @model.get 'status'
     statuses = @model.status
     switch status
@@ -90,14 +89,14 @@ module.exports = view.extend
 
       when statuses.REJECTED
         @addMessage @messages.rejected
-        @addMessage adminReason
+        @addMessage moderatorReason
 
       when statuses.ARCHIVED
         @addMessage @messages.archived
 
       when statuses.BANNED
         @addMessage @messages.banned
-        @addMessage adminReason
+        @addMessage moderatorReason
 
       when statuses.FLAGGED
         @addMessage 'This classified has been reported too many times and is under review'
@@ -120,7 +119,6 @@ module.exports = view.extend
     action = ($form.find "[name='action']").val()
     reason = ($form.find "[name='reason']").val()
 
-    window.a = @model
     switch action
       when 'publish' then @model.set 'status', @model.status.ACTIVE
       when 'archive' then @model.set 'status', @model.status.ARCHIVED
@@ -131,11 +129,11 @@ module.exports = view.extend
       when 'ban'
         @model.set
           status: @model.status.BANNED
-          adminReason: reason
+          moderatorReason: reason
       when 'reject'
         @model.set
           status: @model.status.REJECTED
-          adminReason: reason
+          moderatorReason: reason
       when 'report'
         reports = _.clone @model.get 'reports'
         reports.push reason
@@ -148,10 +146,8 @@ module.exports = view.extend
 
   # Initializes Google maps if required.
   initializeGoogleMaps: ->
-    self = @
-
     # Initializes the map with the latitude and longitude given
-    init = (lat, lng) ->
+    init = (lat, lng) =>
       myLatlng = new google.maps.LatLng lat, lng
       mapOptions =
         center: myLatlng
@@ -161,34 +157,43 @@ module.exports = view.extend
         zoom: 13
 
       # Add the map
-      self.gmap = new google.maps.Map self.$gmap[0], mapOptions
+      @gmap = new google.maps.Map @$gmap[0], mapOptions
 
       # Add the marker
-      self.gmarker = new google.maps.Marker
+      @gmarker = new google.maps.Marker
         position: myLatlng
-        map: self.gmap
-
-    @$gmap = @$ '#map-canvas'
+        map: @gmap
 
     # If there are google co-ordinates saved, load up google maps
     meta = @model.get 'meta'
-    if meta and meta.gmapX and meta.gmapY then init meta.gmapX, meta.gmapY
-    else  @$gmap.hide()
+    if meta and meta.gmapX and meta.gmapY
+      init meta.gmapX, meta.gmapY
+      @$gmap.show()
 
 
   renderAdminbar: ->
-    adminTemplate = _.template (@$ '#admin-template').html()
+    superEditable = false
+    editable = false
 
-    user = app.models.currentUser
-    if user.get 'isAdmin' then superEditable = true
+    # Get the template for the admin bar
+    adminTemplate = template['components/admin-single']
+
+    # Get the currently loggedin user
+    user = @resources.currentUser
+
+    # If this is a guest classified, check the authHash
+    if (@model.get 'guest') and
+    (url.getParam 'authHash') and
+    (location.pathname.split '/')[1] is 'guest' then editable = true
+
+    # Check if the user is the owner or the moderator
     if user.id is @model.get 'owner' then editable = true
-
-    if @model.get 'guest'
-      editable = false
-      # if @model.get
+    if user.get 'isModerator' then superEditable = true
 
     # Add the admin template
     if editable or superEditable
       (@$ '#admin-single').html adminTemplate
+        _id: @model.id
         editable: editable
         superEditable: superEditable
+    else (@$ '#admin-single').hide()

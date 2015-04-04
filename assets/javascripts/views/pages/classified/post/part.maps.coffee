@@ -2,8 +2,9 @@ module.exports = Backbone.View.extend
   name: '[view:classified-post:maps]'
 
   initialize: (options) ->
-    if options.model then @model = options.model
-    if options.$el   then   @$el = options.$el
+    if options.model     then     @model = options.model
+    if options.$el       then       @$el = options.$el
+    if options.resources then @resources = options.resources
 
     @$gmap  = @$ '#map-canvas'
     @$gmapX = @$ '#gmapX'
@@ -13,8 +14,7 @@ module.exports = Backbone.View.extend
     @setDOM()
 
   render: ->
-    self = @
-    init = -> self.initializeGoogleMaps()
+    init = => @initializeGoogleMaps()
 
     # Delete the map if any
     @gmap = null
@@ -37,8 +37,6 @@ module.exports = Backbone.View.extend
 
 
   initializeGoogleMaps: ->
-    self = @
-
     X = @$gmapX.val() or 29.27985
     Y = @$gmapY.val() or 47.98448
 
@@ -61,13 +59,13 @@ module.exports = Backbone.View.extend
 
     # Add a listener to center the map on the marker whenever th
     # marker has been dragged
-    google.maps.event.addListener @gmarker, 'dragend', (event) ->
+    google.maps.event.addListener @gmarker, 'dragend', (event) =>
       # Center the map on the position of the marker
-      latLng = self.gmarker.getPosition()
+      latLng = @gmarker.getPosition()
 
-      self.gmap.setCenter latLng
+      @gmap.setCenter latLng
 
-      self.model.set
+      @model.set
         meta:
           gmapX: latLng.lat()
           gmapY: latLng.lng()

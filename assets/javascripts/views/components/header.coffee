@@ -4,7 +4,7 @@ module.exports = Backbone.View.extend
   events:
     'click #grabber-hide': 'hide'
     'click #grabber-display': 'show'
-    'click ul a': 'hide'
+    'click .link > a': 'toggleHeader'
     'click #nav-grabber' : 'toggleHeader'
 
 

@@ -7,7 +7,6 @@ module.exports = (require '../mainView').extend
 
   start: (@options) ->
     console.debug @name, 'starting', @options
-    if @options.$el then @$el = @options.$el
 
     # Setup DOM variables
     @$keywords = @$ "[name='keywords']"

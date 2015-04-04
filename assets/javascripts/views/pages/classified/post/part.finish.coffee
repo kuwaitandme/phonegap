@@ -17,8 +17,9 @@ module.exports = Backbone.View.extend
     }]
 
   initialize: (options) ->
-    if options.model then @model = options.model
-    if options.$el then  @$el = options.$el
+    if options.model     then     @model = options.model
+    if options.$el       then       @$el = options.$el
+    if options.resources then @resources = options.resources
 
     @on "close", @close
 
@@ -49,31 +50,32 @@ module.exports = Backbone.View.extend
 
   validate: -> true
 
+
   # Generates the social links to share the classified (twitter/facebook/gplus)
   # and sets them into the DOM.
   generateSocialLinks: ->
-    origin = window.location.origin
-    authUrl = "#{origin}/guest/single/#{@model.get '_id'}?authHash=#{@model.get 'authHash'}"
-    url = "#{origin}/classified/single/#{@model.get '_id'}"
+    authURL = "#{window.location.origin}/guest/#{@model.get '_id'}?authHash=#{@model.get 'authHash'}"
+    URL = "#{window.location.origin}/classified/#{@model.get '_id'}"
+    localURL = "/classified/#{@model.get '_id'}"
 
-    tweet = 'Check out my classified at ' + url
-    facebook = 'https://www.facebook.com/sharer/sharer.php?u=' + url
-    twitter = 'https://twitter.com/home?status=' + encodeURI(tweet)
-    gplus = 'https://plus.google.com/share?url=' + url
+    tweet    = "Check out my classified at #{URL}"
+    facebook = "https://www.facebook.com/sharer/sharer.php?u=#{URL}"
+    twitter  = "https://twitter.com/home?status=#{encodeURI tweet}"
+    gplus    = "https://plus.google.com/share?url=#{URL}"
 
-    @$authLink.html authUrl
-    @$authLink   .attr 'href', authUrl
-    @$finishLink .attr 'href', url
+    @$authLink.html            authURL
+    @$authLink   .attr 'href', authURL
+    @$finishLink .attr 'href', localURL
     @$facebook   .attr 'href', facebook
     @$twitter    .attr 'href', twitter
     @$gplus      .attr 'href', gplus
 
 
   parseURL: ->
-    getParam = app.helpers.url.getParam
-    if getParam 'error' then app.error @messages[getParam('error')]
-    if getParam 'success' then app.success @messages[getParam('success')]
-    if getParam 'warn' then app.warn @messages[getParam('warn')]
+    # getParam = @resources.helpers.url.getParam
+    # if getParam 'error'   then app.error @messages[getParam 'error']
+    # if getParam 'success' then app.success @messages[getParam 'success']
+    # if getParam 'warn'    then app.warn @messages[getParam 'warn']
 
 
   managePayment: (e) ->
