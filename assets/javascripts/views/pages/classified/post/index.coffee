@@ -38,7 +38,7 @@ module.exports = (require '../../../mainView').extend
     @listenTo @model, 'post:error', @displayError
 
     console.log @name, 'rendering', @el
-    @navigate "#page-begin"
+    @navigate "#page-images"
 
 
   checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()
@@ -101,6 +101,8 @@ module.exports = (require '../../../mainView').extend
       # If the view's validation function failed, stay in the same view
       if @currentView.validate? and !@currentView.validate()
         return #@navigate(@currentFragment, trigger: false)
+
+      ($ window).scrollTop 0
 
       # Animate, render and switch the DOM elements
       $el = @currentView.$el

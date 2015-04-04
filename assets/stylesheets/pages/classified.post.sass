@@ -50,6 +50,7 @@ body#classified-post
       font-size: 1rem
 
     .post-nav
+      @extend .font-title
       color: #777
       font-size: 12px
       margin: 0
@@ -58,9 +59,8 @@ body#classified-post
       .columns
         text-transform: uppercase
         text-align: center
-        border-top: 1px solid #ddd
-        border-right: 1px solid #27ae60
-        background: #2ecc71
+        border-right: 1px solid rgba(0,0,0,0.2)
+        background: #16a085
       a
         display: block
         padding: 1rem
@@ -73,39 +73,23 @@ body#classified-post
     outline: none
     margin: 0
   label
-    margin-bottom: 5px
+    margin-bottom: 1rem
+    @extend .font-title
   textarea
     min-height: 200px
-  h1
-    display: inline-block
-    margin-bottom: 0
-    width: auto
+  p
+    font-size: 0.9rem
   .hint
+    border-bottom: 1px solid #DDD
     // padding: 15px 0 30px
     a
       font-weight: bold
       text-decoration: none
       border-bottom: 2px solid #E74C3C
       color: #E74C3C
-  // .error {
-  //   border-bottom: 2px solid #E74C3C !important;
-  // }
-  // textarea { min-height: 200px; }
-  .submit
-    @extend .font-title
-    +single-transition(background)
-    background: #2ecc71
-    border: none
-    color: #FFF
-    cursor: pointer
-    font-weight: 400
-    padding: 10px 20px
-    margin: 20px 0
-    width: auto
-    &:hover
-      background: #27ae60
-  .seperator
-    background: #EEE
+    b
+      color: #444
+
   #map-canvas
     position: relative
     height: 400px
@@ -121,10 +105,8 @@ body#classified-post
       border-color: #3498db
   #image-upload-preview
     +clearfix
-    +single-transition(border-color)
-    border: dotted 2px #EEE
-    margin-top: 10px
-    min-height: 50px
+    margin: 0
+    min-height: 1rem
     padding: 0
     &:hover
       border-color: #3498db

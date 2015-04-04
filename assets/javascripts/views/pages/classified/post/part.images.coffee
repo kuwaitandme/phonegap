@@ -12,8 +12,6 @@ module.exports = Backbone.View.extend
 
     @on "close", @close
 
-    @initDropzone()
-
     @setDOM()
 
 
@@ -80,14 +78,14 @@ module.exports = Backbone.View.extend
 
   setModel: ->
     # Start grabbing the files from the drop-zone
-    files = @dropzone.getQueuedFiles()
+    # files = @dropzone.getQueuedFiles()
 
-    # Append each file into the model
-    @model.attributes.files = []
-    for file in files
-      @model.attributes.files.push file
+    # # Append each file into the model
+    # @model.attributes.files = []
+    # for file in files
+    #   @model.attributes.files.push file
 
-    @model.set 'filesToDelete', @filesToDelete
+    # @model.set 'filesToDelete', @filesToDelete
 
 
   setDOM: ->

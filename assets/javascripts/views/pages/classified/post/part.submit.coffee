@@ -14,16 +14,6 @@ module.exports = Backbone.View.extend
     @listenTo @model, 'ajax:error', @ajaxError
     @on "close", @close
 
-    # Generate a random id to put in place of the captcha's id
-    randomId    = Math.floor (Math.random() * 1000)
-    @captchaId  = 'gcaptcha' + randomId
-    @$captcha   = @$ '.gcaptcha'
-    @$captcha.attr 'id', @captchaId
-
-    @renderCaptcha()
-
-  # render: ->
-
 
   # Checks all the required fields in that particular page and prevents the
   # page from scrolling if any of the fields are empty.
@@ -51,19 +41,6 @@ module.exports = Backbone.View.extend
     @$spinner.show()
     # @model.save()
     @model.uploadServer()
-
-
-
-  renderCaptcha: ->
-    console.log @name, 'setting captcha'
-
-    (@$captcha.html "").show()
-    if grecaptcha?
-      if @captcha then grecaptcha.reset @captcha
-      else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
-
-
-  resetCaptcha: -> grecaptcha.reset @captcha
 
 
   ajaxError: (event) ->
