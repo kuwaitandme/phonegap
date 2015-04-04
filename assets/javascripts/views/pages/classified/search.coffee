@@ -158,7 +158,6 @@ module.exports = view.extend
     @$spinner.fadeOut();
     @ajaxLock = false
     console.log @name, 'adding classifieds'
-    console.debug @name, classifieds
 
     # Reload Masonry once for all the elements
     @masonry.layout()

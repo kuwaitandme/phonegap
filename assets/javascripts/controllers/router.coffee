@@ -80,7 +80,7 @@ module.exports = Backbone.Router.extend
     if @fallback then return
     state = @getHistoryState()
 
-    console.trace @name, 'handling popstate event'
+    console.log @name, 'handling popstate event'
 
     # If state was defined, then this was a popstate (backward), so reset
     # our index to the index of the popped state.
