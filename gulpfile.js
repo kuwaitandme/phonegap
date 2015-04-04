@@ -1,11 +1,11 @@
 require('coffee-script/register');
 
 var gulp = require('./gulp')([
-	'coffee',
-	'jade',
-	'sass',
-	'bower',
-	'watch'
+  'coffee',
+  'jade',
+  'sass',
+  'bower',
+  'watch'
 ]);
 
 gulp.task('css', ['sass']);

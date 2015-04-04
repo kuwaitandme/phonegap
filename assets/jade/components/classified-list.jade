@@ -7,13 +7,13 @@
 |}
 |%>
 li.classified.small-6.medium-4.large-3(class!="<%= classes %>")
-  a(href!="#/classified/<%= _id %>", data-view="classified-single")
+  a(href!="#/classified/<%= _id %>")
     .container
       .urgent-banner Urgent
-      .thumb
-        |<% if(images && images.length > 0) { %>
-        img(src!="<%= hostname %>/uploads/thumb/<%= images[0] %>", alt!="<%= title %>")
-        |<% } %>
+      |<% if(images && images.length > 0) { %>
+      .thumb(id!="imagecontainer-<%= _id %>")
+      //- img(src!="<%= hostname %>/uploads/thumb/<%= images[0] %>", alt!="<%= title %>")
+      |<% } %>
       .c-info
         .c-title <%= title %>
         ul.c-meta
