@@ -269,14 +269,14 @@ $font-smoothing: antialiased !default;
 
 // We use these to control text direction settings
 $text-direction: ltr !default;
-$default-float: left !global;
-$opposite-direction: right !global;
+$default-float: left !default;
+$opposite-direction: right !default;
 @if $text-direction == ltr {
-  $default-float: left !global;
-  $opposite-direction: right !global;
+  $default-float: left;
+  $opposite-direction: right;
 } @else {
-  $default-float: right !global;
-  $opposite-direction: left !global;
+  $default-float: right;
+  $opposite-direction: left;
 }
 
 // We use these to make sure border radius matches unless we want it different.
@@ -346,7 +346,7 @@ $cursor-text-value: text !default;
   // Forward slash placed around everything to convince PhantomJS to read the value.
 
   meta.foundation-version {
-    font-family: "/5.5.0/";
+    font-family: "/5.5.1/";
   }
 
   meta.foundation-mq-small {
@@ -449,8 +449,7 @@ $cursor-text-value: text !default;
 
     // Hide visually and from screen readers
     .hide {
-      display: none !important;
-      visibility: hidden;
+      display: none;
     }
 
     // Hide visually and from screen readers, but maintain layout

@@ -1,62 +1,72 @@
 ul.classified-list
   +clearfix
-  border-left: 1px solid #EEE
   margin: 0 auto
-  padding: 0
+  padding: 7px 0
+  // background: #f6f6f6;
   a
     text-decoration: none
+  a:visited
+    color: #BBB
   > li
-    @extend .large-3
-    @extend .medium-6
+    float: left
+    max-width: 250px
     padding: 7px
-    // max-width: #{300 - 15}px;
     .container
-      +single-transition(border-color)
+      +single-transition()
       background: #FFF
       border: 1px solid #DDD
       overflow: hidden
       position: relative
-      -webkit-border-radius: 3px
-      -moz-border-radius: 3px
-      border-radius: 3px
-      -webkit-box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.2)
-      -moz-box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.2)
-      box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.2)
+      -webkit-border-radius: 2px
+      -moz-border-radius: 2px
+      border-radius: 2px
+      -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2)
+      -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2)
+      box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2)
+      &:hover
+        border-color: #000
+        margin-top: -5px
+        color: #000
+        li
+          color: #000
     .heading
       font-size: 20px
     .thumb
       overflow: hidden
       background: #000
       img
+        +single-transition(opacity)
+        opacity: 1
         width: 100%
-        background: #000
+        background: #fff
+    &.image-loading .thumb
+      height: 200px
+      background: #fff
+      img
+        opacity: 0
+    &.image-failed .thumb
+      display: none
+    .c-title, .c-meta
+      padding: 10px
     .c-info
       > ul.c-meta
-        +clearfix
-        color: #999
-        font-size: 13px
+        padding: 5px 10px 10px
+        color: #BBB
+        font-size: 0.6rem
         margin: 0
         > li
           +single-transition(color)
-          float: left
           margin: 0
           padding: 0
-          &:after
-            content: '\b7\a0'
-            padding: 2px
-          &:last-child:after
-            content: ""
           &:hover
-            color: #000
+            color: black
       .c-title
+        +single-transition(color)
         @extend .font-title
-        font-size: 16px
-        line-height: 24px
+        font-size: 0.7rem
+        padding-bottom: 0
         overflow: hidden
-      .c-title, .c-excerpt
-        border-bottom: 1px solid #EEE
-      .c-title, .c-excerpt, .c-meta
-        padding: 10px 20px
+      // .c-title, .c-excerpt { border-bottom: 1px solid #EEE; }
     .urgent-banner
       background: #FA2A00
       color: #FFF
@@ -68,8 +78,6 @@ ul.classified-list
       border: 1px solid #FA2A00
       .urgent-banner
         display: block
-    &:hover
-      border-color: #BBB
   .c-status
     @extend .font-title
     background: green
