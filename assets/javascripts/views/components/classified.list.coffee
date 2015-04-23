@@ -168,6 +168,7 @@ module.exports = Backbone.View.extend
 
       if json.images.length > 0 then json.image = json.images[0]
 
+      _.extend json, @templateOptions
       html = @listTemplate json
       elem = $ html
 

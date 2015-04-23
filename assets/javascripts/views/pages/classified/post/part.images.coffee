@@ -37,7 +37,6 @@ module.exports = Backbone.View.extend
     @files.push the_file
     @addImage imageURI
 
-
   cameraHandle: (event) ->
     event.preventDefault()
     console.log @name, 'Capturing photo from camera'
