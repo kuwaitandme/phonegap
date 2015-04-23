@@ -1,0 +1,51 @@
+.row.header-section
+  h4.columns(lang-html='page.cform.details.title')
+  p.columns(lang-html='page.cform.details.hint1')
+  p.columns(lang-html='page.cform.details.hint2')
+
+.row.page-body
+  .columns
+    select#price-selector(name="price-option", required)
+      option(value="", disabled, selected, lang-html='page.cform.details.price.select')
+      option(value='0', lang-html='page.cform.details.price.free')
+      option(value='-1', lang-html='page.cform.details.price.contact')
+      option(value='1', lang-html='page.cform.details.price.specify')
+    small.error Please choose a price
+
+  .columns.hide
+    input#price-field(type="text", name="price", value=0, required, lang-placeholder='page.cform.details.price.placeholder')
+    small.error Please give a price
+
+  .columns
+    select#ctype(name="type", required)
+      option(value="", disabled, selected, lang-html='page.cform.details.type.select')
+      option(value="0", lang-html='page.cform.details.type.offering')
+      option(value="1", lang-html='page.cform.details.type.wanted')
+    small.error Please choose a type
+
+  .columns
+    select#cat-selector(name="parent-category", required)
+      option(value="", disabled, lang-html='page.cform.details.category.choose')
+    small.error Please choose a category
+
+  .columns
+    select#childcat-selector(name="child-category")
+      option(value="", disabled) Choose a sub-category
+    small.error Please choose a sub-category
+
+  .columns
+    input#email(type="text", name="email", lang-placeholder='page.cform.details.email.placeholder')
+
+  .columns
+    input#phone(type="text", name="phone", lang-placeholder='page.cform.details.phone.placeholder')
+
+  .columns
+    select#locations(name="location")
+      option(value="", disabled, selected, lang-html='page.cform.details.location.select')
+      option(value="", lang-html='page.cform.details.location.select-none')
+
+  .columns#address1.hide
+    input(type="text", name="address1", lang-placeholder='page.cform.details.address1')
+
+  .columns#address2.hide
+    input(type="text", name="address2", lang-placeholder='page.cform.details.address2')

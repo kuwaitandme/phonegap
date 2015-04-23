@@ -1,122 +1,109 @@
-subViews =
-  "#page-begin":   require './part.begin'
-  "#page-details": require './part.details'
-  "#page-finish":  require './part.finish'
-  "#page-images":  require './part.images'
-  "#page-info":    require './part.info'
-  "#page-maps":    require './part.maps'
-  "#page-submit":  require './part.submit'
-
-
-module.exports = (require '../../../mainView').extend
+module.exports = Backbone.View.extend
   name: '[view:classified-post]'
   title: -> "Post a classified"
-  template: template['classified/post']
 
-  events: 'click a[data-page-nav]' : 'clickHandler'
+  template: template['classified/post']
+  templateOptions:
+    isGuest: false
+    hasClassified: false
+
+  subViews:
+    "#page-begin":   require './part.begin'
+    "#page-details": require './part.details'
+    "#page-images":  require './part.images'
+    "#page-info":    require './part.info'
+    "#page-maps":    require './part.maps'
+    "#page-submit":  require './part.submit'
+
+
+  events: 'click .submit' : 'submitHandle'
+
 
   start: (@options) ->
     console.debug @name, 'initializing', @options
-
-    # Check if we are posting as a guest or not
-    # href = window.location.href
-    # urlParts = href.split '/'
-    # if urlParts[3] == 'guest' then @isGuest = true
+    console.log @resources
 
     # Initialize local variables
     @views = {}
     @currentView = null
 
-    @on "close", @close
-
 
   continue: ->
-    @getModel()
+    @getModel =>
+      console.log @name, 'rendering', @el
 
-    # Setup listeners and event handlers
-    @listenTo @model, 'ajax:done', @onAjaxSuccess
-    @listenTo @model, 'post:error', @displayError
+      for href of @subViews
+        subView = @subViews[href]
+        view = new subView el: @$ href
+        view.templateOptions =  @templateOptions
+        view.model =  @model
+        view.trigger 'start'
+        view.trigger 'continue'
+        @views[href] = view
 
-    console.log @name, 'rendering', @el
-    @navigate "#page-finish"
+      @$submit  = @$ '.submit'
+      @$spinner = @$ "#ajax-spinner"
+      @$errorMessages = @$ 'ul.error-message'
+
+      @delegateEvents()
 
 
-  checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()
-  redirectUrl: -> '/auth/login?error=need_login'
-
+  # checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()
+  # redirectUrl: -> "#{@resources.language.urlSlug}/auth/login?error=need_login"
 
   pause: -> (@$ '#g-recaptcha-response').remove()
 
 
-  getModel: -> if not @model? then @model = new @resources.Models.classified
-
-
-  # On successful AJAX request to the server navigate to the finish page.
-  onAjaxSuccess: -> @navigate '#page-finish', trigger: true
+  getModel: (callback) ->
+    if not @model? then @model = new @resources.Models.classified
+    callback()
 
 
   # function to display an error message in the current view
+  removeAllMessages: -> @$errorMessages.hide().html ''
   displayError: (message) ->
-    @currentView.$el.find('ul.error-message')
-      .hide()
-      .append "<li>#{message}</li>"
-      .fadeIn()
+    console.log message
+    @$errorMessages.show().append "<li>#{message}</li>"
 
 
-  # Function to get the view to navigate to from the anchor tag.
-  clickHandler: (event) ->
+  # Sends the AJAX request to the back-end
+  submitHandle: (event) ->
+    console.log @name, 'submitting form', event
     event.preventDefault()
-    href = ($ event.currentTarget).attr 'href'
-    @navigate href
+
+    @removeAllMessages()
+
+    validated = true
+    for view of @views
+      if @views[view].validate?
+        isViewValid = @views[view].validate()
+        validated = isViewValid and validated
+
+    console.log @name, 'validating form', validated
+    if not validated
+      return @displayError 'Some fields have invalid values, please go back and fill them properly'
 
 
-  # Function to navigate to the view pointed by the href tag
-  navigate: (href) ->
-    console.log @name, 'navigating to', href
+    for view of @views
+      if @views[view].setModel? then @views[view].setModel()
 
-    options =
-      el: @$ href
-      model: @model
-      resources: @resources
+    @$submit.hide()
+    @$spinner.show()
+    # @model.save()
+    @model.uploadServer (error, classified) => @onAJAXfinish error, classified
 
-    # If the view wasn't initialized already, initialize it
-    if not @views[href]
-      console.debug @name, 'initializing sub-view:', href
-      subView = subViews[href]
-      @views[href] = new subView options
-      view = @views[href]
-    else
-      console.debug @name, 'reusing sub-view:', href
-      view = @views[href]
 
-    console.debug @name, 'going to sub-view:', view
+  onAJAXfinish: (error, classified={}) ->
+    if error
+      @$spinner.hide()
+      @views["#page-submit"].trigger 'continue'
+      return @displayError error
 
-    # Remove all error messages
-    ($ 'ul.error-message li').remove()
+    if not classified.guest then url = "classified/#{classified._id}/finish"
+    else url = "guest/#{classified._id}/finish?authHash=#{classified.authHash}"
 
-    # If there was a view before this, then performs some tasks before
-    # transitioning to the next view
-    if @currentView
-
-      # If the view's validation function failed, stay in the same view
-      if @currentView.validate? and !@currentView.validate()
-        return #@navigate(@currentFragment, trigger: false)
-
-      ($ window).scrollTop 0
-
-      # Animate, render and switch the DOM elements
-      $el = @currentView.$el
-      console.debug @name, 'animating previous view', view
-      $el.transition { opacity: 0 }, =>
-        $el.hide()
-        @currentView = view
-        @currentView.render()
-        @currentView.$el.show().transition opacity: 1
-    else
-      # This is the first view, so set the view variable
-      @currentView = view
-      @currentView.render()
-      @currentView.$el.show().transition opacity: 1
+    url = "classified/#{classified._id}"
+    @resources.router.redirect "#{@resources.language.urlSlug}/#{url}"
 
 
   # This function not only cleans up this view, but it also cleans up the
@@ -124,12 +111,8 @@ module.exports = (require '../../../mainView').extend
   finish: ->
     # Signal every child view that it's time to close
     for view of @views
-      @views[view].trigger "close"
+      @views[view].trigger "finish"
       @views[view] = null
 
     @currentView = null
     @views = null
-
-    @undelegateEvents()
-    @remove()
-    @unbind()

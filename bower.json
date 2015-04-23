@@ -9,6 +9,7 @@
     "masonry": "~3.2.2",
     "imageloader": "~0.1.4",
     "foundation": "zurb/bower-foundation#~5.5.1",
-    "imagesloaded": "~3.1.8"
+    "imagesloaded": "~3.1.8",
+    "magnific-popup": "~1.0.0"
   }
 }

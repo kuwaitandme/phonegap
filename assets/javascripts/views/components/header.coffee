@@ -1,15 +1,17 @@
 module.exports = Backbone.View.extend
   sliderAnimateWidth: 200
-  template: template['header']
+  template: template['components/header']
   events:
     'click #grabber-hide': 'hide'
     'click #grabber-display': 'show'
-    'click a': 'toggleHeader'
+    'click nav#subheader a': 'toggleHeader'
     'click #nav-grabber' : 'toggleHeader'
+    'click #nav-action .back' : 'handleBackArrow'
 
+  handleBackArrow: -> history.back()
 
-  initialize: (options) ->
-    console.log '[view:header] initializing'
+  start: (options) ->
+    # console.log '[view:header] initializing'
 
     # Initialize DOM variables
     @$navHome      = @$ '#nav-logo'
@@ -20,12 +22,12 @@ module.exports = Backbone.View.extend
     @$sliderNav    = @$ '#slider-nav'
 
     # @listenTo app.models.currentUser, 'sync', @update
-    @render()
-
-
-  render: ->
-    @$el.html @template()
     @scrollHandler()
+    # @render()
+
+
+  # render: ->
+    # @$el.html @template()
 
 
   toggleHeader: -> @$body.toggleClass 'show-header-sidebar'

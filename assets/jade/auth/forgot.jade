@@ -1,8 +1,9 @@
-div.auth-title Forgot your password?
-form
+.auth-title Reset your password
+form(method="POST")
   section
     div
-      input(type="email", name="email", placeholder="email", required)
+      input(type="email", name="email", placeholder="your email", required)#auth-username
     div
-      input(type="submit", value="Send reset email").submit
-ul#error
+      input(type="submit", class="submit", value="Reset your password")
+  .captcha-container
+    .g-recaptcha

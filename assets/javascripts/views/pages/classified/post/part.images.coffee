@@ -1,80 +1,65 @@
 module.exports = Backbone.View.extend
   name: '[view:classified-post:images]'
-  events: 'click .dz-preview .delete div': 'removeFile'
+  template: template['classified/post/images']
 
-  initialize: (options) ->
-    if options.model     then     @model = options.model
-    if options.$el       then       @$el = options.$el
-    if options.resources then @resources = options.resources
+  events:
+    'click .dz-preview .delete div': 'removeFile'
+    'click #camera' : 'cameraHandle'
+    'click #gallery' : 'galleryHandle'
 
+  start: (options) ->
     @$filePreview = @$ '#image-upload-preview'
     @filesToDelete = []
-
-    @on "close", @close
+    @files = []
 
     @setDOM()
 
-    # window.imagePicker.getPictures (results) ->
-    #     for result in results.length
-    #       console.log "Image URI: #{result}"
-    #   , (error) -> console.log "Error: #{error}"
+  b64toBlob: (b64Data, contentType='', sliceSize=512) ->
+    byteCharacters = atob b64Data
+    byteArrays = []
+    offset = 0
 
-    onPhotoURISuccess = (result) =>
-      blob = @dataURLtoBlob "data:image/jpeg;base64,#{result}"
-      blobs = [blob]
-      @model.set 'blobs', blobs
+    while offset < byteCharacters.length
+      slice = byteCharacters.slice offset, offset + sliceSize
+      byteNumbers = new Array slice.length
+      i = 0
+      while i < slice.length
+        byteNumbers[i] = slice.charCodeAt i
+        i++
+      byteArray = new Uint8Array byteNumbers
+      byteArrays.push byteArray
+      offset += sliceSize
+    new Blob byteArrays, type: contentType
 
-    getPhoto = (source) ->
-      navigator.camera.getPicture onPhotoURISuccess, onPhotoURISuccess,
-        quality: 50
-        sourceType: source
-    getPhoto Camera.PictureSourceType.PHOTOLIBRARY
 
-  validate: ->
-    @setModel()
-    true
+  onPhotoURISuccess: (imageURI) ->
+    the_file = @b64toBlob imageURI, 'image/jpeg'
+    @files.push the_file
+    @addImage imageURI
 
-  dataURItoBlob: (dataURI) ->
-    # convert base64/URLEncoded data component to raw binary data held in a string
-    if (dataURI.split ',')[0].indexOf('base64') >= 0
-        byteString = atob dataURI.split(',')[1]
-    else
-        byteString = unescape dataURI.split(',')[1]
 
-    window.b = byteString
-    # separate out the mime component
-    mimeString = (dataURI.split ',')[0].split(':')[1].split(';')[0]
+  cameraHandle: (event) ->
+    event.preventDefault()
+    console.log @name, 'Capturing photo from camera'
 
-    # write the bytes of the string to a typed array
-    ia = new Uint8Array byteString.length
-    for i in [0...byteString.length]
-        ia[i] = byteString.charCodeAt i
+    onFail = (message) -> alert 'Failed because: ' + message
+    onSuccess = (URI) => @onPhotoURISuccess URI
+    navigator.camera.getPicture onSuccess, onFail,
+      quality: 100
+      destinationType: navigator.camera.DestinationType.DATA_URL
+      sourceType: navigator.camera.PictureSourceType.CAMERA
 
-    # create the final blob which can be used in file uploads
-    new Blob [ia], type: mimeString
 
-  dataURLtoBlob: (dataURL) ->
-    BASE64_MARKER = ';base64,'
+  galleryHandle: (event) ->
+    event.preventDefault()
+    console.log @name, 'Capturing photo from gallery'
 
-    if dataURL.indexOf(BASE64_MARKER) == -1
-
-      parts = dataURL.split ','
-      contentType = parts[0].split(':')[1]
-      window.b = parts
-      raw = decodeURIComponent parts[1]
-      return new Blob [raw], type: contentType
-
-    parts = dataURL.split BASE64_MARKER
-    contentType = parts[0].split(':')[1]
-    raw = window.atob parts[1]
-    rawLength = raw.length
-
-    uInt8Array = new Uint8Array rawLength
-    i=0
-    while i < rawLength
-      uInt8Array[i] = raw.charCodeAt i
-      ++i
-    new Blob [uInt8Array], type: contentType
+    onFail = (message) -> alert 'Failed because: ' + message
+    onSuccess = (URI) => @onPhotoURISuccess URI
+    navigator.camera.getPicture onSuccess, onFail,
+      quality: 100
+      destinationType: navigator.camera.DestinationType.DATA_URL
+      sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM
 
 
   # Handler function to remove the file from the Uploads queue
@@ -86,8 +71,7 @@ module.exports = Backbone.View.extend
     index = $li.index()
 
     if $li.data 'uploaded'
-      # Set this in our queue of files that have to removed from the
-      # server
+      # Set this in our queue of files that have to removed from the server
       @filesToDelete.push src
     else
       # Remove it from the file Queue
@@ -99,32 +83,9 @@ module.exports = Backbone.View.extend
     $li.remove()
 
 
-  # Initializes the drop-zone
-  initDropzone: ->
-    Dropzone.autoDiscover = false
-
-    # Create the dropzone
-    $el = ((@$ '#image-upload').eq 0).dropzone url: '/'
-    @dropzone = $el[0].dropzone
-    @dropzone.previewsContainer = @$filePreview[0]
-
-    # Setup each of the custom options for the drop-zone
-    options = @dropzone.options
-    options.autoProcessQueue = false
-    options.paramName = 'files'
-    options.uploadMultiple = true
-    options.previewTemplate = '
-      <li class="dz-preview">\
-        <img data-dz-thumbnail />\
-        <div class="font-awesome delete">\
-          <div>&#xf00d;</div>\
-        </div>
-      </li>'
-
-
-  addImage: (img) ->
+  addImage: (URI) ->
     html = "<li class='dz-preview dz-image-preview' data-uploaded='true'>
-      <img data-dz-thumbnail='' alt='#{img}' src='/uploads/thumb/#{img}'>
+      <img data-dz-thumbnail='' height='100' src='data:image/jpeg;base64,#{URI}'>
       <div class='font-awesome delete'><div>&#xf00d;</div></div>
     </li>"
     @$filePreview.append html
@@ -132,22 +93,16 @@ module.exports = Backbone.View.extend
 
   setModel: ->
     # Start grabbing the files from the drop-zone
-    # files = @dropzone.getQueuedFiles()
+    files = @files
 
-    # # Append each file into the model
-    # @model.attributes.files = []
-    # for file in files
-    #   @model.attributes.files.push file
+    # Append each file into the model
+    @model.attributes.files = []
+    for file in files
+      @model.attributes.files.push file
 
-    # @model.set 'filesToDelete', @filesToDelete
+    @model.set 'filesToDelete', @filesToDelete
 
 
   setDOM: ->
     images = @model.get 'images'
-    for image in images then @addImage image
-
-
-  close: ->
-    @remove()
-    @unbind()
-    @stopListening()
+    for image in images then @addImage image.file

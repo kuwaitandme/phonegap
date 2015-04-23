@@ -1,12 +1,37 @@
-module.exports =
-  # This controls the version of the JS files that are stored in the HTML5
-  # local-storage as cache.
-  jsVersion:
-  	libraryVersion: 1
-  	modelVersion: 2
-  	applicationVersion: 4
+###
+Configuration
+-------------
 
-  # Ensure this is https .. for blah blah
-  hostname: "http://development.kuwaitandme.com"
+This file contains settings for the different components of the App. Any
+changes here will effect the behavior of the App.
+
+###
+module.exports =
+  ###
+  ## jsVersion:
+  This controls the version of the different JS components that are stored in the HTML5
+  local-storage as cache.
+  ###
+  jsVersion: window.jsVersion
+
+  ###
+  ## host:
+  This variable is used to prefix the URL for all AJAX requests. This is useful
+  if we are deploying this App in phonegap and when we need to make CORS
+  requests
+  ###
+  host: "http://kuwaitandme.com"
+
+  ###
+  ## localStorage:
+
+  ###
   localStorage:
+    enabled: true
+
+  ###
+  ## html5Pushstate:
+
+  ###
+  html5Pushstate:
     enabled: true

@@ -1,8 +1,0 @@
-|<% if(images) { %>
-ul.small-block-grid-2.medium-block-grid-4
-  |  <% _.each(images, function(img) {  %>
-  li
-    a(href!="<%= hostname %>/uploads/main/<%= img %>")
-      img.thumb(src!="<%= hostname %>/uploads/thumb/<%= img %>")
-  |  <% }); %>
-|<% } %>

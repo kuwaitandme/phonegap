@@ -1,106 +1,46 @@
-#filter-box
-  $main-color: #16a085
-  // position: absolute;
-  z-index: 1
-  #fb-click-capture
-    background: transparent
-    height: 100%
-    left: 0
-    position: fixed
-    top: 0
-    width: 100%
-    z-index: -1
-  #filter-box-container
-    background: $main-color
-    color: #FFF
-    overflow: hidden
-    // width: 250px;
-    .border
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3)
-    .border-dark
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1)
-    .option
-      padding: 0
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3)
-      border-right: 1px solid rgba(255, 255, 255, 0.3)
-      font-size: 14px
-      .option-title
-        cursor: pointer
-        .icon
-          text-align: center
-          width: 34px
-          display: inline-block
-          padding: 10px
-      .sub-option
-        display: none
-        background: rgba(0, 0, 0, 0.2)
-        padding: 10px
-    #filter-box-keywords
-      margin: 0
-      .keyword-container
-        background: #FFF
-        display: inline-block
-        min-height: 44px
-        width: 100%
-        &:before
-          content: " "
-      .keyword-container
-        padding: 5px
-        +clearfix
-      .keyword
-        background: $main-color
-        color: #FFF
-        cursor: pointer
-        display: inline-block
-        font-size: 14px
-        margin: 3px
-        padding: 3px 6px
-        padding-left: 20px
-        position: relative
-        -webkit-border-radius: 3px
-        -moz-border-radius: 3px
-        border-radius: 3px
-        &:before
-          @extend .font-awesome
-          content: "\f00d"
-          font-size: 10px
-          left: 7px
-          margin-top: -1px
-          padding-right: 5px
-          position: absolute
-          top: 9px
-    .sub-container
-      margin-top: 10px
-      overflow: hidden
-      text-align: center
-      border-radius: 3px
-      -webkit-border-radius: 3px
-      -moz-border-radius: 3px
-    input, select, .input
-      background: #F0f0f0
-      border: none
-      color: #000
-      cursor: pointer
-      display: inline-block
-      font-size: 13px
-      font-weight: 700
-      margin: 0 auto
-      padding: 8px
-      width: 100%
-    input:focus, select:focus, textarea:focus, button:focus
-      outline: none
-    #filter-box-submit, .input
-      +single-transition(background)
-      background: #FFF
-      border: 1px solid #FFF
-      color: $main-color
-      font-weight: 400
-      margin: 15px auto
+#filterbox-icon
+  @extend .font-awesome
+  background: #FF6600
+  bottom: 30px
+  color: #FFF
+  cursor: pointer
+  height: 55px
+  left: 30px
+  padding: 20px
+  position: fixed
+  text-align: center
+  width: 55px
+
+  -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.3)
+  -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.3)
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.3)
+
+  -webkit-border-radius: 200px
+  -moz-border-radius: 200px
+  border-radius: 200px
+#filterbox-modal
+  padding: 0
+  padding-top: 2rem
+  background: #fefefe
+  min-height: 0
+  border: 0
+  border-radius: 0
+  .title
+    float: left
+  label
+    @extend .font-title
+    font-size: 12px
+    padding: 0.7625rem 0
+  input, select
+    font-size: 12px
+    outline: none
+  .keywords
+    position: relative
+    .search-bar
+      border-bottom: 1px solid #EEE
       padding: 10px
-      width: auto
-      -webkit-border-radius: 3px
-      -moz-border-radius: 3px
-      border-radius: 3px
-      &:hover
-        color: #FFF
-        background: $main-color
+      &:active, &:focus
+        outline: none
+  .submit
+    background: #2ecc71
+    width: 100%

@@ -1,15 +1,28 @@
-view = require './post'
+module.exports = (require './post').extend
+  name: '[view:classified-edit]'
+  templateOptions:
+    isGuest: false
+    hasClassified: true
 
-module.exports = view.extend
-  setCategory: (id) ->
-    # First, find the category's properties
-    category = app.helpers.category.find(id)
+  getModel: (callback) ->
+    id = @resources.historyState.parameters
+    urlHelper = @resources.Helpers.url
 
-    # Set the parent category
-    @$parCategory.val category.parent
+    if not @model? then @model = new @resources.Models.classified _id: id
 
-    # Fill the child category, by invoking the event click function
-    @catSelected()
+    authHash = urlHelper.getParam 'authHash'
+    @model.set 'authHash', authHash
 
-    # Set the child category
-    @$subCategory.val category.id
+    @model.fetch success: callback
+
+
+  onAJAXfinish: (error, classified={}) ->
+    if error
+      @$spinner.hide()
+      @views["#page-submit"].trigger 'continue'
+      return @displayError error
+
+    if not @templateOptions.isGuest then url = "classified/#{classified._id}"
+    else url = "guest/#{classified._id}?authHash=#{classified.authHash}"
+
+    @resources.router.redirect "#{@resources.language.urlSlug}/#{url}"

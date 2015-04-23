@@ -1,21 +1,13 @@
 body#classified-single
   background: #FFF
-  .post-nav
-    color: #999
-    font-size: 12px
-    // margin-top: 30px;
-    text-transform: uppercase
-    a
-      text-decoration: none
-      &:hover
-        color: #000
   ul#single-messages
-    padding: 0
-    margin: 0
     @extend .font-title
+    margin: 0
+    padding: 0
     li
-      color: #FFF
       background: #E74C3C
+      color: #FFF
+      font-size: 0.75rem
       padding: 10px
       text-align: center
       &.warning
@@ -24,6 +16,7 @@ body#classified-single
         background: #2ecc71
       &.error
         color: rgba(255, 255, 255, 0.75)
+
   #admin-controls
     border: 1px solid #ff7302
     display: inline-block
@@ -43,8 +36,8 @@ body#classified-single
       +single-transition
       background: #ff7302
       border-radius: 0
-      color: #FFF
       border: 0
+      color: #FFF
       font-weight: 700
       padding-top: 8px
       width: auto
@@ -53,55 +46,87 @@ body#classified-single
         color: #ff7302
   #map-canvas
     height: 400px
+    margin: 20px 0
     max-height: 100%
     width: 100%
   .c-title
     margin-bottom: 1rem
+  .c-meta
+    padding-left: 15px
+    @media only screen and (min-width: 40.063em)
+      border-left: 1px solid #eee
   .c-content
-    margin: 30px auto
+    margin: 0 auto
     width: 95%
     padding-top: 1px
-    margin: 0 auto
+    margin-bottom: 1rem
     h1
       font-size: 40px
-    ul.c-meta
+    .meta
       +clearfix
       color: #000
-      font-size: 12px
+      font-size: 0.8rem
       margin: 0
-      padding: 1rem 0
-      li
-        float: left
-        &:after
-          color: #444
-          content: '\b7\a0'
-          padding: 10px
-        &:last-child:after
-          content: ''
-          padding: 0
-    .c-action
+      margin-bottom: .5rem
+      padding: 0
+      word-wrap: break-word
       a
-        text-decoration: none
+        color: blue
+        border-bottom: 1px solid blue
+
     .c-description
       font-size: 0.8rem
-      // padding-bottom: 100px
+      padding-right: 15px
+      padding-bottom: 2rem
       white-space: pre-wrap
       white-space: -moz-pre-wrap
       white-space: -pre-wrap
       white-space: -o-pre-wrap
       word-wrap: break-word
+
+  .clearing-blackout
+    background: rgba(0, 0, 0, 0.75)
+    .visible-img,  .carousel
+      background: transparent
   .c-gallery
-    margin: 0
-    padding-bottom: 15px
+    margin: 2rem 0
+    padding: 0
     text-align: center
+
     li
-      padding: 0
+      margin: 0
+
+      .th
+        +single-transition(height)
+        width: 100%
+      img
+        width: 100%
+        opacity: 1
+      &.image-loading
+        img
+          opacity: 0
+        .th
+          background: #eee
+          min-height: 100px
   .c-disclaimer
-    color: #999
-    font-size: 10px
-    margin: 25px 0
+    +single-transition(opacity)
+    color: #000
+    font-size: 0.75rem
+    margin-bottom: 1rem
+    opacity: 0.5
+    width: 95%
+
+    &:hover
+      opacity: 1
     a
-      color: inherit
+      color: blue
+      border-bottom: 1px solid blue
+
+  #promptModal
+    textarea
+      border-top: 1px solid #ddd
+    .messages
+      margin: 0
 
 @media print
   .c-gallery
@@ -109,7 +134,5 @@ body#classified-single
     background: #FFF !important
     img
       max-width: 45% !important
-  .page
-    min-height: 0 !important
-  .post-nav, .c-action
-    display: none !important
+  .gmnoprint
+    display:none

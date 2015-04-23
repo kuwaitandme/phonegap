@@ -11,99 +11,134 @@ components that do different things like routing/caching.
 Read the comments at the end of the page if you are trying to trace how the
 application works
 ###
+if not window.App?
 
-###
-## *window.App*
-This variable is particularly important because it contains all the bits and
-pieces of our App. Even the application's running instance!
+  ###
+  ## *window.App*
+  This variable is particularly important because it contains all the bits and
+  pieces of our App. Even the application's running instance!
 
-This variable is made global so that different components of the App have a
-uniformed way of accessing different components/resources.
-###
-window.App =
-  Router: (require "app-controllers").router
-  Cache: (require "app-controllers").cache
-  ViewManager: (require "app-controllers").viewManager
+  This variable is made global so that different components of the App have a
+  uniformed way of accessing different components/resources.
+  ###
+  window.App =
+    Cache:       (require "app-modules").Cache
+    Router:      (require "app-modules").Router
+    ViewManager: (require "app-modules").ViewManager
+    Language:    (require "app-modules").Language
+    External:    (require "app-modules").external
 
-  Resources:
-    Library: require "app-libs"
-    Config: require "app-config"
-    Models: require "app-models"
-    Views: require "app-views"
-  instance: null
+    Resources:
+      Config:     require "app-config"
+      Helpers:    require "app-helpers"
+      Library:    require "app-libs"
+      Models:     require "app-models"
+      Views:      require "app-views"
+    instance:     null
 
 
-class Main
-  constructor: (App) ->
-    @initializeResources()
-    @initializeViews()
-    @initializeListeners()
-    @initializeBackBone()
+  class Main
+    name: "[app]"
 
-  initializeViews: ->
-    @viewManager = new App.ViewManager @resources
+    constructor: (App) ->
+      ($ "#page-loader").hide()
+      @applyBackboneHacks()
 
-  initializeListeners: ->
-    _.extend @, Backbone.Events
+      @initializeListeners()
+      @initializeResources()
+      @initializeViews()
+      @initializeBackBone()
+
+    initializeViews: ->
+      console.log @name, 'initializing views'
+      @viewManager = new App.ViewManager @resources
+
+    initializeListeners: ->
+      console.log @name, 'initializing listeners'
+      _.extend this, Backbone.Events
+
+
+    ###
+    ## *initializeBackBone():*
+
+    ....
+    ###
+    initializeBackBone: ->
+      # Start Backbone history to trigger the different routes and to load
+      # the first route.
+      Backbone.history.start()
+
+
+    applyBackboneHacks: ->
+      console.log @name, 'applying Backbone hacks'
+      # Rewrite backbone sync with our custom sync function. For now add our
+      # little hack to bypass the CSRF token. NOTE that we must find another
+      # way to have CSRF added into every AJAX call without having to making
+      # more than one request.
+      backboneSync = Backbone.sync
+      newSync = (method, model, options) ->
+        options.beforeSend = (xhr) ->
+          # Set the captcha header
+          captcha = ($ '[name="g-recaptcha-response"]').val()
+          if captcha then xhr.setRequestHeader 'x-gcaptcha', captcha
+
+          # Set the CSRF skipper
+          # xhr.setRequestHeader 'x-csrf-skipper'
+        backboneSync method, model, options
+      Backbone.sync = newSync
+
+      newViewProperties = (require "app-views").BackboneView
+      _.extend Backbone.View.prototype, newViewProperties
+
+      newModelProperties = (require "app-models").BackboneModel
+      _.extend Backbone.Model.prototype, newModelProperties
+      _.extend Backbone.Collection.prototype, newModelProperties
+
+
+    initializeResources: ->
+      console.log @name, 'initializing resources'
+      @resources = App.Resources
+
+      @resources.cache       = new App.Cache
+      @resources.categories  = new App.Resources.Models.categories
+      @resources.currentUser = new App.Resources.Models.user
+      @resources.locations   = new App.Resources.Models.locations
+      @resources.language    = new App.Language
+      @resources.router      = new App.Router
+      @resources.external    = App.External
+
+      @resources.currentView           = App.ViewManager.currentView
+      @resources.categories.resources  = @resources
+      @resources.locations.resources   = @resources
+      @resources.currentUser.resources = @resources
+      @resources.router.resources      = @resources
+
+      asyncCounter = 4
+      setAndCheckCounter = =>
+        asyncCounter--
+        if asyncCounter <= 0 then @viewManager.start()
+
+      @listenToOnce @resources.categories, 'synced', setAndCheckCounter
+      @listenToOnce @resources.currentUser, 'synced', setAndCheckCounter
+      @listenToOnce @resources.language, 'synced', setAndCheckCounter
+      @listenToOnce @resources.locations, 'synced', setAndCheckCounter
+
+      @resources.categories.fetch()
+      @resources.currentUser.fetch()
+      @resources.language.fetch()
+      @resources.locations.fetch()
 
 
   ###
-  ## *initializeBackBone():*
+  **Main Javascript Execution starts here**
 
-  This function initialize Backbone by starting the router and modifying it's
-  sync function.
+
   ###
-  initializeBackBone: ->
-    # Rewrite backbone sync with our custom sync function. For now add our
-    # little hack to bypass the CSRF token. NOTE that we must find another
-    # way to have CSRF added into every AJAX call without having to making
-    # more than one request.
-    backboneSync = Backbone.sync
-    newSync = (method, model, options) ->
-      options.beforeSend = (xhr) ->
-        # Set the captcha header
-        captcha = ($ '[name="g-recaptcha-response"]').val()
-        if captcha then xhr.setRequestHeader 'x-gcaptcha', captcha
+  ($ window).ready ->
+    console.log '[foundation] initializing'
+    $this = ($ document)
+    $this.foundation()
 
-        # Set the CSRF skipper
-        xhr.setRequestHeader 'x-csrf-skipper'
-      backboneSync method, model, options
-    Backbone.sync = newSync
+    window.App.instance = new Main window.App
 
-    # Start Backbone history to trigger the different routes and to load
-    # the first route.
-    Backbone.history.start()
-
-
-  initializeResources: ->
-    @resources = App.Resources
-
-    @resources.cache = new App.Cache
-    @resources.categories = new App.Resources.Models.categories
-    @resources.currentUser = new App.Resources.Models.user
-    @resources.locations = new App.Resources.Models.locations
-    @resources.router = new App.Router
-
-    @resources.categories.resources = @resources
-    @resources.locations.resources = @resources
-    @resources.currentUser.resources = @resources
-
-    @resources.categories.fetch()
-    @resources.locations.fetch()
-    @resources.currentUser.fetch()
-
-###
-**Main Javascript Execution starts here**
-###
-onDeviceReady = ->
-  # Hide splash screen
-  if window.Cordova and navigator.splashscreen
-    navigator.splashscreen.hide()
-
-  # Startup Foundation
-  console.log '[foundation] initializing'
-  ($ document).foundation()
-
-  # Startup the App
-  window.App.instance = new Main window.App
-document.addEventListener "deviceready", onDeviceReady, false
+else console.log "[lib] app already defined. stopping re-execution of script"

@@ -1,9 +1,9 @@
-url    = (require 'app-helpers').url
-view   = require '../../mainView'
-
-module.exports = view.extend
+module.exports = Backbone.View.extend
   name: "[view:classified-single]"
   template: template['classified/single']
+  templateOptions:
+    isGuest: false
+
   messages:
     archived:  'This classified has been deleted'
     banned:    'This classified has been banned by a moderator'
@@ -14,67 +14,155 @@ module.exports = view.extend
     unpriv:    'You are not allowed to make such bogus requests'
 
 
-  events: "submit form" : "submitHandle"
+  events:
+    "submit form" : "submitHandle"
+    "click .action" : "actionHandle"
 
   start: (@options = {}) ->
     console.debug @name, 'initializing', @options
-
-    @slideshowTemplate = template['components/slideshow']
     @singleTemplate    = template['components/single']
 
-    @$gmap      = @$ '#map-canvas'
-    @$messages  = @$ "#single-messages"
-    if @options.model
-      @model = @options.model
-      @populateDOM()
+    @$messages          = @$ "#single-messages"
+    @$promptModal       = @$ "#promptModal"
+    @$admin             = @$ '#admin-single'
+    @$content           = @$ '#classified-container'
 
-    else
-      href = document.URL
-      id = (href.substr (href.lastIndexOf '/') + 1)
-      @model = new @resources.Models.classified
-      @listenTo @model, 'sync', @modelChange
+    @model = new @resources.Models.classified
+    @listenTo @model, 'sync', @modelChange
 
-      @model.id = id
-      @listenToOnce @model, 'sync', @populateDOM
-      @model.fetch()
+    _.bindAll this, 'rearrangeGallery'
 
 
   continue: ->
-    console.log @name, 'continue'
-    @$el.fadeIn()
-    ($ document).foundation 'clearing', 'reflow'
+    id = @resources.historyState.parameters
 
+    @model.id = id
+    @listenToOnce @model, 'sync', @populateDOM
+    @model.fetch()
+
+    urlHelpers = @resources.Helpers.url
+    @$el.fadeIn()
+    @modelChange()
+
+    authHash = urlHelpers.getParam 'authHash'
+    @model.set 'authHash', authHash
+
+    ($ document).foundation 'clearing', 'reflow'
+    @renderAdminbar()
+
+    ($ window).on 'resize', @rearrangeGallery
+
+  pause: -> ($ window).off 'resize', @rearrangeGallery
+
+  rearrangeGallery: -> @$gallery.masonry()
 
   populateDOM: ->
+    @model.parseVariables()
+    @title = @model.get 'title'
+    @setTitle()
+
     # Add the main template
-    modelJSON = @model.toJSON()
-    modelJSON.category = @resources.categories.findWhere({ _id: modelJSON.category })
-    ($ '.c-content').html @singleTemplate modelJSON
+    json = @model.toJSON()
+    _.extend json, @templateOptions
+    @$content.html @singleTemplate json
+    @resources.language.translate @$content
+
+    @$gallery = @$ '.c-gallery'
+    @masonry = new Masonry @$gallery[0], itemSelector: 'li'
+    # @$gallery.masonry()
 
     # Add the image templates
     images = @model.get 'images'
-    (@$ '.c-gallery').hide()
-    if images and images.length > 0
-      (@$ '.c-gallery').show().html @slideshowTemplate
-        images: images
-        hostname: @resources.Config.hostname
-
-    # (@$ '.page').css 'min-height', ($ window).height()
+    # @$gallery.hide()n
+    if images and images.length > 0 then @loadImages()
 
     @$gmap = @$ '#map-canvas'
+    @$gmap.css 'max-height', ($ window).height()/2
     @$gmap.hide()
-    # Render google maps
-    # init = => @initializeGoogleMaps()
-    # if not window.gmapInitialized
-    #   window.gmapInitializeListeners.push init
-    # else init()
 
-    @renderAdminbar()
+    # Render google maps
+    if not @gmap?
+      GoogleMaps = new @resources.external.GoogleMaps
+      GoogleMaps.onLoad => @initializeGoogleMaps()
+
+
+  actionHandle: (event) ->
+    $el = $ event.currentTarget
+    action = $el.data 'action'
+
+    finish = =>
+      if @model.hasChanged()
+        @model.save @model.changedAttributes(), patch: true
+
+    switch action
+      when 'publish'
+        @model.set 'status', @model.status.ACTIVE
+        @model.save()
+        finish()
+
+      when 'archive'
+        @model.set 'status', @model.status.ARCHIVED
+        @model.save()
+        finish()
+
+      when 'repost'
+        if @model.get 'guest' then @model.set status: @model.status.INACTIVE
+        else @model.set status: @model.status.ACTIVE
+        @model.save()
+        finish()
+
+      when 'ban'
+        @showPromptModal 'banning', (reason) =>
+          @model.set
+            status: @model.status.BANNED
+            moderatorReason: reason
+          @model.save()
+          finish()
+
+      when 'reject'
+        @showPromptModal 'rejecting', (reason) =>
+          @model.set
+            status: @model.status.REJECTED
+            moderatorReason: reason
+          @model.save()
+          finish()
+
+      when 'report'
+        @showPromptModal 'reporting', (reason) =>
+          reports = _.clone @model.get 'reports'
+          reports.push reason
+          @model.unset "reports", silent: true
+          @model.set reports: reports
+          @model.save()
+          finish()
+
+      when 'edit'
+        if @templateOptions.isGuest
+          url = "guest/#{@model.id}/edit?authHash=#{@model.get 'authHash'}"
+        else
+          url = "classified/#{@model.id}/edit"
+        @resources.router.redirect "#{@resources.language.urlSlug}/#{url}"
+
+
+  showPromptModal: (actionText, callback) ->
+    @$promptModal.foundation 'reveal', 'open'
+    (@$promptModal.find 'h3 span').html actionText
+    $submitButton = @$promptModal.find '.submit'
+    $textarea = @$promptModal.find 'textarea'
+
+    $submitButton.one 'click', (event) =>
+      @$promptModal.foundation 'reveal', 'close'
+      callback $textarea.val()
 
 
   modelChange: ->
+    urlHelpers = @resources.Helpers.url
+    authHash = urlHelpers.getParam 'authHash'
+    @model.set 'authHash', authHash
+
     @$messages.html ""
     # window.location.hash = ""
+    @renderAdminbar()
 
     # Display a message based on the classified's status.
     moderatorReason = @model.get 'moderatorReason'
@@ -167,11 +255,57 @@ module.exports = view.extend
     # If there are google co-ordinates saved, load up google maps
     meta = @model.get 'meta'
     if meta and meta.gmapX and meta.gmapY
-      init meta.gmapX, meta.gmapY
+      # set timeout to prevent weird offset effect
+      setTimeout (-> init meta.gmapX, meta.gmapY), 250
       @$gmap.show()
+
+  loadImages: ->
+    imageLoader = @resources.Library.imageLoader
+
+    $imgs = @$ '[data-src]'
+    total = $imgs.length
+
+    @$gallery.magnificPopup type: 'image', delegate: 'a', gallery: enabled: true
+
+    $imgs.each (i) =>
+      $img = $imgs.eq i
+      $container = $img.parent().parent()
+      src = $img.data 'src'
+
+      $container.addClass 'image-loading'
+      createSuccessHandler = (elem) => =>
+        @masonry.layout()
+        elem.removeClass 'image-loading'
+        .addClass 'image-success'
+        @masonry.layout()
+        if --total is 0 then ($ document).foundation 'clearing', 'reflow'
+
+      createFailureHandler = (elem) => =>
+        elem.removeClass 'image-loading'
+        .addClass 'image-failed'
+        @$gallery.masonry()
+        if --total is 0 then ($ document).foundation 'clearing', 'reflow'
+
+      $img.attr 'src', src
+      @masonry.layout()
+
+      # Use our special function to load the images. This function ensures
+      # that the images are loaded smoothly, the containers are setup
+      # properly and add the right CSS classes are set for the any effects
+      imageLoader src,
+        # This function is called when a image successfully loads. It makes
+        # sure that the *image-loading* class is removed from the parent li
+        # and the masonry layout is reset
+        success: createSuccessHandler $container
+        # This function is called when a image successfully loads. It makes
+        # sure that the *image-loading* class is removed from the parent li
+        # and the *image-failed* class is set. The masonry layout is reset
+        failure: createFailureHandler $container
+        target: $img
 
 
   renderAdminbar: ->
+    urlHelpers = @resources.Helpers.url
     superEditable = false
     editable = false
 
@@ -183,17 +317,19 @@ module.exports = view.extend
 
     # If this is a guest classified, check the authHash
     if (@model.get 'guest') and
-    (url.getParam 'authHash') and
-    (location.pathname.split '/')[1] is 'guest' then editable = true
+    (urlHelpers.getParam 'authHash') and
+    (location.pathname.split '/')[2] is 'guest' then editable = true
 
     # Check if the user is the owner or the moderator
-    if user.id is @model.get 'owner' then editable = true
+    if user.id == @model.get 'owner' then editable = true
     if user.get 'isModerator' then superEditable = true
 
     # Add the admin template
     if editable or superEditable
-      (@$ '#admin-single').html adminTemplate
+      @$admin.show().html adminTemplate
         _id: @model.id
         editable: editable
         superEditable: superEditable
-    else (@$ '#admin-single').hide()
+
+      @resources.language.translate @$admin
+    else @$admin.hide()

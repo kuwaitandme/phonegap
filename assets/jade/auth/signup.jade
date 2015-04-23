@@ -1,0 +1,8 @@
+.row
+  form#signup-form
+    .row.collapse
+      input.columns(type="text", name="fullname", lang-placeholder-dis="page.auth.signup.name", required, placeholder="Full name")#auth-fullname
+      input.columns(type="email", name="username", required, lang-placeholder-dis="page.auth.login.username", placeholder='Email')#auth-username
+      input.columns(type="password", name="password", required, lang-placeholder-dis="page.auth.login.username", placeholder='Password')#auth-password
+      input.columns(type="password", name="password", required, lang-placeholder-dis="page.auth.login.username", placeholder='Re-enter password')#auth-repassword
+      input.columns.submit(type="submit", value='Signup' lang-value-dis="page.auth.login.submit")

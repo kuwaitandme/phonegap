@@ -1,15 +1,19 @@
-ul.categories-list.row.medium-11
-  <% _.each(categories, function(cat) { %>
-  li.columns.large-3.medium-4
+ul.categories-list
+  <% _.each(obj.categories, function(cat) { %>
+  li
     .container
-      .title <%= cat.name %>
+      .image.cat-sprite(class!="<%= cat.classname %>")
+        h1.title <%= cat.name %>
+      .total-count <%= cat.count %> classifieds
       .children
         <% _.each(cat.children, function(child) { %>
         .child
-          a(href!="/classified/search?childcategory=<%= child._id %>", data-view) <%= child.name %>
-          .count 0
+          h2
+            a(href!="#<%= lang.href %>/classified/<%= cat.slug %>/<%= child.slug %>", data-view) <%= child.name %>
+          .count <%= child.count %>
         <% }) %>
         .child
-          a(href!="/classified/search?category=<%= cat._id %>", data-view) View All
-          .count 0
-  <% }) %>
+          h3
+            a(href!="#<%= lang.href %>/classified/<%= cat.slug %>", data-view, lang-html="comp.category.viewall")
+          .count <%= cat.count %>
+  | <% }) %>

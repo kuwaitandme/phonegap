@@ -1,0 +1,93 @@
+body#choose
+  padding: 1px
+  overflow-y: hidden
+
+  #background
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-image: url("images/page-choose/bg.png")
+    background-size: cover
+    z-index: -1
+
+    // -webkit-animation: bodychoose 30s infinite
+    // -webkit-animation-iteration-count: infinite
+    // -webkit-animation-timing-function: linear
+
+    &:before
+      z-index: -1
+      background: -moz-linear-gradient(to bottom,rgba(0, 0, 0, 0.3) 30%,rgba(0, 0, 0, 1) 100%)
+      background: linear-gradient(to bottom,rgba(0, 0, 0, 0.3) 30%,rgba(0, 0, 0, 1) 100%)
+      content: ''
+      height: 100%
+      left: 0
+      position: fixed
+      top: 0
+      width: 100%
+
+
+  @extend .hide-header
+  main
+    padding-top: 2rem
+
+  #logo
+    text-align: center
+
+  h1
+    @extend .font-text
+    font-size: 14px
+    color: #FFF
+    padding: 2rem 0
+    text-shadow: 2px 0px 5px #000
+
+  #choose-box
+    background: #FFF
+    display: inline-block
+    width: 100%
+    max-width: 300px
+    text-align: center
+    margin: 0 auto
+    margin-top: 2rem
+    overflow: hidden
+
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+
+    -webkit-border-radius: 3px
+    -moz-border-radius: 3px
+    border-radius: 3px
+
+    li
+      @extend .font-title-2
+      font-size: 14px
+      text-align: left
+      position: relative
+      a
+        padding: 15px
+        display: block
+        &:hover
+          color: inherit
+      &:nth-child(even)
+        background: #F60
+        color: #FFF
+      &:after
+        @extend .font-awesome
+        content: '\f054'
+        right: 10px
+        top: 15px
+        position: absolute
+  .page
+    #choose-box
+      +single-transition(all, 1000ms)
+      -webkit-animation-timing-function: ease-in-out;
+    #choose-box
+      // margin-top: 200%
+      opacity: 0
+    &.continue
+      #choose-box
+        margin-top: 0
+        opacity: 1
+    // &.pause

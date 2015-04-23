@@ -1,0 +1,114 @@
+ul.categories-list
+  margin: 0 auto
+
+  li
+    max-width: 210px
+    padding: 7px
+
+    .container
+      border: 1px solid #ddd
+      overflow: hidden
+      background: #FFF
+
+      -webkit-border-radius: 3px
+      -moz-border-radius: 3px
+      border-radius: 3px
+
+    .image
+      @extend .font-title
+      background-position: 50% 50%
+      background-size: cover
+      background: #fff
+      color: #FFF
+      cursor: pointer
+      height: 130px
+      position: relative
+      text-align: center
+      text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 0px
+
+      &:after
+        background: -moz-linear-gradient(to bottom,rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
+        content: ''
+        height: 100%
+        left: 0
+        position: absolute
+        top: 0
+        width: 100%
+
+      h1.title
+        color: #FFF
+        font-size: 0.9rem
+        height: 100%
+        left: 0
+        padding-top: 47px
+        position: absolute
+        top: 0
+        width: 100%
+        z-index: 1
+
+    .total-count
+      font-size: 12px
+      text-align: center
+      padding: 5px
+
+    .children
+      +single-transition(height)
+      height: 0
+      overflow: hidden
+    .active
+      .total-count
+        display: none
+    .child
+      border-bottom: 1px solid #EEE
+      font-size: 12px
+      position: relative
+      h2, h3
+        @extend .font-text
+        font-size: 12px
+        margin: 0
+      a
+        display: block
+        padding: 5px 10px
+        width: 80%
+        &:hover
+          color: blue
+          text-decoration: underline
+      .count
+        position: absolute
+        top: 5px
+        color: #999
+        font-size: 12px
+        right: 5px
+      &:nth-child(odd)
+        background: #f6f6f6
+
+    .cat-sprite
+        background-image: url(images/cat-spritesheet.jpg)
+        background-repeat: no-repeat
+        display: block
+        height: 132px
+    .careers
+        background-position: 0 0
+    .pets
+        background-position: -210px 0
+    .community
+        background-position: -420px 0
+    .electronics
+        background-position: -630px 0
+    .general
+        background-position: -840px 0
+    .hobbies
+        background-position: -1050px 0
+    .matrimonial
+        background-position: -1260px 0
+    .miscellaneous
+        background-position: -1470px 0
+    .music
+        background-position: -1680px 0
+    .property
+        background-position: -1890px 0
+    .services
+        background-position: -2100px 0
+    .vehicles
+        background-position: -2310px 0

@@ -1,18 +1,14 @@
 | <% if(superEditable) { %>
-form(method="POST").item
-  input(type="hidden", name="action", value="publish")
-  input(type="submit", value="Publish")
-.item
-  a(href="#reject-modal") Reject
-.item
-  a(href="#ban-modal") Ban
-| <% } else { %>
-form(method="POST").item
-  input(type="hidden", name="action", value="archive")
-  input(type="submit", value="Archive")
-form(method="POST").item
-  input(type="hidden", name="action", value="repost")
-  input(type="submit", value="Re-post")
+.action(data-action='publish', lang-html="admin.single.publish")
+.action(data-action='reject', lang-html="admin.single.reject")
+.action(data-action='ban', lang-html="admin.single.ban")
+.action(data-action='promote', lang-html="admin.single.promote")
+.action(data-action='demote', lang-html="admin.single.demote")
 | <% } %>
-.item
-  a(href!="/classified/<%= _id %>/edit", data-view) Edit
+| <% if(editable) { %>
+.action(data-action='archive', lang-html="admin.single.archive")
+| <% } %>
+.action(data-action='edit', lang-html="admin.single.edit")
+//- .action(data-action='report') Re-post
+//- .action(data-action='report') Make Urgent
+//- .acti(data-action='report')on Promote
