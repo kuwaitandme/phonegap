@@ -1,7 +1,7 @@
 exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   $urlRouterProvider) ->
 
-  # Enable strict mode to allow URLs with trailing slashes
+  # Disable strict mode to allow URLs with trailing slashes
   $urlMatcher.strictMode false
 
   # Helper function to create our routes
@@ -16,7 +16,6 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
         user: ["models.users", (user) -> user.download()]
         location: ["models.locations", (location) -> location.download()]
 
-  _route "index",              ""
   _route "account",            "/account"
   _route "account/manage",     "/account/manage"
   _route "auth",               "/auth"
@@ -29,7 +28,7 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   _route "classified/search",  "/classified/{parent:[^/]+}"
   _route "classified/search",  "/classified/{parent:[^/]+}/{child:[^/]+}"
   _route "classified/single",  "/{slug:[^/]+-[0-9]+}"
-  _route "error/404",          "*page"
+  _route "index",              "*page"
 
 
 exports.$inject = [

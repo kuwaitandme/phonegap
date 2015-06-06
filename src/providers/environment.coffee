@@ -12,7 +12,9 @@ exports = module.exports = -> new class
     ($window, console, $base64) ->
       console.log @name, "initializing"
       console.log @name, "decoding server-side data"
-      config = url: "https://development.kuwaitandme.com"
+      config =
+        url: "https://development.kuwaitandme.com"
+        staticUrl: "https://development.kuwaitandme.com"
       try
         # Decode the cryptedData and extend the properties of the publicData
         # object

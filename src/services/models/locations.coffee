@@ -13,8 +13,8 @@ exports = module.exports = ($environment, $http, $log, $storage) -> new class
 
   # Downloads the location, either from the cache or from API
   download: ->
-    if @locations? then return
     $log.log @name, "downloading locations"
+    if @locations? then return
 
     # A helper function to retrieve the locations from the API
     _fetchFromAPI = =>
@@ -42,6 +42,7 @@ exports = module.exports = ($environment, $http, $log, $storage) -> new class
 
 
 exports.$inject = [
+  "$environment"
   "$http"
   "$log"
   "$storage"

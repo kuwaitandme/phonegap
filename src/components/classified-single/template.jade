@@ -4,7 +4,7 @@
       masonry='{"gutter": 0, "itemSelector": \'li\' }')
       li.small-6.medium-4.large-3.image-loading(ng-repeat="image in classified.images track by $index")
         a(target="_blank",
-          ng-href!="<%= staticUrl %>/uploads/main/{{ image.filename }}",
+          ng-href-dis!="<%= staticUrl %>/uploads/main/{{ image.filename }}",
           ng-style="{background: image.color }",
           fn-ratio="{{ image.height / image.width }}")
           img.thumb(itemprop="image",

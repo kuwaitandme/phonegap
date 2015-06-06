@@ -1,4 +1,5 @@
 [classified-list]
+  +single-transition(all, 0.5s)
   background: #f9f9f9
   margin: 0 auto
   margin-bottom: 30px
@@ -14,16 +15,14 @@
     padding: 20px
     text-align: center
 
-
-
-ul.classified-list
-  +clearfix
-  margin: 0 auto
-  max-width: 100%
-  min-height: 50%
-  a
-    text-decoration: none
-    &:visited
-      color: #000
-  > li
-    padding: 7px
+  .classified-list-container
+    +clearfix
+    margin: 0 auto
+    max-width: 100%
+    min-height: 50%
+    a
+      text-decoration: none
+      &:visited
+        color: #000
+    > li
+      padding: 7px

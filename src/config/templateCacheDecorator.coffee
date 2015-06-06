@@ -8,7 +8,8 @@ exports = module.exports = ($provide) ->
       if not value
         # JST is where my partials and other templates are stored
         # If not already found in the cache, look there...
-        if JST[key]? then value = JST[key] $window.publicData
+        if JST[key]? then value = JST[key]
+          staticUrl: "https://development.kuwaitandme.com"
         if value then $delegate.put key, value
       value
     $delegate
