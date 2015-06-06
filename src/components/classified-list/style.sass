@@ -1,0 +1,29 @@
+[classified-list]
+  background: #f9f9f9
+  margin: 0 auto
+  margin-bottom: 30px
+  .ajax-spinner
+    display: none
+    text-align: center
+    padding: 20px
+
+  .ajax-finish, .ajax-loading
+    @extend .font-title
+    color: #AAA
+    opacity: 0.8
+    padding: 20px
+    text-align: center
+
+
+
+ul.classified-list
+  +clearfix
+  margin: 0 auto
+  max-width: 100%
+  min-height: 50%
+  a
+    text-decoration: none
+    &:visited
+      color: #000
+  > li
+    padding: 7px

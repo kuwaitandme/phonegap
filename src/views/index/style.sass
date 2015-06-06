@@ -1,0 +1,92 @@
+body#index
+  background: #FFF
+  &:before
+    background-image: url(/images/cat-spritesheet.jpg), url(/images/hero/landing.jpg)
+    content: ''
+  main
+    // padding: 0
+    background: transparent
+
+  .cta
+    max-width: 388px
+    margin: 10px auto
+    a
+      +single-transition
+      display: inline-block
+      font-size: 0.8rem
+      text-decoration: none
+      border-bottom: 1px solid #DDD
+      padding: 3px
+      margin: 0 5px
+      &:hover
+        border-bottom: 2px solid #F60
+  // #page-hero:after
+  //   content: ""
+
+  #splash
+    text-align: center
+    // background: url(/images/hero/landing.jpg)
+    padding: 4rem 0
+    .tagline
+      text-align: center
+      padding-bottom: 50px
+      h1
+        @extend .font-open
+        color: #FFF
+        font-size: 2rem
+        font-weight: bold
+        margin: 2rem 0
+        padding: 1rem
+        text-shadow: 1px 1px 2px #000
+      @media only screen and (max-width: 40em)
+        text-align: left
+        padding: 0.9375rem
+        h1
+          max-width: 100%
+
+    h2
+      font-weight: 400
+      font-size: 0.9rem
+      a
+        +single-transition(background)
+        @extend .font-open
+        background: rgba(255, 255, 255, 0.2)
+        border-bottom: #FFF 3px solid
+        color: #fff
+        display: block
+        font-weight: bold
+        padding: 1rem
+        text-align: center
+        text-decoration: none
+        text-shadow: 1px 1px 2px #000
+        width: 100%
+        &:hover, &
+          background: #F60
+          border-color: rgba(0,0,0,0.3)
+          text-shadow: none
+
+  h4
+    font-size: 1.05em
+    text-align: center
+    padding: 1px
+    margin-bottom: 1rem
+  #featured-classifieds
+    padding-top: 20px
+    .classified-list-container
+      margin-top: 0
+    .classified-list,
+      margin: 0
+  #landing-categories
+    padding-top: 60px
+    .categories-list
+      margin: 0
+  #featured-classifieds, #landing-categories
+    > h2
+      @extend .font-roboto
+      background: #FFF
+      color: #000
+      display: inline-block
+      font-size: 0.9rem
+      font-weight: 400
+      margin-bottom: 0
+      padding: 0.5rem 1rem

@@ -3,18 +3,16 @@
 /plugins
 /.cordova
 
-# Sublime files
-*.sublime-project
-*.sublime-workspace
+# tmp
+.tmp
 
 # node files
 /node_modules
 /npm-debug.log
 
 # bower files
-/bower_components
+.bower
 
 # Build files
-www/*.html
 www/*.js
 www/*.css

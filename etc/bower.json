@@ -1,0 +1,30 @@
+{
+  "name": "app",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular-cookies": "1.4",
+    "angular-touch": "1.4",
+    "angular-sanitize": "1.4",
+    "angular-ui-router": "~0.2.13",
+    "angular": "1.4",
+    "masonry": "~3.3.0",
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.5"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4"
+  },
+  "resolutions": {
+    "angular": "1.4"
+  },
+  "overrides": {
+    "outlayer": {
+      "main": [
+        "item.js",
+        "outlayer.js"
+      ]
+    },
+    "socket.io-client": {
+      "main": "socket.io.js"
+    }
+  }
+}

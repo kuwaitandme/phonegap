@@ -1,17 +1,26 @@
-require('coffee-script/register');
+"use strict";
 
-var gulp = require('./gulp')([
-  'coffee',
-  'jade',
-  'sass',
-  'bower',
-  'watch'
-]);
+require("coffee-script/register");
 
-gulp.task('css', ['sass']);
-gulp.task('html', ['jade']);
-gulp.task('js', ['coffee']);
+var dependencies = [
+  "coffee",
+  "docs",
+  "jade",
+  "bower",
+  "sass",
+  "watch"
+];
+
+var gulp = require("./etc/gulp")(dependencies);
 
 
-gulp.task('build', ['js', 'css', 'html', 'bower']);
-gulp.task('default',['build', 'watch']);
+gulp.task("css", ["sass"]);
+gulp.task("css:minified", ["sass:minified"]);
+gulp.task("html", ["jade"]);
+gulp.task("js", ["coffee"]);
+gulp.task("js:minified", ["coffee:minified"]);
+
+gulp.task("minify", ["js:minified", "css:minified"]);
+gulp.task("build", ["js", "css", "html", "bower"]);
+
+gulp.task("default", ["build", "watch"]);

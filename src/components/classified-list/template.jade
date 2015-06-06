@@ -1,0 +1,12 @@
+section(ng-init="index=0")
+  div(classified-cards, ng-if="showCards")
+
+
+  ul.classified-list.row(fn-scroll="onScroll")
+    li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
+      div(classified-list-item,
+        ng-click="onClassifiedClick($index, classified)")
+
+  .ajax-loading(ng-if="loadingClassifieds") Loading classifieds!
+  .ajax-finish(ng-if="queryFinished && classifieds.length > 0") {{ finishMessage }}
+  .ajax-finish(ng-if="queryFinished && classifieds.length == 0") {{ emptyMessage }}

@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.enamakel.kuwaitandme" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-	<name>Kuwait & Me</name>
+<widget id="com.enamakel.kuwaitandme" version="1.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+	<name>Kuwait and Me</name>
 	<description>
 		Browse and post classifieds for free. Kuwait's #1 classifieds app.
 	</description>
-	<author email="support@kuwaitandme.com" href="http://kuwaitandme.com">
+	<author email="webmaster@kuwaitandme.com" href="https://kuwaitandme.com">
 		Kuwait and Me Team
 	</author>
 	<content src="index.html" />
@@ -68,7 +68,8 @@
 	<gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
 	<gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
 	<access origin="https://kuwaitandme.com" />
-	<access origin="http://testing.kuwaitandme.com" />
+	<access origin="https://testing.kuwaitandme.com" />
+	<access origin="https://development.kuwaitandme.com" />
 	<access origin="*" />
 	<feature name="Device">
 		<param name="android-package" value="org.apache.cordova.device.Device" />
