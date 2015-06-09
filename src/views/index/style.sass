@@ -1,7 +1,6 @@
 body#index
   background: #FFF
   &:before
-    background-image: url(/images/cat-spritesheet.jpg), url(/images/hero/landing.jpg)
     content: ''
   main
     // padding: 0
@@ -12,14 +11,18 @@ body#index
     margin: 10px auto
     a
       +single-transition
-      border-bottom: 1px solid #DDD
-      display: inline-block
-      font-size: 0.9rem
+      border: 2px solid #EEE
+      padding: 10px 15px
       margin: 10px
-      padding: 3px
+      display: inline-block
+      font-size: 0.8rem
+      margin: 10px
+
       text-decoration: none
       &:hover
-        border-bottom: 2px solid #F60
+        background: #F60
+        color: #FFF
+        border-color: #f60
   // #page-hero:after
   //   content: ""
 
