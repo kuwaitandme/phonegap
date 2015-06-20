@@ -14,5 +14,5 @@
 .bower
 
 # Build files
-www/*.js
-www/*.css
+www/build/*
+src.old
