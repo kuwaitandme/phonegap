@@ -9,20 +9,16 @@ exports = module.exports = -> new class
     "$window"
     "$log"
     "$base64"
-    ($window, console, $base64) ->
-      console.log @name, "initializing"
-      console.log @name, "decoding server-side data"
-      config =
-        url: "https://development.kuwaitandme.com"
-        staticUrl: "https://development.kuwaitandme.com"
+    ($window, $log, $base64) ->
+      $log.log @name, "initializing"
+      config = {}
       try
         # Decode the cryptedData and extend the properties of the publicData
         # object
-        angular.extend config, $window.publicData,
-          angular.fromJson $base64.decode $window.cryptedData
+        angular.extend config, $window.publicData
         return config
       catch e
-        console.error @name, "error decoding server-side data"
-        console.error e
+        $log.error @name, "error decoding server-side data"
+        $log.error e
         return config
   ]

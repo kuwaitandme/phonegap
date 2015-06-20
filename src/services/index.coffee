@@ -11,11 +11,6 @@ module.exports = (app) ->
   app.service "$notifications",     require "./notifications"
   app.service "$scroller",          require "./scroller"
   app.service "$storage",           require "./storage"
-
-  app.factory "models.categories",  require "./models/categories"
-  app.factory "models.classifieds", require "./models/classifieds"
-  app.factory "models.languages",   require "./models/languages"
-  app.factory "models.locations",   require "./models/locations"
-  app.factory "models.users",       require "./models/users"
+  app.service "$csrf",              require "./csrf"
 
   # app.service "$socket",            require "./socket"

@@ -8,12 +8,13 @@ exports = module.exports = ($root, $log, $storage) ->
   $root.$on "$stateChangeStart",
     (event, toState, toParams, fromState, fromParams) ->
       # $storage.tmp null, null
-      $root.bodyStyles = {}
+      $root.bodyStyles ?= {}
+      $log.log "loading"
       $root.bodyClasses.loading = true
 
       $log.log "[router] switching #{fromState.name} -> #{toState.name}"
       if toState.templateUrl?
-        body.id = toState.controller.replace "/", "-"
+        body.id = toState.controller.replace /\//g, "-"
       setTimeout (-> document.body.scrollTop = 0), 1
 
 
@@ -21,6 +22,4 @@ exports.$inject = [
   "$rootScope"
   "$log"
   "$storage"
-
-  "Google.analytics"
 ]

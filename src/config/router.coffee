@@ -1,7 +1,8 @@
 exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   $urlRouterProvider) ->
 
-  # Disable strict mode to allow URLs with trailing slashes
+
+  # Enable strict mode to allow URLs with trailing slashes
   $urlMatcher.strictMode false
 
   # Helper function to create our routes
@@ -11,24 +12,27 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
       controller: "#{page}"
       templateUrl: "views/#{page}/template"
       url: route
-      resolve:
-        categories: ["models.categories", (category) -> category.download()]
-        user: ["models.users", (user) -> user.download()]
-        location: ["models.locations", (location) -> location.download()]
+      # resolve:
+      #   categories: ["models.categories", (category) -> category.download()]
+      #   user: ["models.users", (user) -> user.download()]
+      #   location: ["models.locations", (location) -> location.download()]
 
-  _route "account",            "/account"
-  _route "account/manage",     "/account/manage"
-  _route "auth",               "/auth"
-  _route "auth/logout",        "/auth/logout"
-  _route "guest/post",         "/guest/post"
-  _route "classified/finish",  "/classified/finish/{id:[0-9]+}"
-  _route "classified/edit",    "/classified/edit/{id:[0-9]+}"
-  _route "classified/post",    "/classified/post"
-  _route "classified/search",  "/classified"
-  _route "classified/search",  "/classified/{parent:[^/]+}"
-  _route "classified/search",  "/classified/{parent:[^/]+}/{child:[^/]+}"
-  _route "classified/single",  "/{slug:[^/]+-[0-9]+}"
-  _route "index",              "*page"
+  _route "index",                       ""
+  _route "index",                       "/"
+  _route "account",                     "/account"
+  _route "account/classifieds",         "/account/classifieds"
+  _route "account/classifieds/single",  "/account/classifieds/{id:[0-9]+}"
+  _route "account/moderate",            "/account/moderate"
+  _route "account/moderate/single",     "/account/moderate/{id:[0-9]+}"
+  _route "auth",                        "/auth"
+  _route "auth/logout",                 "/auth/logout"
+  _route "classified/finish",           "/classified/finish/{id:[0-9]+}"
+  _route "classified/create",           "/classified/create"
+  _route "classified/category",         "/classified"
+  _route "classified/search",           "/classified/{parent:[^/]+}"
+  _route "classified/search",           "/classified/{parent:[^/]+}/{child:[^/]+}"
+  _route "classified/single",           "/{slug:[^/]+}-{id:[0-9]+}"
+  _route "index",                       "*page"
 
 
 exports.$inject = [

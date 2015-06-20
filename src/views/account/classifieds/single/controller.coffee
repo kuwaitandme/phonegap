@@ -3,15 +3,11 @@ $scope, $stateParams, Classifieds) ->
   @name = "[page:account-cl-single]"
   $log.log @name, "initializing"
 
-  staticUrl = $environment.staticUrl
-
-  $scope.heroURL = "landing.jpg"
-  Classifieds.get $stateParams.id, (error, classified) ->
-    for image in classified.images or []
-      image.status = "on-server"
-      image.src = "#{ staticUrl }/uploads/thumb/#{image.filename}"
-    $scope.classified = classified
+  # Fetch the classified from the API
+  Classifieds.get $stateParams.id
+  .then (classified) ->
     $scope.$emit "page-loaded"
+    $scope.classified = classified
 
   # When classified has been edited successfully, redirect to the account page
   $scope.$on "classified-form:submitted", ($event, classified) ->

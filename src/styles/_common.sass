@@ -48,18 +48,20 @@ body
   margin: 0
   position: relative
   .hide-if-loggedin
-    display: block
+    display: block !important
   .show-if-loggedin
-    display: none
+    display: none !important
   &.logged-in
     .show-if-loggedin
-      display: block
+      display: block !important
     .hide-if-loggedin
-      display: none
+      display: none !important
 
 h1, h2, h3, h4, h5, h6
-  @extend .font-title
-  font-weight: 500
+  @extend .font-cantarell
+  font-weight: 400
+h1
+  text-transform: uppercase
 
 // .input, input, textarea, select {
 //   border: 0;
@@ -94,14 +96,22 @@ h1, h2, h3, h4, h5, h6
   overflow: hidden
 
 button
-  @extend font-roboto
   +single-transition
+  +radius(3px)
+  @extend .font-cantarell
   background: #2ecc71
   border: 0
   color: #FFF
-  font-size: 0.8rem
-  padding: 0.5rem 1rem
-  // border-bottom: 3px solid rgba(0,0,0,0.3)
+  cursor: pointer
+  font-size: 0.9rem
+  height: 46px
+  padding: 10px 30px
+  text-transform: uppercase
+  width: 100%
+  z-index: 3
   &:hover, &:focus
     outline: none
-    background: #2cc36b
+    &:after
+      background: #2cc36b
+  &.error
+    background: $color-error

@@ -1,9 +1,10 @@
+name = "[page:auth-logout]"
+
+
 exports = module.exports = ($location, $log, Users) ->
-  @name = "[page:auth-logout]"
-  $log.log @name, "initializing"
+  $log.log name, "initializing"
+  $location.path "/"
   Users.logout()
-  $location.search "_success", "logout"
-  $location.path "/auth"
 
 
 exports.$inject = [

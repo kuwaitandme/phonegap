@@ -1,10 +1,10 @@
-exports = module.exports = ($scope, $stateParams, $googleMaps, console, Classifieds) ->
-  @name = "[page:classified-finish]"
-  console.log @name, "initializing"
-  console.debug @name, "routeParams", $stateParams
+name = "[page:classified-finish]"
+exports = module.exports = ($scope, $stateParams, $log, Classifieds) ->
+  $log.log name, "initializing"
+  $log.debug name, "routeParams", $stateParams
 
-  $scope.heroURL = "landing.jpg"
-  Classifieds.get $stateParams.id, (error, classified) =>
+  Classifieds.get $stateParams.id
+  .then (classified) ->
     $scope.classified = classified
     $scope.$emit "page-loaded"
 
@@ -12,7 +12,6 @@ exports = module.exports = ($scope, $stateParams, $googleMaps, console, Classifi
 exports.$inject = [
   "$scope"
   "$stateParams"
-  "$googleMaps"
   "$log"
 
   "models.classifieds"

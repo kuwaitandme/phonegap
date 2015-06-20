@@ -1,13 +1,13 @@
 .row.collapse(masonry)
   .medium-6.columns
-    h1 Post a classified
+    h1 Create a classified
     p Post a new classified and reach out to a huge your audience. It's super quick and simple.
-    a(href="/classified/post") Post
+    a(href="#/classified/create") Create
 
   .medium-6.columns
     h1 Manage your classifieds
     p Here you can manage all the classifieds you have posted. You can do different things like promoting, editing, deleting etc.
-    a(href="/account/classifieds") Manage
+    a(href="#/account/classifieds") Manage
 
   .medium-6.columns.disabled
     h1 View Statistics
@@ -22,4 +22,4 @@
   .medium-6.columns(ng-if="isModerator")
     h1 Moderate classifieds
     p As a moderator, review classifieds that have been edited/created
-    a(href="/account/moderate") Moderate
+    a(href="#/account/moderate") Moderate
