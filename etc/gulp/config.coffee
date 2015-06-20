@@ -1,18 +1,19 @@
 module.exports =
   coffee:
-    dest: "www"
-    src: "src/entry.coffee"
-    targetFilename: "app.js"
-    targetFilenameMin: "app.js"
+    dest: "www/build"
+    src: [
+      "src/app.coffee"
+      "src/bootstrap.coffee"
+    ]
 
   sass:
-    dest: "www"
+    dest: "www/build"
     src: "src/style.sass"
     targetFilename: "style.css"
     targetFilenameMin: "style.css"
 
   jade:
-    dest: "www"
+    dest: "www/build"
     src: "src/**/*.jade"
     targetFilename: "templates.js"
     targetFilenameMin: "templates.js"
@@ -32,5 +33,5 @@ module.exports =
       src: "src/javascripts/**/*.coffee"
 
   bower:
-    dest: "www"
+    dest: "www/build"
     targetFilename: "libraries.js"

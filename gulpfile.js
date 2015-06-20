@@ -1,26 +1,25 @@
-"use strict";
-
 require("coffee-script/register");
+var runSequence = require("run-sequence");
 
 var dependencies = [
-  "coffee",
-  "docs",
-  "jade",
   "bower",
+  // "docs",
+  "coffee",
+  "jade",
   "sass",
   "watch"
 ];
 
+
 var gulp = require("./etc/gulp")(dependencies);
 
+// gulp.task("build", ["coffee", "sass", "jade", "bower"]);
+gulp.task("build", ["coffee", "sass", "jade"]);
 
-gulp.task("css", ["sass"]);
-gulp.task("css:minified", ["sass:minified"]);
-gulp.task("html", ["jade"]);
-gulp.task("js", ["coffee"]);
-gulp.task("js:minified", ["coffee:minified"]);
+gulp.task("default", function (callback) {
+  runSequence(
+    "build",
+    "watch",
+    callback);
+});
 
-gulp.task("minify", ["js:minified", "css:minified"]);
-gulp.task("build", ["js", "css", "html", "bower"]);
-
-gulp.task("default", ["build", "watch"]);
