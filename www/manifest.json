@@ -225,8 +225,8 @@
     "build/libraries.js",
     "build/style.css",
     "build/templates.js",
-    "build/autoupdate.js",
-    "build/app.js"
+    "build/app.js",
+    "build/autoupdate.js"
   ],
   "version": "5d9b438543ec67fa856a14600c85b72b4327956c"
 }
