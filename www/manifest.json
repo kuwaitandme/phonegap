@@ -4,16 +4,16 @@
       "version": "eca9f2d033b6f2ce404de9c01d8fe4dde5a63779",
       "filename": "build/libraries.js"
     },
-    "autoupdate": {
-      "version": "89bc9fc5e196ba87937b9f3498fa1e83cd8dc07b",
-      "filename": "build/autoupdate.js"
+    "autoupdater": {
+      "version": "656c737de808ce10c177076c55189584aa2d179e",
+      "filename": "build/autoupdater.js"
     },
     "template": {
       "version": "1ca38c4e072982217b260906310792630a44e915",
       "filename": "build/templates.js"
     },
     "app": {
-      "version": "56516f8b6655328fa59eb59a5b9d0b91b279634e",
+      "version": "06dc12d50558abd5954767eff7625498b05ccdce",
       "filename": "build/app.js"
     },
     "style": {
@@ -101,7 +101,7 @@
       "filename": "images/hero/cl-vehicles.jpg"
     },
     "hero/cl-miscellaneous.jpg": {
-      "version": "fad7dde498c38da7c25a32735545a1a64476745f",
+      "version": "089d8d3325b76ff25e11d9a4e8c35a0702a6ec5e",
       "filename": "images/hero/cl-miscellaneous.jpg"
     },
     "hero/cl-matrimonial.jpg": {
@@ -226,7 +226,7 @@
     "build/style.css",
     "build/templates.js",
     "build/app.js",
-    "build/autoupdate.js"
+    "build/autoupdater.js"
   ],
-  "version": "5d9b438543ec67fa856a14600c85b72b4327956c"
+  "version": "f2f0445a1cba40fed403375addc18b7ddbe12778"
 }

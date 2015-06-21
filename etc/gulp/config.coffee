@@ -3,6 +3,7 @@ module.exports =
     dest: "www/build"
     src: [
       "src/app.coffee"
+      "src/autoupdater.coffee"
       "src/bootstrap.coffee"
     ]
 
