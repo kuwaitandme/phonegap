@@ -51,8 +51,8 @@ boot = ->
 # waitAndCheck()
 
 window.publicData =
-  url: "https://kuwaitandme.com"
-  staticUrl: "https://static.kuwaitandme.com"
+  url: "https://development.kuwaitandme.com"
+  staticUrl: "https://cdn.development.kuwaitandme.com"
   google: {}
 
 

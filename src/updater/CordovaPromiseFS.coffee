@@ -1,5 +1,6 @@
 transferQueue = []
 inprogress = 0
+Promise = null
 # currently active filetransfers
 
 ###*
@@ -35,7 +36,6 @@ normalize = (str="") ->
     str += "/"
   if str == "./" then str = ''
   str
-
 
 
 CordovaPromiseFS = module.exports = (options) ->
@@ -319,6 +319,8 @@ CordovaPromiseFS = module.exports = (options) ->
   options.retry ?= []
 
 
+
+
   ### Cordova deviceready promise ###
   deviceready = undefined
   isCordova = cordova?
@@ -338,8 +340,8 @@ CordovaPromiseFS = module.exports = (options) ->
       window.FileTransfer = ->
       FileTransfer::download = (url, file, win, fail) ->
         xhr = new XMLHttpRequest
-        xhr.open 'GET', url
-        xhr.responseType = 'blob'
+        xhr.open "GET", url
+        xhr.responseType = "blob"
 
         xhr.onreadystatechange = (onSuccess, onError, cb) ->
           if xhr.readyState is 4
@@ -352,11 +354,8 @@ CordovaPromiseFS = module.exports = (options) ->
       window.ProgressEvent = ->
       window.FileEntry = ->
 
-    else
-
-      window.requestFileSystem = (x, y, z, fail) ->
-        fail new Error('requestFileSystem not supported!')
-        return
+    else window.requestFileSystem = (x, y, z, fail) ->
+      fail new Error "requestFileSystem not supported!"
 
 
   ### the filesystem! ###

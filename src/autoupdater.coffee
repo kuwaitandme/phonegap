@@ -1,5 +1,5 @@
-window.CordovaPromiseFS = require "./updater/CordovaPromiseFS"
-window.CordovaAppLoader = require "./updater/CordovaAppLoader"
+window.CordovaPromiseFS = PromiseFS = require "./updater/CordovaPromiseFS"
+window.CordovaAppLoader = AppLoader = require "./updater/CordovaAppLoader"
 
 
 # Check for Cordova
@@ -20,11 +20,11 @@ if not serverRoot
   throw new Error "Add a 'server' attribute to the bootstrap.js script!"
 
 # Initialize filesystem and loader
-fs = new CordovaPromiseFS
+fs = new PromiseFS
   persistent: isCordova
   Promise: Promise
 
-loader = new CordovaAppLoader
+loader = new AppLoader
   fs: fs
   localRoot: "./"
   serverRoot: serverRoot
