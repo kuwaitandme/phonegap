@@ -5,7 +5,7 @@
       "filename": "build/libraries.js"
     },
     "autoupdater": {
-      "version": "656c737de808ce10c177076c55189584aa2d179e",
+      "version": "9bd91c79168933c530baa66cda46cd6cb5ab9a51",
       "filename": "build/autoupdater.js"
     },
     "template": {
@@ -13,14 +13,26 @@
       "filename": "build/templates.js"
     },
     "app": {
-      "version": "06dc12d50558abd5954767eff7625498b05ccdce",
+      "version": "56516f8b6655328fa59eb59a5b9d0b91b279634e",
       "filename": "build/app.js"
     },
     "style": {
       "version": "943fd16ed8a13dc24e2a6a25c1c0e7f4a7c9422d",
       "filename": "build/style.css"
     },
-    "header-logo.png": {
+    "images/cat-spritesheet.png": {
+      "version": "e9a62ae5f712f7b3db6a4ddda4182f0687e271cc",
+      "filename": "images/cat-spritesheet.jpg"
+    },
+    "images/hamburger.png": {
+      "version": "fc285b3e5a2272b9182e9c82f7be51ab8329ce01",
+      "filename": "images/hamburger.png"
+    },
+    "images/common-spritesheet.png": {
+      "version": "f6fdc6de5724618db8093f8c90a978949c3e83b0",
+      "filename": "images/common-spritesheet.png"
+    },
+    "images/header-logo.png": {
       "version": "ab194b8e328ce05fa8c0733d3ffe539c484ec06f",
       "filename": "images/header-logo.png"
     }
@@ -32,5 +44,5 @@
     "build/app.js",
     "build/autoupdater.js"
   ],
-  "version": "f2f0445a1cba40fed403375addc18b7ddbe12778"
+  "version": "785cf261f08da7e04b6fd03c39bdd2164a80b137"
 }
