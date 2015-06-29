@@ -20,6 +20,9 @@ module.exports = class CordovaFileCache
   _cached: {}
 
   constructor: (options) ->
+    console.log name, "initializing"
+    console.debug name, options
+
     @_fs = options.fs
     if not @_fs
       throw new Error "Missing required option 'fs'. Add an instance of
@@ -29,8 +32,8 @@ module.exports = class CordovaFileCache
     Promise = @_fs.Promise
 
     # "mirror" mirrors files structure from "serverRoot" to "localRoot"
-    # "hash" creates a 1-deep filestructure, where the filenames are hashed server
-    # urls (with extension)
+    # "hash" creates a 1-deep filestructure, where the filenames are hashed
+    # server urls (with extension)
     @_mirrorMode = options.mode != "hash"
     @_retry = options.retry or [
       500
@@ -129,6 +132,7 @@ module.exports = class CordovaFileCache
         # download every file in the queue (which is the diff from _added with
         # _cached)
         queue.forEach (url) =>
+          console.debug name, "downloading", url
           path = @toPath url
           # augment progress event with index/total stats
           onSingleDownloadProgress = undefined
@@ -192,7 +196,7 @@ module.exports = class CordovaFileCache
     .then => @_fs.ensure @localRoot
 
 
-  ###*
+  ###
   # Helpers to output to various formats
   ###
   toInternalURL: (url) ->

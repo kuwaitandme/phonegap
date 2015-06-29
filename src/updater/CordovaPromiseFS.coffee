@@ -3,6 +3,8 @@ inprogress = 0
 Promise = null
 # currently active filetransfers
 
+name = "[cordova:fileSystem]"
+
 ###*
 # Factory function: Create a single instance (based on single FileSystem)
 ###
@@ -100,7 +102,7 @@ CordovaPromiseFS = module.exports = (options) ->
           Promise.all promises
           .then (values) ->
             entries = []
-            entries = entries.concat.apply(entries, values)
+            entries = entries.concat.apply entries, values
             if onlyFiles
               entries = entries.filter (entry) -> entry.isFile
 
@@ -111,6 +113,7 @@ CordovaPromiseFS = module.exports = (options) ->
               entries = entries.map (entry) -> entry.fullPath
 
             resolve entries
+          .then (e) -> window.b = e
           .catch (e) -> reject e
 
         ), reject
@@ -141,11 +144,11 @@ CordovaPromiseFS = module.exports = (options) ->
     file path
     .then (fileEntry) ->
       new Promise (resolve, reject) ->
-        fileEntry.file ((file) ->
+        fileEntry.file (file) ->
           reader = new FileReader
           reader.onloadend = -> resolve @result
           reader[method] file
-        ), reject
+        , reject
 
 
 
@@ -159,11 +162,12 @@ CordovaPromiseFS = module.exports = (options) ->
 
   ### write contents to a file ###
   write = (path, blob, mimeType) ->
+    console.debug name, "writing to", path
     ensure dirname path
     .then -> file path, create: true
     .then (fileEntry) ->
       new Promise (resolve, reject) ->
-        fileEntry.createWriter ((writer) ->
+        fileEntry.createWriter (writer) ->
           writer.onwriteend = resolve
           writer.onerror = reject
           if typeof blob == "string"
@@ -172,7 +176,7 @@ CordovaPromiseFS = module.exports = (options) ->
             blob = new Blob [ JSON.stringify(blob, null, 4) ],
               type: mimeType or "application/json"
           writer.write blob
-        ), reject
+        , reject
 
 
   ### move a file ###
@@ -260,7 +264,7 @@ CordovaPromiseFS = module.exports = (options) ->
       transferOptions.retry = options.retry
     transferOptions.retry = transferOptions.retry.concat()
     if !transferOptions.file and !isDownload
-      transferOptions.fileName = filename(localPath)
+      transferOptions.fileName = filename localPath
     ft = new FileTransfer
     onprogress = onprogress or transferOptions.onprogress
     if typeof onprogress == "function" then ft.onprogress = onprogress
@@ -301,10 +305,12 @@ CordovaPromiseFS = module.exports = (options) ->
 
 
   download = (url, dest, options, onprogress) ->
+    console.debug name, "downloading", url
     filetransfer true, url, dest, options, onprogress
 
 
   upload = (source, dest, options, onprogress) ->
+    console.log name, "uploading", source
     filetransfer false, dest, source, options, onprogress
 
   if not Promise?
@@ -391,7 +397,7 @@ CordovaPromiseFS = module.exports = (options) ->
     path = normalize path
     type = if options.persistent then "persistent" else "temporary"
     if isCordova
-      if path.indexOf('://') < 0 then "cdvfile://localhost/#{type}/#{path}"
+      if path.indexOf("://") < 0 then "cdvfile://localhost/#{type}/#{path}"
       else path
     else "filesystem:#{location.origin}/#{type}/#{path}"
 
@@ -399,8 +405,10 @@ CordovaPromiseFS = module.exports = (options) ->
   toInternalURL = (path) ->
     file path
     .then (fileEntry) ->
-      if isCordova then fileEntry.toInternalURL()
-      else fileEntry.toURL()
+      console.debug fileEntry.toURL()
+      fileEntry.toURL()
+      # if isCordova then fileEntry.toInternalURL()
+      # else fileEntry.toURL()
 
 
   {

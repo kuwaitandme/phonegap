@@ -1,16 +1,22 @@
 window.CordovaPromiseFS = PromiseFS = require "./updater/CordovaPromiseFS"
 window.CordovaAppLoader = AppLoader = require "./updater/CordovaAppLoader"
 
+name = "[autoupdate]"
 
 # Check for Cordova
-isCordova = typeof cordova != "undefined"
+isCordova = cordova?
 
 # Check > Download > Update
 check = ->
+  console.log name, "checking"
   loader.check()
-  .then -> loader.download()
-  .then -> loader.update()
-  .catch (err) -> console.error "Auto-update error:", err
+  .then ->
+    console.log name, "downloading"
+    loader.download()
+  .then ->
+    console.log name, "updating"
+    loader.update()
+  .catch (err) -> console.error name, "Auto-update error:", err
 
 
 # Get serverRoot from script tag.
@@ -21,7 +27,7 @@ if not serverRoot
 
 # Initialize filesystem and loader
 fs = new PromiseFS
-  persistent: isCordova
+  persistent: false
   Promise: Promise
 
 loader = new AppLoader
@@ -30,6 +36,8 @@ loader = new AppLoader
   serverRoot: serverRoot
   mode: "mirror"
   cacheBuster: true
+
+window.a = fs
 
 # Couple events:
 # 1. On launch

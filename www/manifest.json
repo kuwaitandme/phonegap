@@ -5,7 +5,7 @@
       "filename": "build/libraries.js"
     },
     "autoupdater": {
-      "version": "9bd91c79168933c530baa66cda46cd6cb5ab9a51",
+      "version": "ccf078e144cb6fef4c67c7e2462160d4aa56b977",
       "filename": "build/autoupdater.js"
     },
     "template": {
@@ -13,7 +13,7 @@
       "filename": "build/templates.js"
     },
     "app": {
-      "version": "56516f8b6655328fa59eb59a5b9d0b91b279634e",
+      "version": "79061afc1c110634546bf8fbc0ae807fa99670b6",
       "filename": "build/app.js"
     },
     "style": {
@@ -44,5 +44,5 @@
     "build/app.js",
     "build/autoupdater.js"
   ],
-  "version": "785cf261f08da7e04b6fd03c39bdd2164a80b137"
+  "version": "54e0aa0da8cf6452e7e10879f705cc0782128a6d"
 }

@@ -1,4 +1,4 @@
-console.log "[app] initializing"
+console.log "[app] initializing do"
 app = angular.module "App", [
   # "ngCookies"
   # "ngSanitize"
@@ -27,10 +27,10 @@ boot = ->
   console.log "[app] bootstraping angular"
   html = (document.getElementsByTagName "html")[0]
   body = angular.element (document.getElementsByTagName "body")[0]
-  body.removeClass "initializing"
-  angular.bootstrap html, ["App"]
+  # body.removeClass "initializing"
+  # angular.bootstrap html, ["App"]
 
-  window.BOOTSTRAP_OK = true
+window.BOOTSTRAP_OK = true
 
 
 # Now only boot the angular app, if the JST template has been loaded. Because
@@ -51,10 +51,9 @@ boot = ->
 # waitAndCheck()
 
 window.publicData =
-  url: "https://development.kuwaitandme.com"
-  staticUrl: "https://cdn.development.kuwaitandme.com"
+  url: "https://kuwaitandme.com"
+  staticUrl: "https://static.kuwaitandme.com"
   google: {}
-
 
 if cordova? then document.addEventListener "deviceready", -> boot()
 else boot()

@@ -232,6 +232,7 @@ module.exports = CordovaAppLoader = class
       @_updateReady = true
       @newManifest
     , (files) ->
+      console.error name, "downloading failed", files
       # on download error, remove files...
       if !!files and files.length then self.cache.remove files
       files

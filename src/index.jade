@@ -1,1 +1,24 @@
-index.jade
+doctype html
+html
+head
+    title Phonegap
+    meta(name='viewport', content='width=device-width, maximum-scale=1, user-scalable=no')
+    meta(name='mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
+    meta(http-equiv='Content-Security-Policy', content="default-src * 'unsafe-inline' 'unsafe-eval'")
+    meta(name='format-detection', content='telephone=no')
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    meta(name='msapplication-tap-highlight', content='no')
+    script(type='text/javascript', src='cordova.js')
+
+    // https://github.com/markmarijnissen/cordova-app-loader
+    script(type='text/javascript', timeout='5100', manifest='manifest.json', server='http://192.168.1.100:8000/', src='build/bootstrap.js')
+
+  body.initializing(id='{{ bodyid }}', ng-class='bodyClasses', ng-style='bodyStyles')
+    header
+    section(auth)
+    section(notifications)
+    main(ui-view)
+    #page-loader
+      #page-loading-bar

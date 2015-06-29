@@ -9,10 +9,11 @@ loadManifest = (manifest, fromLocalStorage, timeout=10000) ->
   # it will delete the "localStorage" version and revert to factory settings.
   # Load Scripts
   loadScripts = ->
+    console.log name, "loading scripts from", manifest.root
     scripts.forEach (src) ->
       if not src then return
       console.log name, "loading", src
-      # Ensure the "src" has no "/" (it"s in the root already)
+      # Ensure the "src" has no "/" (it's in the root already)
       if src[0] is "/" then src = src.substr 1
 
       src = "#{manifest.root}#{src}"
@@ -34,8 +35,8 @@ loadManifest = (manifest, fromLocalStorage, timeout=10000) ->
     setTimeout (->
       if not window.BOOTSTRAP_OK
         console.warn "BOOTSTRAP_OK !== true; Resetting to original manifest.json..."
-        localStorage.removeItem "manifest"
-        location.reload()
+        # localStorage.removeItem "manifest"
+        # location.reload()
     ), timeout
 
   if not manifest.load
