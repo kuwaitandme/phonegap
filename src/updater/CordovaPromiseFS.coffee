@@ -405,10 +405,10 @@ CordovaPromiseFS = module.exports = (options) ->
   toInternalURL = (path) ->
     file path
     .then (fileEntry) ->
-      console.debug fileEntry.toURL()
-      fileEntry.toURL()
-      # if isCordova then fileEntry.toInternalURL()
-      # else fileEntry.toURL()
+      # console.debug fileEntry.toURL()
+      # fileEntry.toURL()
+      if isCordova then fileEntry.toInternalURL()
+      else fileEntry.toURL()
 
 
   {

@@ -72,10 +72,12 @@
     <access origin="https://app.kuwaitandme.com" />
     <access origin="https://testing.kuwaitandme.com" />
     <access origin="https://development.kuwaitandme.com" />
+    <access origin="cdvfile://*" />
     <access origin="*" />
     <allow-navigation href="http://*/*" />
     <allow-navigation href="https://*/*" />
     <allow-navigation href="data:*" />
+    <allow-navigation href="*://*/*"/>
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>

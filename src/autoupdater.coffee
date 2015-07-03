@@ -37,7 +37,7 @@ loader = new AppLoader
   mode: "mirror"
   cacheBuster: true
 
-window.a = fs
+# window.a = fs
 
 # Couple events:
 # 1. On launch

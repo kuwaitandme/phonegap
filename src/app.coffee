@@ -27,8 +27,8 @@ boot = ->
   console.log "[app] bootstraping angular"
   html = (document.getElementsByTagName "html")[0]
   body = angular.element (document.getElementsByTagName "body")[0]
-  # body.removeClass "initializing"
-  # angular.bootstrap html, ["App"]
+  body.removeClass "initializing"
+  angular.bootstrap html, ["App"]
 
 window.BOOTSTRAP_OK = true
 

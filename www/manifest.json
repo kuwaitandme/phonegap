@@ -5,11 +5,11 @@
       "filename": "build/libraries.js"
     },
     "autoupdater": {
-      "version": "ccf078e144cb6fef4c67c7e2462160d4aa56b977",
+      "version": "2f224c924932f4395fe3eeb127ef99dc66a0e02d",
       "filename": "build/autoupdater.js"
     },
     "template": {
-      "version": "1ca38c4e072982217b260906310792630a44e915",
+      "version": "ce7c3b50ab41d5c593681f46981d31405ff8b4ad",
       "filename": "build/templates.js"
     },
     "app": {
@@ -17,7 +17,7 @@
       "filename": "build/app.js"
     },
     "style": {
-      "version": "943fd16ed8a13dc24e2a6a25c1c0e7f4a7c9422d",
+      "version": "ed51f7fbca4aa2ea07949462a2ee97e8f4f8d762",
       "filename": "build/style.css"
     },
     "images/cat-spritesheet.png": {
@@ -44,5 +44,5 @@
     "build/app.js",
     "build/autoupdater.js"
   ],
-  "version": "54e0aa0da8cf6452e7e10879f705cc0782128a6d"
+  "version": "0da2f689a925cbd378ed96ac8a94a1e0c4b953ee"
 }

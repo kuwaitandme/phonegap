@@ -73,6 +73,7 @@ module.exports = CordovaAppLoader = class
     .forEach (key) ->
       files[key].filename = normalize files[key].filename
       result[files[key].filename] = files[key]
+    console.debug name, "filemap", result
     result
 
   copyFromBundle: (file) ->
@@ -91,6 +92,8 @@ module.exports = CordovaAppLoader = class
       else
         pegasus bundledManifestUrl
         .then (bundledManifest) =>
+          console.log name, "downloaded bundled manifest from #{bundledManifestUrl}"
+          console.debug name, bundledManifest
           @bundledManifest = bundledManifest
           resolve bundledManifest
         , reject
@@ -102,18 +105,19 @@ module.exports = CordovaAppLoader = class
     Use this function to check the server and download a new manifest file.
   ###
   check: (newManifest) ->
+    console.log name, "checking"
     self = this
     manifest = @manifest
 
-    if typeof newManifest == 'string'
+    if typeof newManifest == "string"
       @newManifestUrl = newManifest
       newManifest = undefined
 
     gotNewManifest = new Promise (resolve, reject) =>
       if typeof newManifest == "object" then resolve newManifest
       else
-        pegasus @newManifestUrl
-        .then resolve, reject
+        console.log name, "downloading new manifest from #{@newManifestUrl}"
+        pegasus(@newManifestUrl).then resolve, reject
         setTimeout (-> reject new Error "new manifest timeout")
         , @_checkTimeout
 
@@ -127,6 +131,7 @@ module.exports = CordovaAppLoader = class
         newManifest = values[0]
         bundledManifest = values[1]
         newFiles = hash newManifest.files
+
         # Prevent end-less update loop, check if new manifest
         # has been downloaded before (but has failed)
         # Check if the newFiles match the previous files (last_update_files)
@@ -140,9 +145,12 @@ module.exports = CordovaAppLoader = class
             console.warn "New manifest available, but an earlier update attempt
               failed. Will not download."
             @corruptNewManifest = true
-            resolve null
-          # Yes, we've updated and we've succeeded.
-          return resolve false
+            resolve()
+          else
+            console.log name, "(remote/local) manifest files are the same."
+            console.log name, "There is nothing to download"
+            # Yes, we've updated and we've succeeded.
+            return resolve false
 
         # Check if new manifest is valid
         if not newManifest.files
@@ -153,15 +161,21 @@ module.exports = CordovaAppLoader = class
 
         # files in cache
         oldFiles = @_createFilemap manifest.files
+        console.log name, "mapping cached files"
+        console.debug name, oldFiles
 
         # files in current manifest
         newFiles = @_createFilemap newManifest.files
+        console.log name, "current files"
+        console.debug name, newFiles
 
         # files in new manifest
         bundledFiles = @_createFilemap bundledManifest.files
+        console.log name, "bundled files"
+        console.debug name, bundledFiles
 
         # files in app bundle
-        # Create COPY and DOWNLOAD lists
+        # Create COPY, DELETE and DOWNLOAD lists
         @_toBeDownloaded = []
         @_toBeCopied = []
         @_toBeDeleted = []
@@ -175,9 +189,12 @@ module.exports = CordovaAppLoader = class
           # bundled version matches new version, so we can copy!
           if isCordova and bundledFiles[file] and
           bundledFiles[file].version == newFiles[file].version
+            console.log name, "file up-to-date:", file
             @_toBeCopied.push file
-            # othwerwise, we must download
-          else @_toBeDownloaded.push file
+          # othwerwise, we must download
+          else
+            console.log name, "new file to download:", file
+            @_toBeDownloaded.push file
 
         # Delete files
         @_toBeDeleted = cachedFiles.map (file) =>
@@ -188,6 +205,8 @@ module.exports = CordovaAppLoader = class
           @_toBeCopied.indexOf(file) >= 0
 
         changes = @_toBeDeleted.length + @_toBeDownloaded.length
+        console.log name, "#{changes} change(s) to be applied"
+
         # Note: if we only need to copy files, we can keep serving from bundle!
         # So no update is needed!
         if changes > 0
@@ -196,7 +215,8 @@ module.exports = CordovaAppLoader = class
           @newManifest.root = @cache.localInternalURL
           resolve true
         else resolve false
-      , reject
+
+      .catch reject
 
 
   canDownload: -> !!@newManifest and !@_updateReady
@@ -207,6 +227,7 @@ module.exports = CordovaAppLoader = class
 
   download: (onprogress) ->
     if !@canDownload() then return new Promise (resolve) -> resolve null
+    console.log name, "downloading"
 
     # we will delete files, which will invalidate the current manifest...
     localStorage.removeItem "manifest"
@@ -240,6 +261,7 @@ module.exports = CordovaAppLoader = class
 
   update: (reload) ->
     if @_updateReady
+      console.log name, "updating"
       # update manifest
       localStorage.setItem "manifest", JSON.stringify @newManifest
       if reload != false then location.reload()
