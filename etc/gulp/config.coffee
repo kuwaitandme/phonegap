@@ -14,6 +14,10 @@ module.exports =
     targetFilenameMin: "style.css"
 
   jade:
+    dest: "www/"
+    src: "src/index.jade"
+
+  templates:
     dest: "www/build"
     src: "src/**/*.jade"
     targetFilename: "templates.js"
@@ -22,7 +26,8 @@ module.exports =
   watch:
     jsPattern: "src/**/*.coffee"
     cssPattern: "src/**/*.{sass,scss}"
-    jadePattern: "src/**/*.jade"
+    jadePattern: "src/index.jade"
+    templatesPattern: "src/**/*.jade"
 
   docs:
     hostname: "http://localhost:8000"
@@ -36,3 +41,6 @@ module.exports =
   bower:
     dest: "www/build"
     targetFilename: "libraries.js"
+
+  run:
+    cmd: "npm run-script post-gulp"
