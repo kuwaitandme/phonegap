@@ -15,4 +15,5 @@
 
 # Build files
 www/build/*
+www/index.html
 src.old
