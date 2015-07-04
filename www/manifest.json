@@ -9,20 +9,56 @@
       "filename": "build/autoupdater.js"
     },
     "template": {
-      "version": "9cf284e490580c72258a086c0663efc1c90288c6",
+      "version": "bcf961baab1bfcd89cd23f695f8ee3c6e2590968",
       "filename": "build/templates.js"
     },
     "app": {
-      "version": "79061afc1c110634546bf8fbc0ae807fa99670b6",
+      "version": "04dcdac3774f53945bd488e0212c9268d833e899",
       "filename": "build/app.js"
     },
     "style": {
-      "version": "ed51f7fbca4aa2ea07949462a2ee97e8f4f8d762",
+      "version": "a5d8c865169ddf9554adfcb7fb7f07176100337b",
       "filename": "build/style.css"
+    },
+    "fonts/cantarell/Regular.ttf": {
+      "version": "99deaa1efb5fba0a6b6565055a93551dafb78754",
+      "filename": "fonts/cantarell/Regular.ttf"
+    },
+    "fonts/roboto/Regular.ttf": {
+      "version": "a088de7ede7beaa9a5c7a8f6d141fe7934c45153",
+      "filename": "fonts/roboto/Regular.ttf"
+    },
+    "fonts/font-awesome/Regular.ttf": {
+      "version": "e1bc1775f6adff75e8b7c13331cbc92d25b82938",
+      "filename": "fonts/font-awesome/Regular.ttf"
+    },
+    "fonts/font-awesome/Regular.woff2": {
+      "version": "a7d634df2bf4b3220d395fc2a56cd697c518b04b",
+      "filename": "fonts/font-awesome/Regular.woff2"
+    },
+    "fonts/font-awesome/Regular.woff": {
+      "version": "456024d5989accc3f2008fa5b7e569b547f308e1",
+      "filename": "fonts/font-awesome/Regular.woff"
+    },
+    "fonts/open-sans/Regular.ttf": {
+      "version": "cc1fa96924ee5728d04b5c22e12b2768ce9e56b9",
+      "filename": "fonts/open-sans/Regular.ttf"
+    },
+    "fonts/open-sans/Regular.woff": {
+      "version": "99649d8f621ec7b7328f20fa60b2a780b84c69df",
+      "filename": "fonts/open-sans/Regular.woff"
+    },
+    "fonts/roboto-slab/Regular.ttf": {
+      "version": "1f8a2d501bae1307d08d93d9e477c34ef01a6798",
+      "filename": "fonts/roboto-slab/Regular.ttf"
     },
     "images/cat-spritesheet.png": {
       "version": "e9a62ae5f712f7b3db6a4ddda4182f0687e271cc",
       "filename": "images/cat-spritesheet.jpg"
+    },
+    "images/collage.png": {
+      "version": "f8fd7e5739c1c07099d8133884ee76a3d0fba44f",
+      "filename": "images/collage.png"
     },
     "images/hamburger.png": {
       "version": "fc285b3e5a2272b9182e9c82f7be51ab8329ce01",
@@ -35,6 +71,14 @@
     "images/header-logo.png": {
       "version": "ab194b8e328ce05fa8c0733d3ffe539c484ec06f",
       "filename": "images/header-logo.png"
+    },
+    "images/hero/landing.jpg": {
+      "filename": "images/hero/landing.jpg",
+      "version": "fad7dde498c38da7c25a32735545a1a64476745f"
+    },
+    "images/kme-logo-white.png": {
+      "filename": "images/kme-logo-white.png",
+      "version": "1e094e3c3912bb9de2112ae8df9b315feb1317a5"
     }
   },
   "load": [
@@ -44,5 +88,5 @@
     "build/app.js",
     "build/autoupdater.js"
   ],
-  "version": "a91b89762ca40bfa748620eca0e4568d67314aa1"
+  "version": "13002abd34982e3202ffb19db1d415b0263a249a"
 }
