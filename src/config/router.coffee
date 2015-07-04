@@ -1,7 +1,6 @@
 exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   $urlRouterProvider) ->
 
-
   # Enable strict mode to allow URLs with trailing slashes
   $urlMatcher.strictMode false
 
@@ -12,13 +11,13 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
       controller: "#{page}"
       templateUrl: "views/#{page}/template"
       url: route
-      # resolve:
-      #   categories: ["models.categories", (category) -> category.download()]
-      #   user: ["models.users", (user) -> user.download()]
-      #   location: ["models.locations", (location) -> location.download()]
+      resolve:
+        categories: ["models.categories", (m) -> m.download()]
+        user: ["models.users", (m) -> m.download()]
+        location: ["models.locations", (m) -> m.download()]
+        notifications: ["models.notifications", (m) -> m.download()]
 
   _route "index",                       ""
-  _route "index",                       "/"
   _route "account",                     "/account"
   _route "account/classifieds",         "/account/classifieds"
   _route "account/classifieds/single",  "/account/classifieds/{id:[0-9]+}"
@@ -32,7 +31,7 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   _route "classified/search",           "/classified/{parent:[^/]+}"
   _route "classified/search",           "/classified/{parent:[^/]+}/{child:[^/]+}"
   _route "classified/single",           "/{slug:[^/]+}-{id:[0-9]+}"
-  _route "index",                       "*page"
+  _route "error/404",                   "*page"
 
 
 exports.$inject = [

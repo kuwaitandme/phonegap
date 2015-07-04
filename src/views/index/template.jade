@@ -1,10 +1,16 @@
 .row
   #splash.columns(ng-class="{imgLoaded: true}")
-    #collage(ng-style="{'background-image': 'url(images/collage.png)'}")
 
-    img(src!="images/kme-logo-white.png",
-      ng-class="{hide: !imgLoaded}")
+    //- CTA background
+    #collage
+
+    //- Site logo
+    img(src="images/kme-logo-white.png")
+
+    //- Tagline
     h1.tagline Your free local classifieds in Kuwait
+
+    //- CTA buttons
     .cta
       a(href="#/classified/create"
         ng-clicks="trackEvent('Create classified')") Post your classified

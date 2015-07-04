@@ -1,10 +1,10 @@
 //- #main-header.columns(ng-scrollup-class="nav-up")
 #main-header
   #header-logo-container
-    a#header-logo(href="#/")
+    a#header-logo(href="/")
   #grabber-container(ng-click="toggleHeader()")
     #grabber
-      #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
+      //- #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
   #nav-social-container.hide-for-small
     a(target="_blank", href="https://www.facebook.com/KuwaitandMe") &#xf09a;
     a(target="_blank", href="https://twitter.com/kuwaitandme") &#xf099;
@@ -17,11 +17,12 @@
 nav#sub-header
   .row.collapse
     .columns.small-centered
-      ul#notifications()
+      //- ul#notifications()
         li(ng-if="notifications.length > 0",
-          ng-repeat="n in notifications",
-          ng-mouseover="n.hasRead = true"
-          class="{{ n.type }}", ng-class="{read: n.hasRead, hide: n.remove}") {{ n.text }}
+          ng-repeat="n in notifications | limitTo: 4",
+          ng-mouseover="n.hasRead = 1; onNotificationRead()"
+          ng-click="n.remove = true"
+          class="{{ n.type }}", ng-class="{read: n.hasRead == 1, hide: n.remove}") {{ n.message | translate}}
         li.error.none(ng-if="notifications.length == 0") You have no new notifications
 
 
@@ -29,11 +30,11 @@ nav#sub-header
         .row
           .columns.medium-3.title Main
           .link.columns.medium-3
-            a(href="#/") Home
+            a(href="/") Home
           .link.columns.medium-3
-            a(href="#/classified/create") Post a classified
+            a(href="/classified/create") Post a classified
           .link.columns.medium-3
-            a(href="#/classified") Browse classifieds
+            a(href="/classified") Browse classifieds
         .row
           .columns.medium-3.title.dark Account
           .link.columns.medium-3.hide-if-loggedin
@@ -41,11 +42,11 @@ nav#sub-header
           //- .link.columns.medium-3.end.hide-if-loggedin
             a(href="/auth/reset", ng-click="closeHeader()") Reset password
           .link.columns.medium-3.show-if-loggedin
-            a(href="#/account") Manage account
+            a(href="/account") Manage account
           //- .link.columns.medium-3.end.show-if-loggedin
           //-   a(href="/settings", ng-click="closeHeader()") Settings
           .link.columns.medium-3.end.show-if-loggedin
-            a(href="#/auth/logout") Logout
+            a(href="/auth/logout") Logout
         //- .row
           .columns.medium-3.title More
           .link.columns.medium-3

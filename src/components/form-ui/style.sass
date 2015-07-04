@@ -1,11 +1,12 @@
 *[form-ui]
   +single-transition(border)
   @extend .font-cantarell
-  white-space: normal
-  border: 1px solid #e0e0e0
-  line-height: 50px
-  position: relative
+  border: 1px solid #d8d8d8
   color: #333
+  // line-height: 50px
+  line-height: 1
+  position: relative
+  white-space: normal
 
   .placeholder
     -webkit-font-smoothing: antialiased
@@ -20,6 +21,7 @@
     transform-origin: 0 0
     transition: 0.3s
     z-index: 1
+
     // We'll use transforms to animate the placeholder
     -moz-transform-origin: 0 0
     -ms-transform-origin: 0 0
@@ -44,6 +46,7 @@
     @extend .font-cantarell
     background: none
     border: none
+    // line-height: 50px
     font-size: 14px
     min-height: 57px
     color: #000

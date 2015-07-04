@@ -10,7 +10,7 @@ section.row
     | activated)</b> before moderators can see your classified. Check your email
     | inbox (including your junk folder) for any activation emails.
 
-  //- .columns
+  .columns
     ul.social-links.row
       li.medium-4.columns
         a(href="{{ classified.social.facebook }}").facebook.row Share on Facebook
@@ -20,5 +20,5 @@ section.row
         a(href="{{ classified.social.gplus }}").gplus.row Share on Google+
 
   .columns
-    a(ng-href="#/{{ classified.slug }}")
+    a(ng-href="/{{ classified.slug }}")
       button.green View your classified

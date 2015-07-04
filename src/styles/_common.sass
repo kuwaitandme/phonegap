@@ -18,10 +18,10 @@ ol
     list-style: decimal
 
 .text-unselectable
-  -webkit-user-select: none
   -moz-user-select: none
   -ms-user-select: none
   -o-user-select: none
+  -webkit-user-select: none
   user-select: none
 
 .blue
@@ -47,15 +47,17 @@ body
   background: #FFF
   margin: 0
   position: relative
-  .hide-if-loggedin
-    display: block !important
-  .show-if-loggedin
-    display: none !important
+
   &.logged-in
     .show-if-loggedin
       display: block !important
     .hide-if-loggedin
       display: none !important
+
+  .hide-if-loggedin
+    display: block !important
+  .show-if-loggedin
+    display: none !important
 
 h1, h2, h3, h4, h5, h6
   @extend .font-cantarell
@@ -96,12 +98,12 @@ h1
   overflow: hidden
 
 button
-  +single-transition
   +radius(3px)
+  +single-transition
   @extend .font-cantarell
   background: #2ecc71
   border: 0
-  color: #FFF
+  color: #FFF !important
   cursor: pointer
   font-size: 0.9rem
   height: 46px
@@ -109,9 +111,19 @@ button
   text-transform: uppercase
   width: 100%
   z-index: 3
+
   &:hover, &:focus
     outline: none
-    &:after
-      background: #2cc36b
-  &.error
+    background: #3ba567
+  &.blue
+    background: #2ec6cc
+    &:hover, &:focus
+      background: #2c90c1
+
+  &.error, &.red
     background: $color-error
+
+  &.inactive
+   &, &:focus, &:hover
+    background: #DDD
+    color: #222

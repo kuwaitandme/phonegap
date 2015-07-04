@@ -97,8 +97,8 @@ section(ng-class="formClasses")
         .columns.large-4.medium-6.end
           div(input-checkbox-icon
             form-ui
-            placeholder="Share on social networks"
-            ng-model="meta.shareSocial")
+            placeholder="Don't share on social networks"
+            ng-model="meta.dontShareSocial")
         .columns.large-4.medium-6.end
           div.hideEmail(input-checkbox-icon
             form-ui
@@ -146,11 +146,11 @@ section(ng-class="formClasses")
     .disclaimer.columns
         b Disclaimer:&nbsp;
         | By clicking on submit, you agree to our&nbsp;
-        a(target="_self", href="https://kuwait/info/privacy-terms") privacy and terms of use.
+        a(target="_self", href="/info/privacy-terms") privacy and terms of use.
 
 
     //- Google reCaptcha
-    //- .columns
+    .columns
       div(google-recaptcha, ng-model="ctrl.gcaptcha")
 
 

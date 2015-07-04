@@ -8,7 +8,7 @@ html
     meta(name="apple-mobile-web-app-capable", content="yes")
     meta(name="apple-mobile-web-app-status-bar-style", content="black")
     meta(http-equiv="Content-Security-Policy"
-      content='default-src * "self" cdvfile://*; style-src "unsafe-inline" "self" cdvfile://*; script-src "self" "unsafe-eval" cdvfile://*')
+      content="default-src * 'self' cdvfile://*; style-src 'unsafe-inline' 'self' cdvfile://*; script-src 'self' 'unsafe-eval' cdvfile://*")
     meta(name="format-detection", content="telephone=no")
     meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
     meta(name="msapplication-tap-highlight", content="no")
@@ -19,7 +19,7 @@ html
     //- https://github.com/markmarijnissen/cordova-app-loader
     script(type="text/javascript"
       manifest="manifest.json"
-      server="http://app.kuwaitandme.com/"
+      server="http://192.168.10.11:8000/"
       src="build/bootstrap.js"
       timeout="15000")
 
@@ -27,10 +27,13 @@ html
     ng-class="bodyClasses"
     ng-style="bodyStyles")
 
+    section(notifications)
     header
-    section(auth="")
-    section(notifications="")
-    main(ui-view="")
+    section(auth)
+    modal
 
     #page-loader
       #page-loading-bar
+
+    //- Here goes the main content of the site
+    main(ui-view)
