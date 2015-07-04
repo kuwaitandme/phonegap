@@ -5,6 +5,7 @@ app = angular.module "App", [
   "ngTouch"
   "ui.router"
   "cfp.hotkeys"
+  # "swipe"
   # "btford.socket-io"
 ]
 
@@ -31,24 +32,6 @@ boot = ->
   angular.bootstrap html, ["App"]
 
 window.BOOTSTRAP_OK = true
-
-
-# Now only boot the angular app, if the JST template has been loaded. Because
-# we can't determine which async script loads first and this avoids the script
-# from breaking due to race conditions..
-#
-# http://stackoverflow.com/questions/8996852/load-and-execute-order-of-scripts
-# We wait for all the dependencies to be loaded first, before executing the
-# angular app itself.
-#
-# This recursive function will keep on checking for the JST variable to be
-# defined. And when it does get defined, it will boot the app!
-# waitAndCheck = ->
-#   if JST? then boot()
-#   else
-#     console.log "[app] waiting for dependencies"
-#     setTimeout waitAndCheck, 250
-# waitAndCheck()
 
 window.publicData =
   url: "https://kuwaitandme.com"
