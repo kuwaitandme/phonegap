@@ -13,7 +13,7 @@
       "filename": "build/templates.js"
     },
     "app": {
-      "version": "29719c02e3c0b0f0ee82596c35a7ef2f406f1ba6",
+      "version": "f6f53a67dd9d36e971bc755a482ef5a9d29f665c",
       "filename": "build/app.js"
     },
     "style": {
@@ -92,5 +92,5 @@
     "build/app.js",
     "build/autoupdater.js"
   ],
-  "version": "23c00edd50e5d25dd811f4ec68cd2ae2162c5fbb"
+  "version": "e5444268d4348355cae6e5584d58698bc552fb6b"
 }
