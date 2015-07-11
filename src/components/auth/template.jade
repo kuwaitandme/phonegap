@@ -10,11 +10,11 @@
   //- Main tab
   .columns.medium-7(ng-if="tab == 'main'")
     .contents
-      .oauth
+      //- .oauth
         a.facebook(target="_self", href="/auth/oauth/facebook") Continue with Facebook
         a.google-plus(target="_self", href="/auth/oauth/google") Continue with Google+
         a.windows(target="_self", href="/auth/oauth/windowslive") Continue with Windows Live
-      .option-text Or use your email address
+      .option-text Use your email address to
       .email
         a.login(ng-click="goto('login')") Login
         a.signup(ng-click="goto('signup')") Sign Up

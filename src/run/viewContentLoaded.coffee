@@ -2,9 +2,9 @@ exports = module.exports = ($state, $root, $window, $log, $notifications) ->
   $root.$on "$viewContentLoaded", ->
     $notifications.parseURL()
     state = $state.$current
-    # if not state.scrollTo? $window.scrollTo 0, 0
-    # else
-    #   return
+    if not state.scrollTo? $window.scrollTo 0, 0
+    else
+      return
 
     #   to = 0
     #   if (state.scrollTo.id != undefined)

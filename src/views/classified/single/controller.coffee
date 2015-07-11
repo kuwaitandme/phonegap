@@ -13,7 +13,7 @@ exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
 
   $scope.similarListOptions =
     options:
-      maxClassifieds: 10
+      maxClassifieds: 5
       loadSinglePage: true
       hideFinishMessage: true
       emptyMessage: "There are no similar classifieds"

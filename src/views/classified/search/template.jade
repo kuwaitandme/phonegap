@@ -1,5 +1,5 @@
 #search-hero(ng-class="{hide: !loaded}"
-  style!="background-image: url(<%= staticUrl %>/images/hero/{{ heroURL }})")
+  style!="background-image: url(images/hero/{{ heroURL }})")
 
 section.row
   #search-info.row(ng-class="{loaded: loaded}")
@@ -9,7 +9,7 @@ section.row
 section.row(classified-list, ng-model="listOptions")
 section(filterbox)
 
-img.hide(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
+img.hide(fn-image-loader!="images/hero/{{ heroURL }}",
   fn-image-success="loaded=true")
 //- section.row
 //-   #search-info.row(style!="background-image: url(<%= staticUrl %>/images/hero/{{ heroURL }})")

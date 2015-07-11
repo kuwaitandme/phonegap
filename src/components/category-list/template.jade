@@ -10,10 +10,10 @@ ul.row
       .children
         .child(ng-repeat="child in category.children")
           h3
-            a(href="/classified/{{ category.slug }}/{{ child.slug }}") {{ child.name }}
+            a(fn-route="/classified/{{ category.slug }}/{{ child.slug }}") {{ child.name }}
           .count {{ child.count }}
         .child
           h3
-            a(href="/classified/{{ category.slug }}") View all
+            a(fn-route="/classified/{{ category.slug }}") View all
             //-{{ "comp.category.viewall" | translate }}
           .count {{ category.count }}
