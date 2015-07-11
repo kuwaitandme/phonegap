@@ -3,11 +3,11 @@
 
     //- CTA background
     #collage(ng-style="{'background-image': hero}")
-    img.hide(fn-image-loader!="<%= staticUrl %>/images/collage.png",
-      fn-image-success!="imgLoaded=true; hero='url(<%= staticUrl %>/images/collage.png)';")
+    img.hide(fn-image-loader!="images/collage.png",
+      fn-image-success!="imgLoaded=true; hero='url(images/collage.png)';")
 
     //- Site logo
-    img(src!="<%= staticUrl %>/images/kme-logo-white.png",
+    img(src!="images/kme-logo-white.png",
       ng-class="{hide: !imgLoaded}")
 
     //- Tagline

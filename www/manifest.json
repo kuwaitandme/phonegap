@@ -9,15 +9,15 @@
       "filename": "build/autoupdater.js"
     },
     "template": {
-      "version": "087bada9118a01294126d750bef1a0e06cea665f",
+      "version": "44acbf5b937955f39d0b303a1875bfbcf164ad67",
       "filename": "build/templates.js"
     },
     "app": {
-      "version": "459e668c251027a018a82f5586894a924bbeaeeb",
+      "version": "bb1a04bd92928cb1ee5134befa5c70f22cf695b3",
       "filename": "build/app.js"
     },
     "style": {
-      "version": "1df41e5664bae2bc4058fed220910c6f06b341d7",
+      "version": "204721e3c25076d61c0cb4b40c73fbd62ce01586",
       "filename": "build/style.css"
     },
     "fonts/cantarell/Regular.ttf": {
@@ -56,6 +56,10 @@
       "version": "e9a62ae5f712f7b3db6a4ddda4182f0687e271cc",
       "filename": "images/cat-spritesheet.jpg"
     },
+    "images/close.png": {
+      "version": "10d96266f4e6ef2f8c596382995cf0cb37d93643",
+      "filename": "images/close.png"
+    },
     "images/collage.png": {
       "version": "f8fd7e5739c1c07099d8133884ee76a3d0fba44f",
       "filename": "images/collage.png"
@@ -88,5 +92,5 @@
     "build/app.js",
     "build/autoupdater.js"
   ],
-  "version": "bdb9d1520a4bdcdd0f71f21de90e02a26cdb93d2"
+  "version": "15b4ca2e2f2adaf880bdcdf6bba708791c6e7667"
 }
