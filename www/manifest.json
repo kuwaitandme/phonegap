@@ -9,7 +9,7 @@
       "filename": "build/autoupdater.js"
     },
     "template": {
-      "version": "08ccc16000cc6bae466ab5a1afdeab939212938d",
+      "version": "17d805f1ce34a8e814c537e0bc19db4bf2f0dc9b",
       "filename": "build/templates.js"
     },
     "app": {
@@ -92,5 +92,5 @@
     "build/app.js",
     "build/autoupdater.js"
   ],
-  "version": "3702de0e4f2225947e88d7e94a6fb3bff367e8a0"
+  "version": "23c00edd50e5d25dd811f4ec68cd2ae2162c5fbb"
 }
