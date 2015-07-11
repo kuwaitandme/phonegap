@@ -7,8 +7,11 @@ html
     meta(name="mobile-web-app-capable", content="yes")
     meta(name="apple-mobile-web-app-capable", content="yes")
     meta(name="apple-mobile-web-app-status-bar-style", content="black")
+
+    //- http://content-security-policy.com
     meta(http-equiv="Content-Security-Policy"
-      content="default-src * 'self' cdvfile://*; style-src 'unsafe-inline' 'self' cdvfile://*; script-src 'self' 'unsafe-eval' cdvfile://*")
+      content="default-src * 'self' cdvfile://* www.google-analytics.com ajax.googleapis.com; style-src 'unsafe-inline' 'self' cdvfile://*; script-src 'self' 'unsafe-eval' cdvfile://* https:")
+
     meta(name="format-detection", content="telephone=no")
     meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
     meta(name="msapplication-tap-highlight", content="no")

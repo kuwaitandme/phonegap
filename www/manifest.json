@@ -9,15 +9,15 @@
       "filename": "build/autoupdater.js"
     },
     "template": {
-      "version": "bcf961baab1bfcd89cd23f695f8ee3c6e2590968",
+      "version": "087bada9118a01294126d750bef1a0e06cea665f",
       "filename": "build/templates.js"
     },
     "app": {
-      "version": "04dcdac3774f53945bd488e0212c9268d833e899",
+      "version": "459e668c251027a018a82f5586894a924bbeaeeb",
       "filename": "build/app.js"
     },
     "style": {
-      "version": "a5d8c865169ddf9554adfcb7fb7f07176100337b",
+      "version": "1df41e5664bae2bc4058fed220910c6f06b341d7",
       "filename": "build/style.css"
     },
     "fonts/cantarell/Regular.ttf": {
@@ -88,5 +88,5 @@
     "build/app.js",
     "build/autoupdater.js"
   ],
-  "version": "13002abd34982e3202ffb19db1d415b0263a249a"
+  "version": "bdb9d1520a4bdcdd0f71f21de90e02a26cdb93d2"
 }

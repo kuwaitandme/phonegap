@@ -1,16 +1,8 @@
 $headerHeight: 60px
 
 main
-  &:before
-    +single-transition
-    background: rgba(0, 0, 0, 0.8)
-    content: ""
-    left: 0
-    opacity: 0
-    position: fixed
-    top: 0
-    width: 100%
-    z-index: 2
+  +single-transition
+
 header
   position: fixed
   top: 0
@@ -55,12 +47,6 @@ header
       float: left
       padding: 18px 20px
 
-    #header-logo
-      background-image: url(/images/header-logo.png)
-      background-size: 25px;
-      display: block
-      height: 25px
-      width: 25px
     #grabber
       background-image: url(/images/hamburger.png)
       height: 12px
@@ -96,6 +82,7 @@ header
 
     &, ul#notifications, #nav-footer
       +single-transition(all, 500ms)
+      +force-gpu
     ul#notifications
       // display: none
       // margin-top: 20px
@@ -202,7 +189,16 @@ body.show-subheader
   nav#sub-header
     top: 60px
 
+  // main:before
+  //   // transform: translateX(-200px)
+
   main:before
+    background: rgba(0,0,0,0.8)
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    z-index: 1
     opacity: 1
     content: ''
     height: 100%
@@ -210,6 +206,22 @@ body.show-subheader
 body.stick-header, body.show-subheader
   #main-header
     margin-top: 0
+
+#header-logo
+  background-image: url(/images/header-logo.png)
+  background-size: 25px;
+  display: block
+  height: 25px
+  width: 25px
+
+body.show-header-backbutton
+  #header-logo-container
+    padding:  20px !important
+  #header-logo
+    background-image: url(/images/arrow.png)
+    height: 20px
+    width: 20px
+    background-size: 20px
 
 @media print
   header

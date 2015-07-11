@@ -25,7 +25,7 @@ section[classified-single]
   .content
     background: #FFF
     position: relative
-    > .columns
+    > .row > .columns
       margin-bottom: 1rem
 
   .title
@@ -59,11 +59,26 @@ section[classified-single]
         background: #FFB604
       &.red
         background: #D3402A
+      &.normal
+        color: #777
+        background: #EEE
+      &.blank
+        color: #000
+        padding: 5px 0
+      &.location
+        background: #FA9E25
+        .icon
+          display: inline-block
+          padding-top: 1px
+          padding-right: 15px
+          font-size: 0.9rem
+        // background-clip:
+        // background: #2ec6cc
 
   .description
     @extend .font-open
-    min-height: 150px
-    padding-bottom: 4rem
+    // min-height: 100px
+    padding-bottom: 2rem
     white-space: -moz-pre-wrap
     white-space: -o-pre-wrap
     white-space: -pre-wrap
@@ -74,102 +89,52 @@ section[classified-single]
       line-height: 30px
 
 
-  .meta
-    margin: .5rem 0
-    // padding: 0
-    ul
-      margin:  0
-      li
-        font-size: 0.8rem
-        margin: 0 auto
-        padding: 0
-        margin-bottom: 0.5rem
-        position: relative
-        text-align: left
-        word-wrap: break-word
-        a
-          word-wrap: break-word
-          word-break: break-word
-        .meta-title, .meta-value
-          display: inline-block
-        .meta-title, .perk-title
-          padding-right: 5px
-          font-weight: bold
+  .owner-meta
+    .title
+      @extend .font-open
+      color: #999
+      font-size: 11px
+      margin-bottom: 0
+      text-align: center
+      text-transform: uppercase
+      &.date
+        margin: 0
 
-        @media only screen and (min-width: 40em)
-          .meta-title
-            text-align: right
-          .meta-value
-            padding-right: 30px
-            text-align: left
+    .price
+      background: #f6f6f6
+      padding: 10px 0
+      font-size: 1rem
+    .price, .user
+      @extend .font-roboto-slab
+      text-align: center
+    .user
+      background: #FFF
+      font-size: 1rem
+      padding: 10px
 
+    .tags
+      margin: 1rem auto
+      text-align: center
 
-
-  .user
-    font-size: 0.8rem
-    position: relative
-    min-height: 147px
-    padding-bottom: 1rem
-    .avatar
-      position: absolute
-      top: 0
-      left: 0.9375rem
-      padding: 1rem 0
-      width: 130px
-      height: 130px
-      background: #EEE
-    .info
-      padding-top: 10px
-      padding-left: 150px
-      b
-        padding-right: 5px
-        font-size: 0.8rem
-      li
-        margin-bottom: 10px
-      .name
-        font-size: 1rem
-        padding-bottom: 5px
-      .contact
-        background: #2ecc71
-        border-bottom: none
-        color: #FFF
-        display: inline-block
-        font-size: 0.7rem
-        margin-top: 5px
-        padding: 5px 10px
-        text-transform: uppercase
-      .email, .phone
-        display: inline-block
-      .email
-        padding-right: 5px
-      .phone
-        padding-left: 5px
-      a
-        text-decoration: none
-        color: blue
-
+    .report
+      margin: 1rem 0
 
   .google-maps
-    background: #EEE
+    margin-top: 1rem
     border-bottom: none
-    padding: 0
+    display: block
+    // padding: 0
     position: relative
     #maps-container
+      background: #EEE
       min-height: 300px
 
-  .disclaimer
-    text-align: center
-    padding: 1rem
+  .legal
+    margin-top: 2rem
     color: #000
-    opacity: 0.7
+    opacity: 0.8
     font-size: 0.7rem
-
-  .contact
-    margin-top: 1rem
-    padding: 0
-    button
-      border-radius: 0
-
+    padding: 1rem
 
   ul#extras-sidebar
     +clearfix
@@ -212,6 +177,27 @@ section[classified-single]
         text-align: center
         height: 40px
         width: 40px
+
+  .social-share
+    padding: 0
+    position: absolute
+    top: 0
+    right: 0
+    text-align: right
+
+    .icon
+      +single-transition(background)
+      cursor: pointer
+      display: inline-block
+      font-size: 12px
+      padding: 11px
+      opacity: 0.8
+
+      &:hover
+        color: #FFF
+        opacity: 1
+        background: #F60
+
 // @media print
 //   .c-gallery
 //     border-bottom: none !important

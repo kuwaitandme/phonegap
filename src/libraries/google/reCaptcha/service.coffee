@@ -4,7 +4,7 @@ exports = module.exports = ($window, $environment, $log) -> new class
   constructor: ->
     $log.log @name, "initializing"
     # Prepare the URL for the reCaptcha API
-    url = "//www.google.com/recaptcha/api.js"
+    url = "https://www.google.com/recaptcha/api.js"
     # Insert the script into the DOM
     $fileref = document.createElement "script"
     $fileref.type = "text/javascript"
